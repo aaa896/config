@@ -149,9 +149,10 @@ config.keys = {
                 'powershell.exe',        -- The shell program
                 '-NoExit',               -- Option to keep the PowerShell session open after the command executes
                 '-Command',              -- Specify the command to run
-                '.\\r.bat'               -- Command string: run the script (using .\\ to indicate the current directory)
+                '.\\r.bat; Read-Host "Press Enter to close the window"; Exit'               -- Command string: run the script (using .\\ to indicate the current directory)
             },
         },  
+        exit_behavior = "Close",
     },
 }
 
