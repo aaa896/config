@@ -18,6 +18,8 @@
 @define-color white	#ebdbb2;
 @define-color bg2	#504945;
 @define-color my_dark_orange #af5550;
+@define-color workspace_color #458588;
+@define-color bar_background #282828;
 
 @define-color warning 	@bryellow;
 @define-color critical	@red;
@@ -49,7 +51,7 @@
 
 /* The whole bar */
 #waybar {
-	background: rgba(40, 40, 40, 0.8784313725); /* #282828e0 */
+	background: rgba(40, 40, 40, 1); /* #282828e0 */
 	color: @white;
 	font-family: JetBrains Mono, Siji;
 	font-size: 10pt;
@@ -118,7 +120,7 @@
 /* Inactive (on unfocused output) */
 #workspaces button.visible {
 	color: @white;
-	background: @inactive;
+	background: @workspace_color;
 }
 
 /* Active (on focused output) */
@@ -145,121 +147,56 @@
 }
 
 #pulseaudio {
-	background: @sound;
-	color: @black;
+	background: @bar_background;
+	color: @white;
 }
 
 #backlight{
-	background: @brightness;
+	background: @bar_background;
 	color: @white;
 }
 
 #network {
-	background: @network;
+	background: @bar_background;
 	color: @white;
 }
 
 #memory {
-	background: @memory;
-	color: @black;
+	background: @bar_background;
+	color: @white;
 }
 
 #cpu {
-	background: @cpu;
+	background: @bar_background;
 	color: @white;
 }
 
 #temperature {
-	background: @temp;
-	color: @black;
+	background: @bar_background;
+	color: @white;
 }
 
 #language {
-	background: @layout;
-	color: @black;
+	background: @bar_background;
+	color: @white;
 }
 
 #battery {
-	background: @battery;
+	background: @bar_background;
 	color: @white;
 }
 
 #tray {
-	background: @date;
+	background: @bar_background;
 }
 
 #clock.date {
-	background: @date;
+	background: @bar_background;
 	color: @white;
 }
 
 #clock.time {
-	background: @time;
-	color: @black;
+	background: @bar_background;
+	color: @white;
 }
 
-#custom-arrow1 {
-	font-size: 11pt;
-	color: @time;
-	background: @date;
-}
-
-#custom-arrow2 {
-	font-size: 11pt;
-	color: @date;
-	background: @layout;
-}
-
-#custom-arrow3 {
-	font-size: 11pt;
-	color: @layout;
-	background: @battery;
-}
-
-#custom-arrow4 {
-	font-size: 11pt;
-	color: @battery;
-	background: @temp;
-}
-
-#custom-arrow5 {
-	font-size: 11pt;
-	color: @temp;
-	background: @cpu;
-}
-
-#custom-arrow6 {
-	font-size: 11pt;
-	color: @cpu;
-	background: @memory;
-}
-
-#custom-arrow7 {
-	font-size: 11pt;
-	color: @memory;
-	background: @network;
-}
-
-#custom-arrow8 {
-	font-size: 11pt;
-	color: @network;
-	background: @sound;
-}
-
-#custom-arrow9 {
-	font-size: 11pt;
-	color: @sound;
-	background: @brightness;
-}
-
-#custom-arrow10 {
-	font-size: 11pt;
-	color: @unfocused;
-	background: transparent;
-}
-
-#custom-arrow11 {
-	font-size: 11pt;
-	color: @brightness;
-	background: transparent;
-}
