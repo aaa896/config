@@ -448,15 +448,15 @@ vim.api.nvim_set_hl(0, 'Type', { fg = '#8ec07c', bold = true, bg = '#282828' })
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#282828' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
-vim.api.nvim_set_hl(0, 'Conditional', { fg = '#83a598', bg = '#282828', bold = true })  -- Example: pinkish color for conditionals
+vim.api.nvim_set_hl(0, 'Conditional', { fg = '#7cb2c0', bg = '#282828', bold = true })  -- Example: pinkish color for conditionals
 
 -- Change the highlight color for 'case', 'return', and other keywords in the 'Statement' group.
-vim.api.nvim_set_hl(0, 'Statement', { fg = '#83a598', bg = '#282828', bold = true })    -- Example: cyan color for statements
+vim.api.nvim_set_hl(0, 'Statement', { fg = '#7cb2c0', bg = '#282828', bold = true })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#bfaf73', bg = '#282828' })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#cc833f', bg = '#282828' })  
 -- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#ebdbb2', bg = '#282828' })  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#7cb2c0', bg = '#282828' })  
 
 -- Status line highlights
 vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#282828', bg = '#ebdbb2' })  -- Dark text on light background
@@ -469,7 +469,7 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#282828', bg = '#ebdbb2' }) -- Fo
 vim.api.nvim_set_hl(0, 'PreProc', { fg = '#8ec07c', bg = '#282828', bold = true })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#ebdbb2', bg = '#282828', bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#8ec07c', bg = '#282828', bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'Keyword', { fg = '#50fa7b', bg = '#282828', bold = true })  -- Green for keywords
@@ -489,7 +489,9 @@ vim.api.nvim_set_hl(0, 'Error', { fg = '#ebdbb2', bg = '#9d0006', bold = true })
 -- Set the color of normal line numbers
 
 vim.api.nvim_set_hl(0, 'LineNr', { fg = '#525050', bg = '#282828' })
+vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#fabd2f]]
 vim.o.number = true
-vim.cmd[[highlight CursorLine cterm=NONE ctermbg=164 guibg=#282828]]
+vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#282828]]
+
 vim.o.cursorline = true
 
