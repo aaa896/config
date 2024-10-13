@@ -2,10 +2,26 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 -- This table will hold the configuration.
 local config = {}
-local wezterm = require 'wezterm'
-local wsl_domains = wezterm.default_wsl_domains()
 
 
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local process_name = tab.active_pane.foreground_process_name
+  local title = tab.active_pane.title
+
+  -- Tab index (starting from 1)
+  local tab_index = tab.tab_index + 1
+
+  -- Check if the process is Neovim
+  if process_name:find('nvim') then
+    -- Extract only the file name from the title
+    local filename = title:match("[^%s]+$")
+    -- Return tab number and filename
+    return string.format(' %d: %s ', tab_index, filename)
+  end
+
+  -- Default tab title for other processes
+  return string.format('%d: %s', tab_index, title)
+end)
 
 
 
@@ -17,7 +33,7 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
---config.default_prog = { 'powershell.exe' }
+--config.default_prog = { 'cmd.exe' }
 
 
 
@@ -26,6 +42,8 @@ config.inactive_pane_hsb = {
     brightness = 1
 }
 config.window_background_opacity = 1.0
+config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = false
 --
 -- This is where you actually apply your config choices
 -- For example, changing the color scheme:
@@ -39,8 +57,38 @@ config.font = wezterm.font_with_fallback {
 
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.font_size=10.6
-config.tab_max_width = 2
+config.tab_max_width = 50
+config.show_new_tab_button_in_tab_bar = false
 
+config.colors = {
+     cursor_bg = "#719b92",
+    background="rgba(40,40,40,0.96)",
+    foreground = '#ebdbb2',
+  tab_bar = {
+    -- The color of the strip that goes along the top of the window
+    -- (does not apply when fancy tab bar is in use)
+	--
+    
+    background="rgba(50,50,50,1)",
+	active_tab = {
+      	-- The color of the background area for the tab
+      	bg_color = "rgba(40,40,40,1)",
+      	-- The color of the text for the tab
+      	fg_color = '#ebdbb2',
+  	},
+inactive_tab = {
+  	bg_color = "rgba(50,50,50,1)",
+  	fg_color = '#808080',
+
+  	-- The same options that were listed under the `active_tab` section above
+  	-- can also be used for `inactive_tab`.
+	},
+
+
+    
+    },
+
+}
 
 config.keys = {
     -- activate pane selection mode with the default alphabet (labels are "a", "s", "d", "f" and so on)
@@ -76,7 +124,7 @@ config.keys = {
     },
     {
 
-        key = 'x',
+        key = 'w',
 
         mods = 'CTRL',
 
@@ -88,11 +136,40 @@ config.keys = {
         action = wezterm.action.SpawnCommandInNewTab {
             args = { 
                 'cmd.exe', './c',
-                'C:\\vc & r.bat'               -- Command string: run the script (using .\\ to indicate the current directory)
+                'r.bat',
             },
         },  
         exit_behavior = "Close",
     },
+    {
+        key = 'm',
+        mods = 'ALT',
+        action = wezterm.action.SpawnCommandInNewTab {
+            args = { 
+                'cmd.exe', './c', 
+                'b.bat' ,
+            },
+        },  
+        exit_behavior = "Close",
+    },
+
+  {
+      key = 'L',
+    mods = 'SHIFT|CTRL',
+    action = act.AdjustPaneSize { 'Left', 5 },
+  },
+  {
+    key = 'J',
+    mods = 'SHIFT|CTRL',
+    action = act.AdjustPaneSize { 'Down', 5 },
+  },
+  { key = 'K', mods = 'SHIFT|CTRL', action = act.AdjustPaneSize { 'Up', 5 } },
+  {
+    key = 'L',
+    mods = 'SHIFT |CTRL',
+    action = act.AdjustPaneSize { 'Right', 5 },
+  },
+
 }
 
 -- and finally, return the configuration to wezterm
