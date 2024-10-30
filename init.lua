@@ -1,3 +1,10 @@
+vim.opt.shell = 'bash'
+
+vim.opt.shellcmdflag = '-lc'
+
+
+
+
 vim.api.nvim_set_hl(0, 'Comment', { fg = '#808080', bg = 'NONE', italic = false, bold = false,
 	undercurl = false, reverse = true      	})
 
@@ -7,6 +14,8 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#808080', bg = 'NONE', italic = false,
 vim.cmd("set relativenumber")
 vim.g.mapleader = " "
 
+vim.api.nvim_set_keymap('n', '<C-x><C-f>', ':tcd ', { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>pv", function()
 vim.opt.splitbelow = true
     vim.cmd("split");
@@ -14,6 +23,12 @@ vim.opt.splitbelow = true
 	vim.cmd("set relativenumber")
 end)
 
+vim.api.nvim_set_keymap('n', '<C-F5>', ':! ./r.sh<CR>', { noremap = true, silent = false })
+vim.api.nvim_set_keymap('n', '<leader>d', ':!pwd > /tmp/nvim_cwd<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>gf", function()
+vim.fn.jobstart({"/home/shabbeer/apps/gf/gf2" })
+
+end)
 
 
 -- Close the current split
@@ -50,7 +65,10 @@ vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true
 
 
 
+-- Define a variable to track the state of the recenter cycle
 vim.keymap.set('n', '<C-l>', 'zz', { noremap = true, silent = true })
+
+
 
 
 
@@ -138,11 +156,7 @@ vim.api.nvim_set_keymap('n', '<Down>', '<C-e>', { noremap = true, silent = true 
 
 
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.scrolloff = 8
+
 
 
 
@@ -203,8 +217,29 @@ require("lazy").setup({
   checker = { enabled = false },
 })
 
+
+
+
+
+
+
 require("oil").setup()
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+-- Define the execute_selected_file function
+local function execute_selected_file()
+    local oil = require("oil") -- Ensure oil is loaded
+    local entry = oil.get_cursor_entry() -- Get the entry currently under the cursor
+
+    if entry then  -- Check if entry exists and has a path
+        -- Execute the file using its path
+        vim.cmd("!" .. entry.path) -- Use entry.path to execute the file
+    else
+        print("No file selected or invalid entry")
+    end
+end
+
+
 require("oil").setup({
   -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
   -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
@@ -281,7 +316,10 @@ require("oil").setup({
     ["gx"] = "actions.open_external",
     ["g."] = "actions.toggle_hidden",
     ["g\\"] = "actions.toggle_trash",
+
+   -- ["gr"] = execute_selected_file,
   },
+
   -- Set to false to disable all of the above keymaps
   use_default_keymaps = true,
   view_options = {
@@ -398,7 +436,20 @@ local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+--vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+
+vim.keymap.set('n', '<leader>fh', function()
+  builtin.find_files({ cwd = '~',
+  hidden = true
+  })
+end, { desc = 'Telescope find files from home directory' })
+
+vim.keymap.set('n', '<leader>fr', function()
+  builtin.find_files({ cwd = '/',
+  hidden = true
+  })
+end, { desc = 'Telescope find files from root directory' })
+
 
 
 
@@ -417,7 +468,7 @@ vim.api.nvim_set_hl(0, 'Conditional', { fg = '#7cb2c0', bg = NONE, bold = true }
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#7cb2c0', bg = NONE, bold = true })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#cc8049', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#d97d43', bg = NONE })  
 -- Highlight for numbers
 vim.api.nvim_set_hl(0, 'Number', { fg = '#7cb2c0', bg =  NONE})  
 
@@ -458,6 +509,8 @@ vim.o.number = true
 vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#3c3836]]
 vim.o.cursorline = true
 
+vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#784954]]
+
 -- Adjust syntax highlighting to respect the cursor line background
 --vim.cmd[[highlight Comment guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight String guibg=NONE ctermbg=NONE]]
@@ -467,4 +520,16 @@ vim.cmd[[highlight Identifier guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Keyword guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Type guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Statement guibg=NONE ctermbg=NONE]]
+
+
+
+
+
+
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.scrolloff = 8
+
 
