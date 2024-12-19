@@ -514,7 +514,7 @@ vim.api.nvim_set_hl(0, '@property', { fg = '#ebdbb2', bg = NONE })
 vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#ebdbb2', bg = NONE })
 vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#ebdbb2', bg = NONE })
 vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#ebdbb2', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSComment', { fg = '#00120b', bg = '#ebdbb2' })
+vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#ebdbb2' })
 vim.api.nvim_set_hl(0, 'TSError', { fg = '#ebdbb2', bg = '#9d0006', bold = false })
 vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#ebdbb2', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#ebdbb2', bg = NONE, bold = false })
@@ -522,13 +522,13 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#ebdbb2', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#ebdbb2', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#ebdbb2', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#8ec07c', bold = false, bg = '#00120b' })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#8ec07c', bold = false, bg = '#463f3a' })
 vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#8ec07c', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#8ec07c', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@type', { fg = '#8ec07c', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#8ec07c', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#00120b' })
+vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
 vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#c18c5d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#c18c5d', bg = NONE, bold = false })
@@ -574,12 +574,12 @@ vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#c18c5d', bg = NONE, bold = false
 
 ---- Set the background and text color for normal text
 vim.api.nvim_set_hl(0, 'Normal', { fg = '#ebdbb2', bg = NONE })  -- Dark background, light text
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#00120b', bg = '#ebdbb2' })  -- Dark background, light text
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#ebdbb2' })  -- Dark background, light text
 
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#8ec07c', bold = false, bg = '#00120b' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#8ec07c', bold = false, bg = '#463f3a' })    
 
-vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#00120b' })
+vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
 vim.api.nvim_set_hl(0, 'Conditional', { fg = '#c18c5d', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
 
@@ -592,8 +592,8 @@ vim.api.nvim_set_hl(0, 'String', { fg = '#d4adcf', bg = NONE })
 vim.api.nvim_set_hl(0, 'Number', { fg = '#c18c5d', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#00120b', bg = '#ebdbb2' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#00120b', bg = '#ebdbb2' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#463f3a', bg = '#ebdbb2' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#463f3a', bg = '#ebdbb2' }) -- For non-current windows
 
 
 
@@ -624,14 +624,14 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#719b92', bg = 'NONE', italic = false,
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#525050', bg = '#00120b' })
-vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#f5e5fc]]
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#5B584D', bg = '#463f3a' })
+vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#ebebb2]]
 vim.o.number = true
---vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#00120b]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#152620]]
+--vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#5c534d]]
 vim.o.cursorline = true
 
-vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#966a65]]
+vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
 
 -- Adjust syntax highlighting to respect the cursor line background
 --vim.cmd[[highlight Comment guibg=NONE ctermbg=NONE]]
@@ -655,9 +655,6 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.scrolloff = 8
-
-
-
 
 
 
