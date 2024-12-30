@@ -32,11 +32,11 @@ config.enable_wayland = true;
 -- This is where you actually apply your config choices
 config.use_fancy_tab_bar=false
 config.tab_bar_at_bottom = true
--- For example, changing the color scheme:
---config.color_scheme = 'Gruvbox dark, hard (base16)'
+---- For example, changing the color scheme:
+--config.color_scheme = 'Banana Blueberry'
 --
 config.font = wezterm.font_with_fallback {
-    'JetBrains Mono',
+    'Liberation Mono',
     'Noto Color Emoji',
 }
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
@@ -55,7 +55,7 @@ config.window_frame = {
 config.colors = {
 
     cursor_bg = "#719b92",
-    background="rgba(40,40,40,0.96)",
+    background="#291f1e",
     foreground = '#ebdbb2',
 
 
@@ -65,15 +65,15 @@ config.colors = {
         -- (does not apply when fancy tab bar is in use)
         --
 
-        background="rgba(40,40,40,1)",
+        background="#291f1e",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "rgba(40,40,40,1)",
+            bg_color = "#291f1e",
             -- The color of the text for the tab
             fg_color = '#ebdbb2',
         },
         inactive_tab = {
-            bg_color = "rgba(40,40,40,1)",
+            bg_color = "#291f1e",
             fg_color = '#808080',
 
             -- The same options that were listed under the `active_tab` section above
@@ -86,23 +86,23 @@ config.colors = {
     ansi = {
         "1d2021",  -- base00
         "fb4934",  -- red
-        "b8bb26",  -- green
-        "fabd2f",  -- yellow
+        "8ec07c",  -- daek bluw
+        "fabd2f",  -- orange
         "83a598",  -- blue
-        "d3869b",  -- purple
-        "8ec07c",  -- aqua/cyan
+        "d3869b",  -- pink
+        "8ec07c",  --blue gray 
         "ebdbb2",  -- base06
     },
 
     brights = {
-        "504945",  -- base02
+        "504945",  -- gray
         "fb4934",  -- red
-        "b8bb26",  -- string "color"
-        "b8bb26",  -- yellow   linenumber and struct static
-        "83a598",  -- blue
-        "b8bb26",  -- botom bar string
+        "5efc8d",  -- red pinkstring "color"
+        "5efc8d",  -- 
+        "83a598",  -- green
+        "b8bb26",  -- yllow gree nb otom bar string
         "ebdbb2",  -- brackets
-        "fbf1c7",  -- base07
+        "fbf1c7",  -- whiet
     },
 
 
@@ -277,6 +277,10 @@ config.keys = {
 
 -- and finally, return the configuration to wezterm
 return config
+
+
+
+
 
 
 
