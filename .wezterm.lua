@@ -55,8 +55,8 @@ config.window_frame = {
 config.colors = {
 
     cursor_bg = "#719b92",
-    background="#291f1e",
-    foreground = '#ebdbb2',
+    background="#2e282a",
+    foreground = '#f9d4bb',
 
 
 
@@ -65,12 +65,12 @@ config.colors = {
         -- (does not apply when fancy tab bar is in use)
         --
 
-        background="#291f1e",
+        background="#2e282a",
         active_tab = {
             -- The color of the background area for the tab
             bg_color = "#291f1e",
             -- The color of the text for the tab
-            fg_color = '#ebdbb2',
+            fg_color = '#f9d4bb',
         },
         inactive_tab = {
             bg_color = "#291f1e",
@@ -91,7 +91,7 @@ config.colors = {
         "83a598",  -- blue
         "d3869b",  -- pink
         "8ec07c",  --blue gray 
-        "ebdbb2",  -- base06
+        "f9d4bb",  -- base06
     },
 
     brights = {
@@ -101,7 +101,7 @@ config.colors = {
         "5efc8d",  -- 
         "83a598",  -- green
         "b8bb26",  -- yllow gree nb otom bar string
-        "ebdbb2",  -- brackets
+        "f9d4bb",  -- brackets
         "fbf1c7",  -- whiet
     },
 
