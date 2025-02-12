@@ -655,3 +655,9 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.scrolloff = 8
+-- Normal mode: Yank the current line with Space + y
+vim.keymap.set('n', '<Space>y', '"+y', { noremap = true })
+
+-- Visual mode: Yank the selected text with Space + y
+vim.keymap.set('v', '<Space>y', '"+y', { noremap = true })
+
