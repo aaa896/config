@@ -55,7 +55,7 @@ config.window_frame = {
 config.colors = {
 
     cursor_bg = "#719b92",
-    background="#2e282a",
+    background="#2d2828",
     foreground = '#f9d4bb',
 
 
