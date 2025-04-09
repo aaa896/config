@@ -523,11 +523,11 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#f9d4bb', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#f9d4bb', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#f9d4bb', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#A7C080', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#A7C080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#A7C080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#A7C080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#A7C080', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#dbbc74', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#dbbc74', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#dbbc74', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#dbbc74', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#dbbc74', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
@@ -577,7 +577,7 @@ vim.api.nvim_set_hl(0, 'Normal', { fg = '#f9d4bb', bg = NONE })  -- Dark backgro
 vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#f9d4bb' })  -- Dark background, light text
 
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#A7C080', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#dbbc74', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -619,7 +619,7 @@ vim.api.nvim_set_hl(0, 'Error', { fg = '#f9d4bb', bg = '#9d0006', bold = false }
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#e69875', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#f9d4bb', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#7fbbb3', bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#8a6061', bg = 'NONE', italic = false, bold = false})
 
 
 -- Set the color of normal line numbers
