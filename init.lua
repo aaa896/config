@@ -1,8 +1,7 @@
-vim.opt.shell = 'bash'
 
-vim.opt.shellcmdflag = '-lc'
-
-
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#808080', bg = 'NONE', italic = false, bold = false,
+	undercurl = false, reverse = true      	})
+    
 
 
 
@@ -11,8 +10,10 @@ vim.opt.shellcmdflag = '-lc'
 -- This ensures Neovim uses the terminal's colors
 vim.cmd("set relativenumber")
 vim.g.mapleader = " "
-
-vim.api.nvim_set_keymap('n', '<C-x><C-f>', ':tcd ', { noremap = true, silent = true })
+vim.opt.backup = false       -- Disable backup files
+vim.opt.writebackup = false  -- Disable backup before overwriting
+vim.opt.swapfile = false     -- Disable swap files
+vim.opt.shada = ''
 
 vim.keymap.set("n", "<leader>pv", function()
 vim.opt.splitbelow = true
@@ -21,18 +22,33 @@ vim.opt.splitbelow = true
 	vim.cmd("set relativenumber")
 end)
 
-vim.api.nvim_set_keymap('n', '<C-F5>', ':! ./r.sh<CR>', { noremap = true, silent = false })
-vim.api.nvim_set_keymap('n', '<leader>d', ':!pwd > /tmp/nvim_cwd<CR>', { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>gf", function()
-vim.fn.jobstart({"/home/shabbeer/apps/gf/gf2" })
+vim.opt.shell = "powershell.exe"
+vim.opt.shellxquote = ""
+vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+vim.opt.shellquote = ""
+vim.opt.shellpipe = "| Out-File -Encoding UTF8 %s"
+vim.opt.shellredir = "| Out-File -Encoding UTF8 %s"
 
-end)
 
-vim.o.autoread = true
-vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "FocusGained"}, {
-    command = "checktime",
-})
+local home = os.getenv("USERPROFILE") -- Get the home directory on Windows
+local file = home .. "\\nvim_cwd" -- Path to the output file
 
+-- Function to write the current working directory to the file
+local function write_cwd_to_file()
+    local home = os.getenv("USERPROFILE") -- Get the home directory on Windows
+    local file = home .. "\\nvim_cwd" -- Path to the output file
+    local cwd = vim.fn.getcwd() -- Get the current working directory
+    local command = string.format('echo "%s" > "%s"', cwd, file)
+    os.execute(command)
+    print("Current working directory written to nvim_cwd")
+end
+
+-- Map <leader>d to the function in normal mode
+vim.api.nvim_set_keymap('n', '<leader>d', ':lua write_cwd_to_file()<CR>', { noremap = true, silent = true })
+
+
+
+vim.api.nvim_set_keymap('n', '<C-x><C-f>', ':tcd ', { noremap = true, silent = true })
 
 -- Close the current split
 vim.api.nvim_set_keymap('n', '<leader>qc', ':q<CR>', { noremap = true, silent = true })
@@ -68,10 +84,7 @@ vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true
 
 
 
--- Define a variable to track the state of the recenter cycle
 vim.keymap.set('n', '<C-l>', 'zz', { noremap = true, silent = true })
-
-
 
 
 
@@ -101,25 +114,6 @@ function RunFileUnderCursorInNetrw()
   end
 end
 
-local function execute_file()
-    local cursor_line = vim.fn.line('.')
-    local file = vim.fn.getline(cursor_line)
-    print("Raw File Path: " .. file)  -- Debug print statement
-    file = vim.fn.fnamemodify(file, ':p')  -- Convert to absolute path
-    print("Absolute File Path: " .. file)  -- Debug print statement
-
-    -- Remove wildcards and ensure the file path is correct
-    file = vim.fn.expand(file)
-
-    -- Ensure the file exists before running the command
-    if vim.fn.filereadable(file) == 1 then
-        local cmd = '! ./' .. vim.fn.shellescape(file)
-        print("Command: " .. cmd)  -- Debug print statement
-        vim.cmd(cmd)  -- Execute the command
-    else
-        print("File not found: " .. file)
-    end
-end
 
 --function _G.MyTabLine()
 --  local s = ''
@@ -159,7 +153,11 @@ vim.api.nvim_set_keymap('n', '<Down>', '<C-e>', { noremap = true, silent = true 
 
 
 
-
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.scrolloff = 8
 
 
 
@@ -196,14 +194,14 @@ require("lazy").setup({
     -- add your plugins here
     {
         'nvim-telescope/telescope.nvim', tag = '0.1.8',
-
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
- 
-    {
+     {
         'nvim-treesitter/nvim-treesitter',
 
     },
+
+
 
     {
         'stevearc/oil.nvim',
@@ -225,29 +223,8 @@ require("lazy").setup({
   checker = { enabled = false },
 })
 
-
-
-
-
-
-
 require("oil").setup()
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-
--- Define the execute_selected_file function
-local function execute_selected_file()
-    local oil = require("oil") -- Ensure oil is loaded
-    local entry = oil.get_cursor_entry() -- Get the entry currently under the cursor
-
-    if entry then  -- Check if entry exists and has a path
-        -- Execute the file using its path
-        vim.cmd("!" .. entry.path) -- Use entry.path to execute the file
-    else
-        print("No file selected or invalid entry")
-    end
-end
-
-
 require("oil").setup({
   -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
   -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
@@ -324,10 +301,7 @@ require("oil").setup({
     ["gx"] = "actions.open_external",
     ["g."] = "actions.toggle_hidden",
     ["g\\"] = "actions.toggle_trash",
-
-   -- ["gr"] = execute_selected_file,
   },
-
   -- Set to false to disable all of the above keymaps
   use_default_keymaps = true,
   view_options = {
@@ -445,54 +419,16 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find f
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 --vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-
 vim.keymap.set('n', '<leader>fh', function()
-  builtin.find_files({ cwd = '~',
-  hidden = true
-  })
-end, { desc = 'Telescope find files from home directory' })
-
+  require('telescope.builtin').find_files({ cwd = os.getenv('USERPROFILE') }) -- Home directory on Windows
+end, { desc = 'Telescope find files in home dir' })
 vim.keymap.set('n', '<leader>fr', function()
-  builtin.find_files({ cwd = '/',
-  hidden = true
-  })
-end, { desc = 'Telescope find files from root directory' })
+  require('telescope.builtin').find_files({ cwd = 'C:\\' }) -- Root of C: drive
+end, { desc = 'Telescope find files from C:\\' })
 
 
 
 
---TREESITTER _------------------------------------------------------------------------------
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-  highlight = {
-    enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
 
 
 --ts colors
@@ -523,11 +459,11 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#f9d4bb', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#f9d4bb', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#f9d4bb', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#dbbc74', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#dbbc74', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#dbbc74', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#dbbc74', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#dbbc74', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#83c092', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#83c092', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#83c092', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#83c092', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#83c092', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
@@ -577,7 +513,7 @@ vim.api.nvim_set_hl(0, 'Normal', { fg = '#f9d4bb', bg = NONE })  -- Dark backgro
 vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#f9d4bb' })  -- Dark background, light text
 
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#dbbc74', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#83c092', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -588,8 +524,6 @@ vim.api.nvim_set_hl(0, 'Statement', { fg = '#e69875', bg = NONE, bold = false })
 
 -- Highlight for string literals
 vim.api.nvim_set_hl(0, 'String', { fg = '#d699b6', bg = NONE })  
--- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#e69875', bg =  NONE})  
 
 -- Status line highlights
 vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#463f3a', bg = '#f9d4bb' })  -- Dark text on light background
@@ -619,12 +553,13 @@ vim.api.nvim_set_hl(0, 'Error', { fg = '#f9d4bb', bg = '#9d0006', bold = false }
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#e69875', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#f9d4bb', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#8a6061', bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#f9d4bb', reverse = true, bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Todo', { fg = '#e67e80', reverse = true, bg = 'NONE', italic = false, bold = false})
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#5B584D', bg = '#2e282a' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#5B584D', bg = '#2e282b' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#f9d4bb]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
@@ -638,7 +573,6 @@ vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
 vim.cmd("syntax on")
 
 vim.cmd[[highlight String guibg=NONE ctermbg=NONE]]
-vim.cmd[[highlight Number guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Operator guibg=NONE ctermbg=NONE]]
 --vim.cmd[[highlight Identifier guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Keyword guibg=NONE ctermbg=NONE]]
@@ -660,4 +594,3 @@ vim.keymap.set('n', '<Space>y', '"+y', { noremap = true })
 
 -- Visual mode: Yank the selected text with Space + y
 vim.keymap.set('v', '<Space>y', '"+y', { noremap = true })
-
