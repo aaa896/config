@@ -713,33 +713,37 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 
 --Good equal
-function AlignEquals()
+function AlignEqualsPreserveIndent()
   local start_line = vim.fn.line("'<")
   local end_line = vim.fn.line("'>")
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
 
-  -- Find max length before the equal sign
   local maxlen = 0
-  for _, line in ipairs(lines) do
-    local prefix = line:match("^(.-)=")
-    if prefix then
-      maxlen = math.max(maxlen, #vim.trim(prefix))
-    end
-  end
+  local parsed = {}
 
-  -- Rebuild lines with aligned =
-  for i, line in ipairs(lines) do
-    local lhs, rhs = line:match("^(.-)=(.*)")
+  for _, line in ipairs(lines) do
+    local indent, lhs, rhs = line:match("^(%s*)(.-)=(.*)")
     if lhs and rhs then
       lhs = vim.trim(lhs)
       rhs = vim.trim(rhs)
-      lines[i] = string.format("%-" .. maxlen .. "s = %s", lhs, rhs)
+      maxlen = math.max(maxlen, #lhs)
+      table.insert(parsed, { indent = indent, lhs = lhs, rhs = rhs })
+    else
+      table.insert(parsed, { raw = line }) -- preserve unmatchable lines
     end
   end
 
-  -- Replace lines in buffer
-  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
+  local aligned = {}
+  for _, item in ipairs(parsed) do
+    if item.raw then
+      table.insert(aligned, item.raw)
+    else
+      table.insert(aligned, string.format("%s%-" .. maxlen .. "s = %s", item.indent, item.lhs, item.rhs))
+    end
+  end
+
+  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, aligned)
 end
 
-vim.api.nvim_set_keymap("v", "<leader>a=", [[:lua AlignEquals()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<leader>a=", [[:lua AlignEqualsPreserveIndent()<CR>]], { noremap = true, silent = true })
 
