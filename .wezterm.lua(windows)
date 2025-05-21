@@ -13,7 +13,7 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
---config.default_prog = { 'cmd.exe' }
+config.default_prog = { 'cmd.exe' }
 
 
 
@@ -42,7 +42,7 @@ config.enable_tab_bar = false
 
 config.colors = {
      cursor_bg = "#719b92",
-    background="#181616",
+    background="#2e282a",
     foreground = '#f9d4bb',
   tab_bar = {
     -- The color of the strip that goes along the top of the window
@@ -115,8 +115,9 @@ config.keys = {
         key = 'F5',
         action = wezterm.action.SpawnCommandInNewTab {
             args = { 
-                'powershell.exe', 
-                './r.bat',
+                'cmd.exe', 
+                '/C',
+                'r.bat',
             },
         },  
         exit_behavior = "Close",
@@ -126,8 +127,9 @@ config.keys = {
         mods = 'ALT',
         action = wezterm.action.SpawnCommandInNewTab {
             args = { 
-                'powershell.exe',  
-                './b.bat' ,
+                'cmd.exe',  
+                '/C',
+                'b.bat' ,
             },
         },  
         exit_behavior = "Close",
@@ -151,9 +153,26 @@ config.keys = {
     action = act.AdjustPaneSize { 'Right', 5 },
   },
 
+
+
+
+
+
+   {
+      key = "PageUp",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.MoveTabRelative(-1),
+    },
+    -- Move tab right
+    {
+      key = "PageDown",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.MoveTabRelative(1),
+    },
+
+
 }
 
 
-config.default_prog = { 'powershell.exe' }
 -- and finally, return the configuration to wezterm
 return config
