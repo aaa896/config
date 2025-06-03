@@ -629,11 +629,11 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#f9d4bb', reverse = true,  bg = 'NONE'
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#5B584D', bg = '#2e282a' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#765b56', bg = '#5f4945' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#f9d4bb]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#3c3437]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#6a524d]]
 vim.o.cursorline = true
 
 vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
@@ -708,8 +708,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 
-
-
+vim.api.nvim_set_hl(0, "Search", { bg = "#e67c80", fg = "#000000" })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#dbbc7f", fg = "#000000" })
 
 
 --Good equal
@@ -746,4 +746,33 @@ function AlignEqualsPreserveIndent()
 end
 
 vim.api.nvim_set_keymap("v", "<leader>a=", [[:lua AlignEqualsPreserveIndent()<CR>]], { noremap = true, silent = true })
+
+vim.keymap.set("n", "<leader>s", function()
+  local name = vim.fn.input("Struct name: ")
+  if name == "" then return end
+  local lines = {
+    string.format("typedef struct %s %s;", name, name),
+    string.format("struct %s", name),
+    "{",
+    "};"
+  }
+  vim.api.nvim_put(lines, "l", true, true)
+end, { desc = "Insert typedef struct" })
+
+
+
+vim.keymap.set("n", "<leader>e", function()
+  local name = vim.fn.input("Enum name: ")
+  if name == "" then return end
+  local lines = {
+    string.format("typedef enum %s %s;", name, name),
+    string.format("enum %s", name),
+    "{",
+    "};"
+  }
+  vim.api.nvim_put(lines, "l", true, true)
+end, { desc = "Insert typedef enum" })
+
+
+
 
