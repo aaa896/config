@@ -27,20 +27,21 @@ end)
 
 
 config.window_background_opacity = 1
-config.enable_wayland = true;
+config.enable_tab_bar = false;
+config.enable_wayland = false;
 --
 -- This is where you actually apply your config choices
 config.use_fancy_tab_bar=false
 config.tab_bar_at_bottom = true
 ---- For example, changing the color scheme:
---config.color_scheme = 'Banana Blueberry'
---
+config.color_scheme = 'Edge Dark (base16)'
+
 config.font = wezterm.font_with_fallback {
     'Liberation Mono',
     'Noto Color Emoji',
 }
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.font_size=10.9
+config.font_size=10.5
 config.tab_max_width = 0
 config.show_new_tab_button_in_tab_bar = false
 
@@ -51,11 +52,12 @@ config.window_frame = {
 }
 
 
-
 config.colors = {
 
-    cursor_bg = "#719b92",
-    background="#2d2828",
+    cursor_bg = "#83a598",
+    background="#5f4945",
+    --background="#5f4945",
+    --too light 6C534E
     foreground = '#f9d4bb',
 
 
@@ -82,27 +84,6 @@ config.colors = {
 
 
 
-    },
-    ansi = {
-        "1d2021",  -- base00
-        "fb4934",  -- red
-        "8ec07c",  -- daek bluw
-        "fabd2f",  -- orange
-        "83a598",  -- blue
-        "d3869b",  -- pink
-        "8ec07c",  --blue gray 
-        "f9d4bb",  -- base06
-    },
-
-    brights = {
-        "504945",  -- gray
-        "fb4934",  -- red
-        "5efc8d",  -- red pinkstring "color"
-        "5efc8d",  -- 
-        "83a598",  -- green
-        "b8bb26",  -- yllow gree nb otom bar string
-        "f9d4bb",  -- brackets
-        "fbf1c7",  -- whiet
     },
 
 
@@ -147,7 +128,7 @@ config.keys = {
 
         key = 'w',
 
-        mods = 'CTRL',
+        mods = 'CTRL|SHIFT',
 
         action = wezterm.action.CloseCurrentPane { confirm = true },
 
@@ -172,6 +153,27 @@ config.keys = {
                 window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
             end
         end),
+    },
+
+    {
+      key = 'h',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection('Left'),
+    },
+    {
+      key = 'j',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection('Down'),
+    },
+    {
+      key = 'k',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection('Up'),
+    },
+    {
+      key = 'l',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection('Right'),
     },
 
     {
@@ -268,6 +270,20 @@ config.keys = {
                 window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
             end
         end),
+    },
+
+
+   -- Move tab left
+    {
+      key = "PageUp",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.MoveTabRelative(-1),
+    },
+    -- Move tab right
+    {
+      key = "PageDown",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.MoveTabRelative(1),
     },
 
 
