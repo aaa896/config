@@ -56,7 +56,7 @@ config.colors = {
     --split = '#83a598',
 
     cursor_bg = "#83a598",
-    background="#6d4e4a",
+    background="#6d4c4a",
     --background="#5f4945",
     --too light 6C534E
     foreground = '#e0ac9d',
