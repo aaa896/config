@@ -53,12 +53,13 @@ config.window_frame = {
 
 
 config.colors = {
+    --split = '#83a598',
 
     cursor_bg = "#83a598",
-    background="#5f4945",
+    background="#6d4e4a",
     --background="#5f4945",
     --too light 6C534E
-    foreground = '#f9d4bb',
+    foreground = '#e0ac9d',
 
 
 
@@ -72,7 +73,7 @@ config.colors = {
             -- The color of the background area for the tab
             bg_color = "#291f1e",
             -- The color of the text for the tab
-            fg_color = '#f9d4bb',
+            fg_color = '#e0ac9d',
         },
         inactive_tab = {
             bg_color = "#291f1e",
