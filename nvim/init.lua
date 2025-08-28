@@ -153,6 +153,9 @@ vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { noremap = true, silent = true
 -- Remap arrow keys for scrolling
 vim.api.nvim_set_keymap('n', '<Up>', '<C-y>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Down>', '<C-e>', { noremap = true, silent = true })
+-- Scroll screen horizontally with Left and Right arrow keys
+vim.keymap.set('n', '<Left>', 'zh', { noremap = true, silent = true })
+vim.keymap.set('n', '<Right>', 'zl', { noremap = true, silent = true })
 
 
 
@@ -191,39 +194,51 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Setup lazy.nvim
+
 require("lazy").setup({
   spec = {
-    -- add your plugins here
+    -- Telescope
     {
-        'nvim-telescope/telescope.nvim', tag = '0.1.8',
-
-        dependencies = { 'nvim-lua/plenary.nvim' }
-    },
- 
-    {
-        'nvim-treesitter/nvim-treesitter',
-
+      'nvim-telescope/telescope.nvim',
+      tag = '0.1.8',
+      dependencies = { 'nvim-lua/plenary.nvim' }
     },
 
+    -- Treesitter
+    {
+      'nvim-treesitter/nvim-treesitter',
+    },
+    {
+
+    "mfussenegger/nvim-dap",
+    event = "VeryLazy",
+    dependencies = {
+        "rcarriga/nvim-dap-ui",
+        "nvim-neotest/nvim-nio",
+        "jay-babu/mason-nvim-dap.nvim",
+        "theHamsta/nvim-dap-virtual-text",
+    },
+
+    },
+
+
+    
+    
     {
         'stevearc/oil.nvim',
         ---@module 'oil'
         ---@type oil.SetupOpts
         opts = {},
         -- Optional dependencies
-        dependencies = { { "echasnovski/mini.icons", opts = {} } },
-        -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+        --dependencies = { { "echasnovski/mini.icons", opts = {} } },
+         dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
     },
-
-
-
   },
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  --  install = { colorscheme = { "habamax" } },
-  -- automatically check for plugin updates
+
+  -- Optional Lazy settings
   checker = { enabled = false },
 })
+
 
 
 
@@ -502,9 +517,9 @@ require'nvim-treesitter.configs'.setup {
 --
 ---- Set the background and text color for normal text
 ---purple
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#bd8cc0', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#bd8cc0', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#bd8cc0', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSString', { fg = '#c899cc', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#c899cc', bg = NONE })
+vim.api.nvim_set_hl(0, '@number', { fg = '#c899cc', bg = NONE })
 ---white
 vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#e0ac9d', bg = none })
 vim.api.nvim_set_hl(0, '@type.c', { fg = '#e0ac9d', bg = none })
@@ -524,11 +539,11 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#e0ac9d', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#a7c080', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#a7c080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#a7c080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#a7c080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#a7c080', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#b7cf91', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#b7cf91', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#b7cf91', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#b7cf91', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#b7cf91', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
@@ -548,7 +563,7 @@ vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#e88873', bg = NONE, bold = false }
 vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#e88873', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#bd8cc0', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#c899cc', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#e88873', bg = NONE, bold = false })  -- Green for keywords
@@ -581,7 +596,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark b
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#a7c080', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#b7cf91', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -591,9 +606,9 @@ vim.api.nvim_set_hl(0, 'Conditional', { fg = '#e88873', bg = NONE, bold = false 
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#e88873', bg = NONE, bold = false })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#bd8cc0', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#c899cc', bg = NONE })  
 -- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#e88873', bg =  NONE})  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#c899cc', bg =  NONE})  
 
 -- Status line highlights
 vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark text on light background
@@ -606,7 +621,7 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#463f3a', bg = '#e0ac9d' }) -- Fo
 vim.api.nvim_set_hl(0, 'PreProc', { fg = '#e88873', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#bd8cc0', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#c899cc', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'Keyword', { fg = '#e88873', bg = NONE, bold = false })  -- Green for keywords
@@ -629,11 +644,11 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#e0ac9d', reverse = true,  bg = 'NONE'
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#765b56', bg = '#6d4c4a' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#7c5755', bg = '#6d4a4a' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#e0ac9d]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#795753]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7c5755]]
 vim.o.cursorline = true
 
 vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
@@ -773,9 +788,7 @@ vim.keymap.set("n", "<leader>e", function()
   vim.api.nvim_put(lines, "l", true, true)
 end, { desc = "Insert typedef enum" })
 
--- Scroll screen horizontally with arrow keys
-vim.keymap.set('n', '<Left>', 'zh', { noremap = true, silent = true })
-vim.keymap.set('n', '<Right>', 'zl', { noremap = true, silent = true })
 
 
+vim.o.equalalways = false
 
