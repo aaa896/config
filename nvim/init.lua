@@ -230,8 +230,8 @@ require("lazy").setup({
         ---@type oil.SetupOpts
         opts = {},
         -- Optional dependencies
-        --dependencies = { { "echasnovski/mini.icons", opts = {} } },
-         dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+        dependencies = { { "echasnovski/mini.icons", opts = {} } },
+         --dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
     },
   },
 
@@ -539,11 +539,11 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#e0ac9d', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#b6cb95', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#b6cb95', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#b6cb95', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#b6cb95', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#b6cb95', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#B7D084', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#B7D084', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#B7D084', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#B7D084', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#B7D084', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
@@ -596,7 +596,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark b
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#b6cb95', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#B7D084', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -644,7 +644,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#e0ac9d', reverse = true,  bg = 'NONE'
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#7c5755', bg = '#6d4a4a' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#7c5755', bg = '#7c5050' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#e0ac9d]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
