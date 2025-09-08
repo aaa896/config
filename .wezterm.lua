@@ -36,10 +36,11 @@ config.tab_bar_at_bottom = true
 ---- For example, changing the color scheme:
 config.color_scheme = 'Edge Dark (base16)'
 
+warn_about_missing_glyphs=false
 config.font = wezterm.font_with_fallback {
     'Liberation Mono',
+    'JetBrainsMonoNL Nerd Font',
      'Noto Color Emoji',
-    'JetBrainsMono Nerd Font',
 }
 
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
@@ -55,10 +56,11 @@ config.window_frame = {
 
 
 config.colors = {
-    --split = '#83a598',
+    --split = '#',
 
     cursor_bg = "#83a598",
-    background="#593d3b",
+    background="#7c5050",
+
     foreground = '#e0ac9d',
 
 
