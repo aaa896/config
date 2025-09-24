@@ -59,7 +59,10 @@ config.colors = {
     --split = '#',
 
     cursor_bg = "#83a598",
-    background="#945857",
+--#795151
+--#945E57
+    --background= "#945C57",
+    background= "#945E57",
 
     foreground = '#e0ac9d',
 
