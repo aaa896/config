@@ -62,7 +62,9 @@ config.colors = {
 --#795151
 --#945E57
     --background= "#945C57",
-    background= "#945E57",
+    --dark #3B2623
+    --- light = "#945E57",
+    background= "#3B2623",
 
     foreground = '#e0ac9d',
 
