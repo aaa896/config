@@ -39,7 +39,7 @@ config.color_scheme = 'Edge Dark (base16)'
 warn_about_missing_glyphs=false
 config.font = wezterm.font_with_fallback {
     'Liberation Mono',
-    'JetBrainsMonoNL Nerd Font',
+    'JetBrainsMono',
      'Noto Color Emoji',
 }
 
@@ -64,7 +64,9 @@ config.colors = {
     --background= "#945C57",
     --dark #3B2623
     --- light = "#945E57",
-    background= "#3B2623",
+    --l2 background= "#82524B",
+    --- red background= "#5E3030",
+    background= "#513634",
 
     foreground = '#e0ac9d',
 
