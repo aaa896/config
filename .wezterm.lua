@@ -61,12 +61,12 @@ config.colors = {
     cursor_bg = "#83a598",
 --#795151
 --#945E57
-    --background= "#945C57",
     --dark #3B2623
-    --- light = "#945E57",
     --l2 background= "#82524B",
     --- red background= "#5E3030",
-    background= "#513634",
+    ---#6C4642
+    ---8a5a50
+    background= "#6C4642",
 
     foreground = '#e0ac9d',
 
@@ -203,7 +203,7 @@ config.keys = {
                 }, pane)
             else
                 -- Handle the case where the file doesn't exist or can't be read
-                window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+                window:toast_notification("Error", "m alt Could not read /tmp/nvim_cwd", nil, 5000)
             end
         end),
     },
@@ -234,7 +234,7 @@ config.keys = {
 
     {
         key = '%',
-        mods = 'CTRL|SHIFT',
+        mods = 'CTRL|ALT',
         action = wezterm.action_callback(function(window, pane)
             -- Read the path from /tmp/nvim_cwd
             local f = io.open("/tmp/nvim_cwd", "r")
