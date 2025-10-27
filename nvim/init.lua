@@ -540,11 +540,11 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#e0ac9d', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#B8C284', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#B8C284', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#B8C284', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#B8C284', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#B8C284', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#cba85d', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#cba85d', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#cba85d', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#cba85d', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#cba85d', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
@@ -597,7 +597,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark b
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#B8C284', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#cba85d', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -649,7 +649,7 @@ vim.api.nvim_set_hl(0, 'LineNr', { fg = '#a4584b', bg = '#81433a' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#e0ac9d]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#a4584b]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#204635]]
 vim.o.cursorline = true
 
 vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
@@ -922,47 +922,3 @@ vim.keymap.set('n', '<leader>b', function()
 end, { desc = "Run :make and open quickfix vertically" })
 
 
---vim.keymap.set('n', '<leader>b', function()
---  vim.cmd('only')
---
---  -- Buffer for build output
---  local bufname = "__make_output__"
---  local bufnr = vim.fn.bufnr(bufname)
---  if bufnr == -1 then
---    bufnr = vim.api.nvim_create_buf(false, true)
---    vim.api.nvim_buf_set_name(bufnr, bufname)
---  end
---
---  vim.cmd('botright vsplit')
---  local win = vim.api.nvim_get_current_win()
---  vim.api.nvim_win_set_buf(win, bufnr)
---  vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
---  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {"[Running " .. vim.o.makeprg .. "]"})
---
---  -- Split makeprg into command list (handles args too)
---  local cmd = vim.fn.split(vim.o.makeprg)
---
---  local function append_output(data)
---    if not data or (#data == 1 and data[1] == "") then return end
---    vim.schedule(function()
---      vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
---    end)
---  end
---
---  local job_id = vim.fn.jobstart(cmd, {
---    stdout_buffered = false,
---    stderr_buffered = false,
---    on_stdout = function(_, data) append_output(data) end,
---    on_stderr = function(_, data) append_output(data) end,
---    on_exit = function(_, code)
---      vim.schedule(function()
---        vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, {"", "[Process exited with code " .. code .. "]"})
---      end)
---    end,
---  })
---
---  if job_id <= 0 then
---    vim.notify("Failed to start job for: " .. vim.o.makeprg, vim.log.levels.ERROR)
---  end
---end, { desc = "Run makeprg asynchronously with live output" })
---
