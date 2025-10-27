@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "FocusGained"}, {
 
 vim.api.nvim_set_keymap('n', '<leader>n', ':noh<CR>', { noremap = true, silent = true })
 -- Close the current split
-vim.api.nvim_set_keymap('n', '<leader>qc', ':q<CR>', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('n', '<leader>q', ':q<CR>', { noremap = true, silent = true })
 -- Move to the next split
 vim.api.nvim_set_keymap('n', '<leader>sn', ':wincmd w<CR>', { noremap = true, silent = true })
 
@@ -612,8 +612,8 @@ vim.api.nvim_set_hl(0, 'String', { fg = '#cfa1d3', bg = NONE })
 vim.api.nvim_set_hl(0, 'Number', { fg = '#cfa1d3', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#3B2623', bg = '#e0ac9d' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#3B2623', bg = '#e0ac9d' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#81433a', bg = '#e0ac9d' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#81433a', bg = '#e0ac9d' }) -- For non-current windows
 
 
 
@@ -645,11 +645,11 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#e0ac9d', reverse = true,  bg = 'NONE'
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#85554F', bg = '#3B2623' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#a4584b', bg = '#81433a' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#e0ac9d]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#85554F]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#a4584b]]
 vim.o.cursorline = true
 
 vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
@@ -726,8 +726,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 
-vim.api.nvim_set_hl(0, "Search", { bg = "#D2799D", fg = "#000000" })
-vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#000000" })
+vim.api.nvim_set_hl(0, "Search", { bg = "#e67e80", fg = "#81433a" })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#81433a" })
 
 
 --Good equal
@@ -792,4 +792,177 @@ end, { desc = "Insert typedef enum" })
 
 
 vim.o.equalalways = false
+vim.o.makeprg = "./b.sh"
+function MoveBottomSplitToRight()
+  -- Get the current window count
+  local win_count = vim.fn.winnr('$')
+  if win_count < 2 then
+    print("Not enough splits to move.")
+    return
+  end
 
+  -- Move to the bottom window
+  vim.cmd('wincmd j')
+
+  -- Get buffer number and name
+  local bufnr = vim.api.nvim_get_current_buf()
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+
+  -- Close bottom split
+  vim.cmd('q')
+
+  -- Move to top window
+  vim.cmd('wincmd k')
+
+  -- Create vertical split and open buffer
+  vim.cmd('vsplit ' .. vim.fn.fnameescape(bufname))
+end
+vim.keymap.set('n', '<leader>wr', MoveBottomSplitToRight)
+function MoveRightSplitToBelow()
+  -- Get number of windows
+  local win_count = vim.fn.winnr('$')
+  if win_count < 2 then
+    print("Not enough splits to move.")
+    return
+  end
+
+  -- Move to the right split
+  vim.cmd('wincmd l')
+
+  -- Get buffer info
+  local bufnr = vim.api.nvim_get_current_buf()
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+
+  -- Close the right split
+  vim.cmd('q')
+
+  -- Move back to the original window (now the only one)
+  vim.cmd('wincmd h')
+
+  -- Create horizontal split and reopen the buffer
+  vim.cmd('split ' .. vim.fn.fnameescape(bufname))
+end
+vim.keymap.set('n', '<leader>wb', MoveRightSplitToBelow)
+
+vim.keymap.set('n', '<leader>cq', function()
+  -- Open a vertical split on the right
+  vim.cmd('vsplit')
+  vim.cmd('wincmd l')  -- move to the new split
+
+  -- Find the quickfix buffer
+  local qf_buf = nil
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_get_option(buf, 'buftype') == 'quickfix' then
+      qf_buf = buf
+      break
+    end
+  end
+
+  -- If quickfix buffer exists, show it; otherwise, run :copen to populate it
+  if qf_buf then
+    vim.api.nvim_win_set_buf(0, qf_buf)
+  else
+    vim.cmd('copen')
+    vim.cmd('wincmd J')  -- move it to bottom temporarily
+    qf_buf = vim.api.nvim_get_current_buf()
+    vim.cmd('close')     -- close the bottom split
+    vim.cmd('wincmd l')  -- move back to right split
+    vim.api.nvim_win_set_buf(0, qf_buf)
+  end
+
+  -- Optional: resize width
+  vim.cmd('vertical resize 50')
+end, { desc = "Open quickfix in vertical split on right" })
+
+function OpenQuickfixVertically()
+  vim.cmd('vsplit')
+  vim.cmd('wincmd l')  -- move to the new split
+
+  -- Find the quickfix buffer
+  local qf_buf = nil
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_get_option(buf, 'buftype') == 'quickfix' then
+      qf_buf = buf
+      break
+    end
+  end
+
+  -- If quickfix buffer exists, show it; otherwise, run :copen to populate it
+  if qf_buf then
+    vim.api.nvim_win_set_buf(0, qf_buf)
+  else
+    vim.cmd('copen')
+    vim.cmd('wincmd J')  -- move it to bottom temporarily
+    qf_buf = vim.api.nvim_get_current_buf()
+    vim.cmd('close')     -- close the bottom split
+    vim.cmd('wincmd l')  -- move back to right split
+    vim.api.nvim_win_set_buf(0, qf_buf)
+  end
+
+--  vim.cmd('vertical resize 50')
+end
+
+vim.keymap.set('n', '<leader>b', function()
+    -- Run :make silently and force without pause
+  vim.cmd('only')
+  vim.cmd('silent! make')
+
+    -- Close any quickfix window that opened
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local bufnr = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_buf_get_option(bufnr, 'buftype') == 'quickfix' then
+            vim.api.nvim_set_current_win(win)
+            vim.cmd('cclose')
+            break
+        end
+    end
+
+    -- Open quickfix vertically
+    OpenQuickfixVertically()
+end, { desc = "Run :make and open quickfix vertically" })
+
+
+--vim.keymap.set('n', '<leader>b', function()
+--  vim.cmd('only')
+--
+--  -- Buffer for build output
+--  local bufname = "__make_output__"
+--  local bufnr = vim.fn.bufnr(bufname)
+--  if bufnr == -1 then
+--    bufnr = vim.api.nvim_create_buf(false, true)
+--    vim.api.nvim_buf_set_name(bufnr, bufname)
+--  end
+--
+--  vim.cmd('botright vsplit')
+--  local win = vim.api.nvim_get_current_win()
+--  vim.api.nvim_win_set_buf(win, bufnr)
+--  vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
+--  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {"[Running " .. vim.o.makeprg .. "]"})
+--
+--  -- Split makeprg into command list (handles args too)
+--  local cmd = vim.fn.split(vim.o.makeprg)
+--
+--  local function append_output(data)
+--    if not data or (#data == 1 and data[1] == "") then return end
+--    vim.schedule(function()
+--      vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
+--    end)
+--  end
+--
+--  local job_id = vim.fn.jobstart(cmd, {
+--    stdout_buffered = false,
+--    stderr_buffered = false,
+--    on_stdout = function(_, data) append_output(data) end,
+--    on_stderr = function(_, data) append_output(data) end,
+--    on_exit = function(_, code)
+--      vim.schedule(function()
+--        vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, {"", "[Process exited with code " .. code .. "]"})
+--      end)
+--    end,
+--  })
+--
+--  if job_id <= 0 then
+--    vim.notify("Failed to start job for: " .. vim.o.makeprg, vim.log.levels.ERROR)
+--  end
+--end, { desc = "Run makeprg asynchronously with live output" })
+--
