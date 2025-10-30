@@ -518,9 +518,9 @@ require'nvim-treesitter.configs'.setup {
 --
 ---- Set the background and text color for normal text
 ---purple
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#cfa1d3', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#cfa1d3', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#cfa1d3', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSString', { fg = '#a7c080', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#a7c080', bg = NONE })
+vim.api.nvim_set_hl(0, '@number', { fg = '#a7c080', bg = NONE })
 ---white
 vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#e0ac9d', bg = none })
 vim.api.nvim_set_hl(0, '@type.c', { fg = '#e0ac9d', bg = none })
@@ -540,11 +540,11 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#e0ac9d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#e0ac9d', bg = NONE, bold = false })
 --green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#a7c080', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#a7c080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#a7c080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#a7c080', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#a7c080', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#fa6e79', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#fa6e79', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#fa6e79', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#fa6e79', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#fa6e79', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 --orange
@@ -564,7 +564,7 @@ vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#e88873', bg = NONE, bold = false }
 vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#e88873', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#cfa1d3', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#e88873', bg = NONE, bold = false })  -- Green for keywords
@@ -597,7 +597,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark b
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#a7c080', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#fa6e79', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -607,9 +607,9 @@ vim.api.nvim_set_hl(0, 'Conditional', { fg = '#e88873', bg = NONE, bold = false 
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#e88873', bg = NONE, bold = false })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#cfa1d3', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#a7c080', bg = NONE })  
 -- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#cfa1d3', bg =  NONE})  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#a7c080', bg =  NONE})  
 
 -- Status line highlights
 vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#84453e', bg = '#e0ac9d' })  -- Dark text on light background
@@ -622,7 +622,7 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#84453e', bg = '#e0ac9d' }) -- Fo
 vim.api.nvim_set_hl(0, 'PreProc', { fg = '#e88873', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#cfa1d3', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'Keyword', { fg = '#e88873', bg = NONE, bold = false })  -- Green for keywords
