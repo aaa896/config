@@ -1,6 +1,3 @@
-vim.opt.shell = 'bash'
-
-vim.opt.shellcmdflag = '-lc'
 
 
 
@@ -13,6 +10,7 @@ vim.cmd("set relativenumber")
 vim.g.mapleader = " "
 
 vim.api.nvim_set_keymap('n', '<C-x><C-f>', ':tcd ', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>n', ':noh<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>pv", function()
 vim.opt.splitbelow = true
@@ -34,9 +32,8 @@ vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "FocusGained"}, {
 })
 
 
-vim.api.nvim_set_keymap('n', '<leader>n', ':noh<CR>', { noremap = true, silent = true })
 -- Close the current split
-vim.api.nvim_set_keymap('n', '<leader>qc', ':q<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>q', ':q<CR>', { noremap = true, silent = true })
 -- Move to the next split
 vim.api.nvim_set_keymap('n', '<leader>sn', ':wincmd w<CR>', { noremap = true, silent = true })
 
@@ -154,9 +151,6 @@ vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { noremap = true, silent = true
 -- Remap arrow keys for scrolling
 vim.api.nvim_set_keymap('n', '<Up>', '<C-y>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Down>', '<C-e>', { noremap = true, silent = true })
--- Scroll screen horizontally with Left and Right arrow keys
-vim.keymap.set('n', '<Left>', 'zh', { noremap = true, silent = true })
-vim.keymap.set('n', '<Right>', 'zl', { noremap = true, silent = true })
 
 
 
@@ -195,36 +189,16 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Setup lazy.nvim
-
 require("lazy").setup({
   spec = {
-    -- Telescope
+    -- add your plugins here
     {
-      'nvim-telescope/telescope.nvim',
-      tag = '0.1.8',
-      dependencies = { 'nvim-lua/plenary.nvim' }
+        'nvim-telescope/telescope.nvim', tag = '0.1.8',
+
+        dependencies = { 'nvim-lua/plenary.nvim' }
     },
+ 
 
-    -- Treesitter
-    {
-      'nvim-treesitter/nvim-treesitter',
-    },
-    {
-
-    "mfussenegger/nvim-dap",
-    event = "VeryLazy",
-    dependencies = {
-        "rcarriga/nvim-dap-ui",
-        "nvim-neotest/nvim-nio",
-        "jay-babu/mason-nvim-dap.nvim",
-        "theHamsta/nvim-dap-virtual-text",
-    },
-
-    },
-
-
-    
-    
     {
         'stevearc/oil.nvim',
         ---@module 'oil'
@@ -232,14 +206,18 @@ require("lazy").setup({
         opts = {},
         -- Optional dependencies
         dependencies = { { "echasnovski/mini.icons", opts = {} } },
-         --dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+        -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
     },
-  },
 
-  -- Optional Lazy settings
+
+
+  },
+  -- Configure any other settings here. See the documentation for more details.
+  -- colorscheme that will be used when installing plugins.
+  --  install = { colorscheme = { "habamax" } },
+  -- automatically check for plugin updates
   checker = { enabled = false },
 })
-
 
 
 
@@ -477,111 +455,6 @@ end, { desc = 'Telescope find files from root directory' })
 
 
 
---TREESITTER _------------------------------------------------------------------------------
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-  highlight = {
-    enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-
-
---ts colors
---
---
---
---
----- Set the background and text color for normal text
----purple
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#cfa1d3', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#cfa1d3', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#cfa1d3', bg = NONE })
----white
-vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#e0ac9d', bg = none })
-vim.api.nvim_set_hl(0, '@type.c', { fg = '#e0ac9d', bg = none })
-vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#e0ac9d', bg = none })
-vim.api.nvim_set_hl(0, '@variable', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, '@constant', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, '@operator', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, '@property', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#e0ac9d', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#e0ac9d' })
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#e0ac9d', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#e0ac9d', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#e0ac9d', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#e0ac9d', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@function.call', { fg = '#e0ac9d', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#e0ac9d', bg = NONE, bold = false })
---green
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#B8C284', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#B8C284', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#B8C284', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#B8C284', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#B8C284', bg = NONE, bold = false })
-
-vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
---orange
-vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#e88873', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#e88873', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSStatement', { fg = '#e88873', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#e88873', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#e88873', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#e88873', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#e88873', bg = NONE, bold = false })
-
-
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#e88873', bg = NONE, bold = false })
-
-
--- Preprocessor directives like #include, #define, #ifdef, etc.
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#e88873', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
---
--- constansts (false/true...
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#cfa1d3', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-
--- Keywords like sizeof, typedef, etc.
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#e88873', bg = NONE, bold = false })  -- Green for keywords
-
-
--- Example for `Operator` group (if used)
-
--- %d
---
---unmatched brackets..
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#e0ac9d', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#e88873', bg = NONE, bold = false })
-
-
-
-vim.api.nvim_set_hl(0, 'Todo', { fg = '#e67e80', reverse = true, bg = 'NONE', italic = false, bold = false})
-vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#83c092', reverse = true, bg = 'NONE', italic = false, bold = false})
 
 
 
@@ -596,47 +469,50 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark b
 
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
 vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#e0ac9d', bg = NONE })  -- Dark background, light text
+--red
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#B8C284', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#fa6e79', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
+--orange
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
-vim.api.nvim_set_hl(0, 'Conditional', { fg = '#e88873', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
+vim.api.nvim_set_hl(0, 'Conditional', { fg = '#f0996a', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
 
 -- Change the highlight color for 'case', 'return', and other keywords in the 'Statement' group.
-vim.api.nvim_set_hl(0, 'Statement', { fg = '#e88873', bg = NONE, bold = false })    -- Example: cyan color for statements
+vim.api.nvim_set_hl(0, 'Statement', { fg = '#f0996a', bg = NONE, bold = false })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#cfa1d3', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#aaca77', bg = NONE })  
 -- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#cfa1d3', bg =  NONE})  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#aaca77', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#3B2623', bg = '#e0ac9d' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#3B2623', bg = '#e0ac9d' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#463f3a', bg = '#e0ac9d' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#463f3a', bg = '#e0ac9d' }) -- For non-current windows
 
 
 
 
 -- Preprocessor directives like #include, #define, #ifdef, etc.
-vim.api.nvim_set_hl(0, 'PreProc', { fg = '#e88873', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'PreProc', { fg = '#f0996a', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
+--green
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#cfa1d3', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#aaca77', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
-vim.api.nvim_set_hl(0, 'Keyword', { fg = '#e88873', bg = NONE, bold = false })  -- Green for keywords
+vim.api.nvim_set_hl(0, 'Keyword', { fg = '#f0996a', bg = NONE, bold = false })  -- Green for keywords
 
 
 -- Example for `Operator` group (if used)
-vim.api.nvim_set_hl(0, 'Operator', { fg = '#e88873', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Operator', { fg = '#f0996a', bg = NONE, bold = false })
 
 -- %d
 vim.api.nvim_set_hl(0, 'Special', { fg = '#e0ac9d', bg = NONE, bold = false })
 --
 --unmatched brackets..
 vim.api.nvim_set_hl(0, 'Error', { fg = '#e0ac9d', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'Identifier', { fg = '#e88873', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Identifier', { fg = '#f0996a', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#e0ac9d', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'Comment', { fg = '#e0ac9d', reverse = true,  bg = 'NONE', italic = false, bold = false})
@@ -645,11 +521,11 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#e0ac9d', reverse = true,  bg = 'NONE'
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#85554F', bg = '#3B2623' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#672918', bg = '#4a2921' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#e0ac9d]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#85554F]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#672918]]
 vim.o.cursorline = true
 
 vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
@@ -726,8 +602,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 
-vim.api.nvim_set_hl(0, "Search", { bg = "#e67e80", fg = "#000000" })
-vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#000000" })
+vim.api.nvim_set_hl(0, "Search", { bg = "#e67c80", fg = "#000000" })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#dbbc7f", fg = "#000000" })
 
 
 --Good equal
@@ -789,10 +665,39 @@ vim.keymap.set("n", "<leader>e", function()
   vim.api.nvim_put(lines, "l", true, true)
 end, { desc = "Insert typedef enum" })
 
+-- Scroll screen horizontally with arrow keys
+vim.keymap.set('n', '<Left>', 'zh', { noremap = true, silent = true })
+vim.keymap.set('n', '<Right>', 'zl', { noremap = true, silent = true })
+
+vim.o.splitright = true  -- Ensure vertical splits open to the right
+
+vim.keymap.set("n", "<A-m>", function()
+  vim.cmd("w")               -- Save file
+  vim.cmd("vsplit")          -- Vertical split (opens to the right if splitright is set)
+  vim.cmd("terminal b.bat")  -- Run the batch file in terminal
+  vim.cmd("wincmd h")        -- Return focus to original window
+end, { noremap = true })
+
+vim.keymap.set("n", "<F5>", function()
+  vim.cmd("w")               -- Save file
+  vim.cmd("vsplit")          -- Vertical split (opens to the right if splitright is set)
+  vim.cmd("terminal r.bat")  -- Run the batch file in terminal
+  vim.cmd("wincmd h")        -- Return focus to original window
+end, { noremap = true })
+
+
+
 
 
 vim.o.equalalways = false
-vim.o.makeprg = "./b.sh"
+vim.o.makeprg = "cmd /c b.bat"
+vim.o.shell = 'cmd.exe'
+vim.o.shellcmdflag = '/c'
+vim.o.shellquote = ''
+vim.o.shellxquote = ''
+vim.o.shellpipe = '2>&1 >'
+
+
 function MoveBottomSplitToRight()
   -- Get the current window count
   local win_count = vim.fn.winnr('$')
@@ -920,4 +825,3 @@ vim.keymap.set('n', '<leader>b', function()
     -- Open quickfix vertically
     OpenQuickfixVertically()
 end, { desc = "Run :make and open quickfix vertically" })
-
