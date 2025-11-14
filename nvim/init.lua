@@ -617,8 +617,8 @@ vim.api.nvim_set_hl(0, 'String', { fg = '#b6d189', bg = NONE })
 vim.api.nvim_set_hl(0, 'Number', { fg = '#b6d189', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#814037', bg = '#d7a49d' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#814037', bg = '#d7a49d' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#7b433d', bg = '#d7a49d' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#7b433d', bg = '#d7a49d' }) -- For non-current windows
 
 
 
@@ -650,7 +650,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#d7a49d', reverse = true,  bg = 'NONE'
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#672918', bg = '#814037' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#672918', bg = '#7b433d' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#d7a49d]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
@@ -731,8 +731,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 
-vim.api.nvim_set_hl(0, "Search", { bg = "#e67e80", fg = "#814037" })
-vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#814037" })
+vim.api.nvim_set_hl(0, "Search", { bg = "#e67e80", fg = "#7b433d" })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#7b433d" })
 
 
 --Good equal
