@@ -1,11 +1,15 @@
 for_window [class=".*"] border pixel 2
-client.focused      	#000000 #83a598 #000000 #83a598
+for_window [class=".*"] border pixel 2
+client.focused      	#c79785 #6e3e3d #c79785 #83a598
+client.unfocused      	#c79785 #2e282a #c79785 #2e282a
+
 bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
 hide_edge_borders smart_no_gaps
 font pango:Liberation Mono 10
 
-
+workspace 1 output eDP-1
+workspace 2 output HDMI-A-2
 
 # Default config for sway
 #
@@ -44,9 +48,9 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 # Example configuration:
 #
 # exec swayidle -w \
-#      	timeout 300 'swaylock -f -c 000000' \
+#      	timeout 300 'swaylock -f -c 3B2623' \
 #      	timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#      	before-sleep 'swaylock -f -c 000000'
+#      	before-sleep 'swaylock -f -c 3B2623'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -106,7 +110,7 @@ exec waybar
 
 bindsym $mod+Shift+x exit
 
-	bindsym $mod+Shift+e exec dolphin
+	bindsym $mod+Shift+e exec cosmic-files
 #
 # Moving around:
 #
