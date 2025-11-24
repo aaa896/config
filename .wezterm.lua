@@ -27,7 +27,7 @@ end)
 
 
 config.window_background_opacity = 1
-config.enable_tab_bar = false;
+--config.enable_tab_bar = false;
 config.enable_wayland = true;
 --
 -- This is where you actually apply your config choices
@@ -45,18 +45,18 @@ config.font = wezterm.font_with_fallback {
 
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.font_size=10.5
-config.tab_max_width = 0
+config.tab_max_width = 24
 config.show_new_tab_button_in_tab_bar = false
 
 
 config.window_frame = {
-    font_size = 0.5,
+    font_size = 10,
 
 }
 
 
 config.colors = {
-    --split = '#',
+    split = '#2e282a',
 
     cursor_bg = "#83a598",
 --#795151
@@ -66,9 +66,9 @@ config.colors = {
     --- red background= "#5E3030",
     ---#6C4642
     ---8a5a50
-    background= "#6C4642",
+    background= "533a3a",
 
-    foreground = '#e0ac9d',
+    foreground = '#c79785',
 
 
 
@@ -76,17 +76,16 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-
         background="#2e282a",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "#291f1e",
+            bg_color = "#6d3e3e",
             -- The color of the text for the tab
-            fg_color = '#e0ac9d',
+            fg_color = '#c79785',
         },
         inactive_tab = {
-            bg_color = "#291f1e",
-            fg_color = '#808080',
+            bg_color = "#2e282a",
+            fg_color = '#c79785',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
