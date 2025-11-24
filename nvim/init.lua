@@ -654,7 +654,7 @@ vim.api.nvim_set_hl(0, 'LineNr', { fg = '#6e5757', bg = '#533a3a' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#c79785]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#754c2f]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#633f2d]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
@@ -927,4 +927,4 @@ vim.keymap.set('n', '<leader>b', function()
     OpenQuickfixVertically()
 end, { desc = "Run :make and open quickfix vertically" })
 
-
+vim.cmd "set title"
