@@ -248,6 +248,9 @@ end
 				--dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 			},
 
+			{
+				'mbbill/undotree',
+			},
 
 
 
@@ -964,17 +967,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
     opts.desc = "Show LSP definition"
     keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
 
-    opts.desc = "Show LSP implementations"
-    keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+    --opts.desc = "Show LSP implementations"
+    --keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
     opts.desc = "Show LSP type definitions"
     keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
-    opts.desc = "See available code actions"
-    keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+    --opts.desc = "See available code actions"
+    --keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
-    opts.desc = "Smart rename"
-    keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+    --opts.desc = "Smart rename"
+    --keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
     opts.desc = "Show buffer diagnostics"
     keymap.set("n", "<leader>W", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
@@ -999,4 +1002,7 @@ vim.keymap.set("n", "<A-j>", ":bnext<CR>", { noremap = true, silent = true })
 
 -- Previous buffer
 vim.keymap.set("n", "<A-k>", ":bprevious<CR>", { noremap = true, silent = true })
-
+vim.keymap.set("n", "L", function()
+  vim.cmd("Man " .. vim.fn.expand("<cword>"))
+end)
+vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)
