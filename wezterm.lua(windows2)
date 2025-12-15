@@ -1,176 +1,223 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
--- This table will hold the configuration.
+
 local config = {}
-
-
-wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
-  local process_name = tab.active_pane.foreground_process_name
-  local title = tab.active_pane.title
-
-  -- Tab index (starting from 1)
-  local tab_index = tab.tab_index + 1
-
-  -- Check if the process is Neovim
-  if process_name:find('nvim') then
-    -- Extract only the file name from the title
-    local filename = title:match("[^%s]+$")
-    -- Return tab number and filename
-    return string.format(' %d: %s ', tab_index, filename)
-  end
-
-  -- Default tab title for other processes
-  return string.format('%d: %s', tab_index, title)
-end)
-
-
-
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
-
-
 if wezterm.config_builder then
-    config = wezterm.config_builder()
+  config = wezterm.config_builder()
 end
 
---config.default_prog = { 'cmd.exe' }
-
-
-
+-- Inactive pane brightness
 config.inactive_pane_hsb = {
-    saturation = 1,
-    brightness = 1
+  saturation = 1,
+  brightness = 1,
 }
-config.window_background_opacity = 1.0
+
+---------------------------------------------------------------------
+-- ENVIRONMENT: ALWAYS START CMD WITH MSVC DEV ENVIRONMENT LOADED
+---------------------------------------------------------------------
+local dev_env = {
+  "cmd.exe",
+  "/K",
+  "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\VsDevCmd.bat",
+  "-arch=x64"  
+}
+
+config.default_prog = dev_env
+
+---------------------------------------------------------------------
+-- Colors, Fonts, UI
+---------------------------------------------------------------------
+config.window_background_opacity = 1
+config.enable_tab_bar = true
+config.enable_wayland = false
+
 config.use_fancy_tab_bar = false
-config.tab_bar_at_bottom = false
---
--- This is where you actually apply your config choices
--- For example, changing the color scheme:
---config.color_scheme = 'BlueBerryPie'
---
+config.tab_bar_at_bottom = true
+
+config.color_scheme = 'Edge Dark (base16)'
+
 config.font = wezterm.font_with_fallback {
-    'JetBrains Mono',
-    'Noto Color Emoji',
+  'Liberation Mono',
 }
-
-
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.font_size=10.6
-config.tab_max_width = 50
+config.font_size = 9.5
+config.tab_max_width = 32
 config.show_new_tab_button_in_tab_bar = false
 
+config.window_frame = { font_size = 0.5 }
+
+-------
 config.colors = {
-     cursor_bg = "#719b92",
-    background="rgba(40,40,40,0.96)",
-    foreground = '#ebdbb2',
-  tab_bar = {
-    -- The color of the strip that goes along the top of the window
-    -- (does not apply when fancy tab bar is in use)
-	--
-    
-    background="rgba(50,50,50,1)",
-	active_tab = {
-      	-- The color of the background area for the tab
-      	bg_color = "rgba(40,40,40,1)",
-      	-- The color of the text for the tab
-      	fg_color = '#ebdbb2',
-  	},
-inactive_tab = {
-  	bg_color = "rgba(50,50,50,1)",
-  	fg_color = '#808080',
+    split = '#2e282a',
 
-  	-- The same options that were listed under the `active_tab` section above
-  	-- can also be used for `inactive_tab`.
-	},
+    cursor_bg = "#83a598",
+--#795151
+--#945E57
+    --dark #3B2623
+    --l2 background= "#82524B",
+    --- red background= "#5E3030",
+    ---#6C4642
+    ---8a5a50
+    background= "533a3a",
+
+    foreground = '#c79785',
 
 
-    
+
+    tab_bar = {
+        -- The color of the strip that goes along the top of the window
+        -- (does not apply when fancy tab bar is in use)
+        --
+        background="#2e282a",
+        active_tab = {
+            -- The color of the background area for the tab
+            bg_color = "#854b34",
+            -- The color of the text for the tab
+            fg_color = '#c79785',
+        },
+        inactive_tab = {
+            bg_color = "#2e282a",
+            fg_color = '#c79785',
+
+            -- The same options that were listed under the `active_tab` section above
+            -- can also be used for `inactive_tab`.
+        },
+
+
+
     },
 
-}
 
+
+}
+--------------------------------------------------------------
+-- Function: read Neovim CWD
+---------------------------------------------------------------------
+local function read_nvim_cwd()
+  local f = io.open("/tmp/nvim_cwd", "r")
+  if not f then return nil end
+  local cwd = f:read("*all")
+  f:close()
+  return cwd:gsub("\n", "")
+end
+
+---------------------------------------------------------------------
+-- Sane splits using the SAME environment (keeps cl.exe working)
+---------------------------------------------------------------------
+local function split_with_env(direction, cwd)
+  return act.SplitPane {
+    direction = direction,
+    cwd = cwd,
+    command = {
+      args = dev_env,
+      cwd = cwd,
+    },
+  }
+end
+
+---------------------------------------------------------------------
+-- Spawns a new window with CMD + MSVC env
+---------------------------------------------------------------------
+local function spawn_with_env(cwd, script)
+  return act.SpawnCommandInNewWindow {
+    cwd = cwd,
+    args = { "cmd.exe", "/K", script },
+  }
+end
+
+---------------------------------------------------------------------
+-- Keybindings
+---------------------------------------------------------------------
 config.keys = {
-    -- activate pane selection mode with the default alphabet (labels are "a", "s", "d", "f" and so on)
-    {
-        key = '2', mods = 'CTRL',
-        action = act.PaneSelect {
-            mode="MoveToNewTab",
-        },
-    },
-    -- activate pane selection mode with numeric labels
-    {
-        key = '1',
-        mods = 'CTRL',
-        action = act.PaneSelect {
-            --alphabet = '1234567890',
-            mode = 'MoveToNewWindow',
-        },
-    },
-    -- show the pane selection mode, but have it swap the active and selected panes
-    {
-        key = '3',
-        mods = 'CTRL',
-        action = act.PaneSelect {
-            mode="Activate",
-        },
-    },
-    {
-        key = '0',
-        mods = 'CTRL',
-        action = act.PaneSelect {
-            mode = 'SwapWithActiveKeepFocus',
-        },
-    },
-    {
+  -- Pane navigation
+  { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Left') },
+  { key = 'j', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Down') },
+  { key = 'k', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Up') },
+  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Right') },
 
-        key = 'w',
+  -- Close
+  { key = 'w', mods = 'CTRL|SHIFT', action = act.CloseCurrentPane { confirm = true } },
 
-        mods = 'CTRL',
+  -- Pane selection
+  { key = '2', mods = 'CTRL', action = act.PaneSelect { mode = "MoveToNewTab" } },
+  { key = '1', mods = 'CTRL', action = act.PaneSelect { mode = "MoveToNewWindow" } },
+  { key = '3', mods = 'CTRL', action = act.PaneSelect { mode = "Activate" } },
+  { key = '0', mods = 'CTRL', action = act.PaneSelect { mode = "SwapWithActiveKeepFocus" } },
 
-        action = wezterm.action.CloseCurrentPane { confirm = true },
-
-    },
-    {
-        key = 'F5',
-        action = wezterm.action.SpawnCommandInNewTab {
-            args = { 
-                'cmd.exe', './c',
-                'r.bat',
-            },
-        },  
-        exit_behavior = "Close",
-    },
-    {
-        key = 'm',
-        mods = 'ALT',
-        action = wezterm.action.SpawnCommandInNewTab {
-            args = { 
-                'cmd.exe', './c', 
-                'b.bat' ,
-            },
-        },  
-        exit_behavior = "Close",
-    },
-
+  -- Split RIGHT %
   {
-      key = 'L',
-    mods = 'SHIFT|CTRL',
-    action = act.AdjustPaneSize { 'Left', 5 },
-  },
-  {
-    key = 'J',
-    mods = 'SHIFT|CTRL',
-    action = act.AdjustPaneSize { 'Down', 5 },
-  },
-  { key = 'K', mods = 'SHIFT|CTRL', action = act.AdjustPaneSize { 'Up', 5 } },
-  {
-    key = 'L',
-    mods = 'SHIFT |CTRL',
-    action = act.AdjustPaneSize { 'Right', 5 },
+    key = '%', mods = 'CTRL|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(split_with_env("Right", cwd), pane)
+    end)
   },
 
+  -- Split DOWN "
+  {
+    key = '"', mods = 'CTRL|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(split_with_env("Down", cwd), pane)
+    end)
+  },
+
+  -- ALT+m runs b.sh in new window (for Linux-side scripts)
+  {
+    key = 'm', mods = 'ALT',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(act.SpawnCommandInNewWindow {
+        cwd = cwd,
+        args = { './b.sh' },
+      }, pane)
+    end),
+  },
+
+  -- CTRL+m open MSVC environment + run b.sh via CMD
+  {
+    key = 'm', mods = 'CTRL',
+    action = spawn_with_env(nil, "b.sh"),
+  },
+
+  -- Run r.sh from NVIM cwd
+  {
+    key = 'F5',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(act.SpawnCommandInNewWindow {
+        cwd = cwd,
+        args = { './r.sh' },
+      }, pane)
+    end)
+  },
+
+  -- CTRL+F5: run r.sh with the MSVC CMD environment
+  {
+    key = 'F5', mods = 'CTRL',
+    action = spawn_with_env(nil, "r.sh")
+  },
+
+  -- Tab movement
+  { key = "PageUp", mods = "CTRL|SHIFT", action = act.MoveTabRelative(-1) },
+  { key = "PageDown", mods = "CTRL|SHIFT", action = act.MoveTabRelative(1) },
 }
 
--- and finally, return the configuration to wezterm
 return config
+
