@@ -1,3 +1,6 @@
+vim.opt.background = "light"
+
+vim.opt.termguicolors =true
 vim.opt.shell = 'bash'
 
 vim.opt.shellcmdflag = '-lc'
@@ -143,7 +146,6 @@ end
 	vim.opt.wrap = false
 
 
-	vim.opt.termguicolors =true
 
 	--crtrl in insert to move
 	vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', { noremap = true, silent = true })
@@ -251,7 +253,30 @@ end
 			{
 				'mbbill/undotree',
 			},
+			{
+				"lervag/vimtex",
+				lazy = false,     -- we don't want to lazy load VimTeX
+				-- tag = "v2.15", -- uncomment to pin to a specific release
+				init = function()
+					-- VimTeX configuration goes here, e.g.
+					vim.g.vimtex_view_method = "zathura"
+				end
+			},
 
+
+			{
+				"kylechui/nvim-surround",
+				version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+				event = "VeryLazy",
+				config = function()
+					require("nvim-surround").setup({
+						-- Configuration here, or leave empty to use defaults
+					})
+				end
+			},
+            {
+                "mg979/vim-visual-multi",
+            },
 
 
 		},
@@ -262,7 +287,33 @@ end
 
 
 
+	-- This is necessary for VimTeX to load properly. The "indent" is optional.
+	-- Note: Most plugin managers will do this automatically!
+	--!!!!filetype plugin indent on
 
+	-- This enables Vim's and neovim's syntax-related features. Without this, some
+	-- VimTeX features will not work (see ":help vimtex-requirements" for more
+	-- info).
+	-- Note: Most plugin managers will do this automatically!
+	--!!!syntax enable
+
+	-- Viewer options: One may configure the viewer either by specifying a built-in
+	-- viewer method:
+	vim.g.vimtex_view_method = 'zathura'
+	vim.g.vimtex_compiler_method = 'latexmk'  -- Switch to latexmk if latexrun is not working
+
+	-- Or with a generic interface:
+	vim.g.vimtex_view_general_viewer = 'okular'
+	vim.g.vimtex_view_general_options = '--unique file:@pdf#src:@line@tex'
+
+	-- VimTeX uses latexmk as the default compiler backend. If you use it, which is
+	-- strongly recommended, you probably don't need to configure anything. If you
+	-- want another compiler backend, you can change it as follows. The list of
+	-- supported backends and further explanation is provided in the documentation,
+	-- see ":help vimtex-compiler".
+
+	-- Most VimTeX mappings rely on localleader and this can be changed with the
+	-- following line. The default is usually fine and is the symbol --\".
 
 
 
@@ -309,7 +360,7 @@ end
 			foldcolumn = "0",
 			spell = false,
 			list = false,
-			conceallevel = 3,
+			conceallevel = 0,
 			concealcursor = "nvic",
 		},
 		-- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
@@ -530,6 +581,51 @@ require'nvim-treesitter.configs'.setup {
 	},
 }
 
+--vim.diagnostic.enable(false)
+local function hide_diagnostics()
+  vim.diagnostic.config({
+    virtual_text = false,
+    signs = false,
+    underline = false,
+    update_in_insert = false,
+    vim.diagnostic.enable(false)
+  })
+end
+
+local function show_diagnostics()
+  vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    vim.diagnostic.enable(true)
+  })
+end
+
+-- Start with diagnostics hidden
+
+
+-- 2. Enable diagnostics ONLY when the buffer is written (saved)
+vim.api.nvim_create_autocmd("BufWritePost", {
+	callback = function()
+        show_diagnostics()
+	end,
+})
+
+-- 3. Disable diagnostics when entering Insert mode (optional: hides while typing)
+vim.api.nvim_create_autocmd("InsertEnter", {
+	callback = function()
+        hide_diagnostics()
+	end,
+})
+
+
+vim.diagnostic.config({
+	-- Prevents diagnostics from appearing/updating as you type
+	update_in_insert = false,
+	-- Ensure virtual text is on if you want to see the messages
+	virtual_text = true,
+})
 
 --ts colors
 --
@@ -537,62 +633,64 @@ require'nvim-treesitter.configs'.setup {
 --
 --
 ---- Set the background and text color for normal text
----green
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#c6864d', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#c6864d', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#c6864d', bg = NONE })
----white
-vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#c79785', bg = none })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#8da66f', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#8da66f', bg = none })
 
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#c79785', bg = none })
-vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#c79785', bg = none })
-vim.api.nvim_set_hl(0, '@variable', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, '@constant', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, '@operator', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, '@property', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#c79785', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#c79785' })
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#c79785', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#c79785', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#c79785', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#c79785', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@function.call', { fg = '#c79785', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#c79785', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Directory', { fg = '#001742', bg = NONE, bold = false })
+---green
+vim.api.nvim_set_hl(0, 'TSString', { fg = '#1b2704', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#1b2704', bg = NONE })
+vim.api.nvim_set_hl(0, '@number', { fg = '#1b2704', bg = NONE })
+---white
+vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#000000', bg = none })
+vim.api.nvim_set_hl(0, '@variable', { fg = '#000000', bg = NONE })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#4a0101', bg = none })
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#4a0101', bg = none })
+
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#000000', bg = none })
+vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#000000', bg = none })
+vim.api.nvim_set_hl(0, '@constant', { fg = '#000000', bg = NONE })
+vim.api.nvim_set_hl(0, '@operator', { fg = '#000000', bg = NONE })
+vim.api.nvim_set_hl(0, '@property', { fg = '#000000', bg = NONE })
+vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#000000', bg = NONE })
+vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#000000', bg = NONE })
+vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#000000', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#000000' })
+vim.api.nvim_set_hl(0, 'TSError', { fg = '#000000', bg = '#9d0006', bold = false })
+vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#000000', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#000000', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#000000', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@function.call', { fg = '#000000', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#000000', bg = NONE, bold = false })
 --red
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#8da66f', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#8da66f', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#8da66f', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#8da66f', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#8da66f', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#4a0101', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#4a0101', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#4a0101', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#4a0101', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#4a0101', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#8da66f', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#8da66f', bg = none })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#4a0101', bg = none })
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#4a0101', bg = none })
 --orange
-vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSStatement', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#c06455', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSStatement', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#001742', bg = NONE, bold = false })
 
 
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#c06455', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#001742', bg = NONE, bold = false })
 
 
 -- Preprocessor directives like #include, #define, #ifdef, etc.
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#c06455', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#001742', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#c6864d', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#1b2704', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#c06455', bg = NONE, bold = false })  -- Green for keywords
+vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#001742', bg = NONE, bold = false })  -- Green for keywords
 
 
 -- Example for `Operator` group (if used)
@@ -600,8 +698,8 @@ vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#c06455', bg = NONE, bold = false })
 -- %d
 --
 --unmatched brackets..
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#c79785', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#c06455', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSError', { fg = '#000000', bg = '#9d0006', bold = false })
+vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#001742', bg = NONE, bold = false })
 
 
 
@@ -616,69 +714,69 @@ vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#83c092', reverse = true, bg = 
 --normal colors
 
 ---- Set the background and text color for normal text
-vim.api.nvim_set_hl(0, 'Normal', { fg = '#c79785', bg = NONE })  -- Dark background, light text
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#c79785' })  -- Dark background, light text
+vim.api.nvim_set_hl(0, 'Normal', { fg = '#000000', bg = NONE })  -- Dark background, light text
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#000000' })  -- Dark background, light text
 
-vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#c79785', bg = NONE })  -- Dark background, light text
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#c79785', bg = NONE })  -- Dark background, light text
+vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#000000', bg = NONE })  -- Dark background, light text
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#000000', bg = NONE })  -- Dark background, light text
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#8da66f', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#4a0101', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
-vim.api.nvim_set_hl(0, 'Conditional', { fg = '#c06455', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
+vim.api.nvim_set_hl(0, 'Conditional', { fg = '#001742', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
 
 -- Change the highlight color for 'case', 'return', and other keywords in the 'Statement' group.
-vim.api.nvim_set_hl(0, 'Statement', { fg = '#c06455', bg = NONE, bold = false })    -- Example: cyan color for statements
+vim.api.nvim_set_hl(0, 'Statement', { fg = '#001742', bg = NONE, bold = false })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#c6864d', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#1b2704', bg = NONE })  
 -- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#c6864d', bg =  NONE})  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#1b2704', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#754430', bg = '#c79785' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#814037', bg = '#c79785' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#7a5252', bg = '#000000' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#7a5252', bg = '#000000' }) -- For non-current windows
 
 
 
 
 -- Preprocessor directives like #include, #define, #ifdef, etc.
-vim.api.nvim_set_hl(0, 'PreProc', { fg = '#c06455', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'PreProc', { fg = '#001742', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#c6864d', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#1b2704', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
-vim.api.nvim_set_hl(0, 'Keyword', { fg = '#c06455', bg = NONE, bold = false })  -- Green for keywords
+vim.api.nvim_set_hl(0, 'Keyword', { fg = '#001742', bg = NONE, bold = false })  -- Green for keywords
 
 
 -- Example for `Operator` group (if used)
-vim.api.nvim_set_hl(0, 'Operator', { fg = '#c06455', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Operator', { fg = '#001742', bg = NONE, bold = false })
 
 -- %d
-vim.api.nvim_set_hl(0, 'Special', { fg = '#c79785', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Special', { fg = '#000000', bg = NONE, bold = false })
 --
 --unmatched brackets..
-vim.api.nvim_set_hl(0, 'Error', { fg = '#c79785', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'Identifier', { fg = '#c06455', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'Function', { fg = '#c79785', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Error', { fg = '#000000', bg = '#9d0006', bold = false })
+vim.api.nvim_set_hl(0, 'Identifier', { fg = '#001742', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Function', { fg = '#000000', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#c79785', reverse = true,  bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#000000', reverse = true,  bg = 'NONE', italic = false, bold = false})
 
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#6e5757', bg = '#533a3a' })
-vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#c79785]]
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#7a5252', bg = '#a68d76' })
+vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#000000]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#384b55]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#a37575]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
-vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#40594f]]
+vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#823828]]
 
 -- Adjust syntax highlighting to respect the cursor line background
 --vim.cmd[[highlight Comment guibg=NONE ctermbg=NONE]]
@@ -951,58 +1049,72 @@ vim.cmd "set title"
 
 local keymap = vim.keymap -- for conciseness
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf, silent = true }
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		-- Buffer local mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local opts = { buffer = ev.buf, silent = true }
 
-    -- set keybinds
-    opts.desc = "Show LSP references"
-    keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+		-- set keybinds
+		opts.desc = "Show LSP references"
+		keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
-    opts.desc = "Go to declaration"
-    keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+		opts.desc = "Go to declaration"
+		keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
-    opts.desc = "Show LSP definition"
-    keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
+		opts.desc = "Show LSP definition"
+		keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
 
-    --opts.desc = "Show LSP implementations"
-    --keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+		--opts.desc = "Show LSP implementations"
+		--keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
-    opts.desc = "Show LSP type definitions"
-    keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+		opts.desc = "Show LSP type definitions"
+		keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
-    --opts.desc = "See available code actions"
-    --keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+		--opts.desc = "See available code actions"
+		--keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
-    --opts.desc = "Smart rename"
-    --keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+		--opts.desc = "Smart rename"
+		--keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
-    opts.desc = "Show buffer diagnostics"
-    keymap.set("n", "<leader>W", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+		opts.desc = "Show buffer diagnostics"
+		keymap.set("n", "<leader>W", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
-    opts.desc = "Show line diagnostics"
-    keymap.set("n", "<leader>w", vim.diagnostic.open_float, opts) -- show diagnostics for line
+		opts.desc = "Show line diagnostics"
+		keymap.set("n", "<leader>w", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
-    opts.desc = "Go to previous diagnostic"
-    keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = true })
-    end, opts) -- jump to previous diagnostic in buffer
-    --
-    opts.desc = "Go to next diagnostic"
-    keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, float = true })
-    end, opts) -- jump to next diagnostic in buffer
+		opts.desc = "Go to previous diagnostic"
+		keymap.set("n", "[d", function()
+			vim.diagnostic.jump({ count = -1, float = true })
+		end, opts) -- jump to previous diagnostic in buffer
+		--
+		opts.desc = "Go to next diagnostic"
+		keymap.set("n", "]d", function()
+			vim.diagnostic.jump({ count = 1, float = true })
+		end, opts) -- jump to next diagnostic in buffer
 
-  end,
+	end,
 })
--- Next buffer
-vim.keymap.set("n", "<A-j>", ":bnext<CR>", { noremap = true, silent = true })
+--vim.diagnostic.config({
+	--    virtual_text = false, -- Disables inline error messages
+	--    signs = false,        -- Disables icons in the sign column (gutter)
+	--    underline = false,    -- Disables the squiggly underlines
+	--    update_in_insert = false, -- Stops diagnostics from updating in insert mode
+	--})
 
--- Previous buffer
-vim.keymap.set("n", "<A-k>", ":bprevious<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "L", function()
-  vim.cmd("Man " .. vim.fn.expand("<cword>"))
-end)
-vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)
+
+	-- Next buffer
+	vim.keymap.set("n", "<A-j>", ":bnext<CR>", { noremap = true, silent = true })
+
+	-- Previous buffer
+	vim.keymap.set("n", "<A-k>", ":bprevious<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "L", function()
+		vim.cmd("Man " .. vim.fn.expand("<cword>"))
+	end)
+	vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)
+
+
+
+
+
+
