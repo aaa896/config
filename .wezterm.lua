@@ -34,9 +34,10 @@ config.enable_wayland = true;
 config.use_fancy_tab_bar=false
 config.tab_bar_at_bottom = true
 ---- For example, changing the color scheme:
+---
 config.color_scheme = 'Edge Dark (base16)'
 
-warn_about_missing_glyphs=false
+config.warn_about_missing_glyphs=false
 config.font = wezterm.font_with_fallback {
     'Liberation Mono',
     'JetBrainsMono',
@@ -46,6 +47,10 @@ config.font = wezterm.font_with_fallback {
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.font_size=10.5
 config.tab_max_width = 24
+
+
+
+
 config.show_new_tab_button_in_tab_bar = false
 
 
@@ -58,7 +63,7 @@ config.window_frame = {
 config.colors = {
     split = '#2e282a',
 
-    cursor_bg = "#83a598",
+    cursor_bg = "#6b8579",
 --#795151
 --#945E57
     --dark #3B2623
@@ -66,9 +71,12 @@ config.colors = {
     --- red background= "#5E3030",
     ---#6C4642
     ---8a5a50
-    background= "533a3a",
+    ---54393a
+    --background= "858a7f",
+    background= "#b08d74",
+    --#7d453e
 
-    foreground = '#c79785',
+    foreground = '#000000',
 
 
 
@@ -76,16 +84,16 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#2e282a",
+        background="#000000",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "#6d3e3e",
+            bg_color = "#54615B",
             -- The color of the text for the tab
-            fg_color = '#c79785',
+            fg_color = '#b08d74',
         },
         inactive_tab = {
-            bg_color = "#2e282a",
-            fg_color = '#c79785',
+            bg_color = "#000000",
+            fg_color = '#b08d74',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
@@ -296,6 +304,7 @@ config.keys = {
     },
 
 
+  { key = 'F9', mods = 'ALT', action = wezterm.action.ShowTabNavigator },
 
 
 }
