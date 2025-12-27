@@ -1,4 +1,4 @@
-vim.opt.background = "light"
+vim.opt.background = "dark"
 
 vim.opt.termguicolors =true
 vim.opt.shell = 'bash'
@@ -643,14 +643,14 @@ vim.diagnostic.config({
 
 vim.api.nvim_set_hl(0, 'Directory', { fg = '#001742', bg = NONE, bold = false })
 ---green
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#243800', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#243800', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#243800', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSString', { fg = '#083800', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#083800', bg = NONE })
+vim.api.nvim_set_hl(0, '@number', { fg = '#083800', bg = NONE })
 ---white
 vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#000000', bg = none })
 vim.api.nvim_set_hl(0, '@variable', { fg = '#000000', bg = NONE })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#4a0101', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#4a0101', bg = none })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#4d000d', bg = none })
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#4d000d', bg = none })
 
 --vim.api.nvim_set_hl(0, '@type.c', { fg = '#000000', bg = none })
 vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#000000', bg = none })
@@ -668,15 +668,15 @@ vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#000000', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#000000', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#000000', bg = NONE, bold = false })
 --red
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#4a0101', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#4a0101', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#4a0101', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#4a0101', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#4a0101', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#4d000d', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#4d000d', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#4d000d', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#4d000d', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#4d000d', bg = NONE, bold = false })
 
 vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#4a0101', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#4a0101', bg = none })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#4d000d', bg = none })
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#4d000d', bg = none })
 --orange
 vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#001742', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#001742', bg = NONE, bold = false })
@@ -694,7 +694,7 @@ vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#001742', bg = NONE, bold = false }
 vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#001742', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#243800', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#083800', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#001742', bg = NONE, bold = false })  -- Green for keywords
@@ -727,7 +727,7 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#54615B' })  -- Dark b
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#000000', bg = NONE })  -- Dark background, light text
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#000000', bg = NONE })  -- Dark background, light text
 --void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#4a0101', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#4d000d', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -737,13 +737,13 @@ vim.api.nvim_set_hl(0, 'Conditional', { fg = '#001742', bg = NONE, bold = false 
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#001742', bg = NONE, bold = false })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#243800', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#083800', bg = NONE })  
 -- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#243800', bg =  NONE})  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#083800', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#b08d74', bg = '#536661' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#b08d74', bg = '#000000' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#8a5952', bg = '#3f2828' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#8a5952', bg = '#000000' }) -- For non-current windows
 
 
 
@@ -752,7 +752,7 @@ vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#b08d74', bg = '#000000' }) -- Fo
 vim.api.nvim_set_hl(0, 'PreProc', { fg = '#001742', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 --
 -- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#243800', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#083800', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'Keyword', { fg = '#001742', bg = NONE, bold = false })  -- Green for keywords
@@ -775,11 +775,11 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#542503', reverse = false,  bg = 'NONE
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#54615B', bg = '#b08d74' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#986960', bg = '#8a5952' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#000000]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#9c7c64]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#8c5446]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
@@ -857,7 +857,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 
-vim.api.nvim_set_hl(0, "Search", { bg = "#A3747B", fg = "#814037" })
+vim.api.nvim_set_hl(0, "Search", { bg = "#ad785e", fg = "#814037" })
 vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#814037" })
 
 
