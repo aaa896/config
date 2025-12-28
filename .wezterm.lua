@@ -63,7 +63,7 @@ config.window_frame = {
 config.colors = {
     split = '#2e282a',
 
-    cursor_bg = "#6b8579",
+    cursor_bg = "#567a78",
 --#795151
 --#945E57
     --dark #3B2623
@@ -75,6 +75,7 @@ config.colors = {
     --background= "858a7f",
     background= "#b08d74",
     --#7d453e
+    -- #855a52
 
     foreground = '#000000',
 
@@ -89,11 +90,11 @@ config.colors = {
             -- The color of the background area for the tab
             bg_color = "#54615B",
             -- The color of the text for the tab
-            fg_color = '#b08d74',
+            fg_color = '#000000',
         },
         inactive_tab = {
             bg_color = "#000000",
-            fg_color = '#b08d74',
+            fg_color = '#8a5952',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
