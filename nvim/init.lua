@@ -758,7 +758,7 @@ vim.api.nvim_set_hl(0, 'String', { fg = '#99a372', bg = NONE })
 vim.api.nvim_set_hl(0, 'Number', { fg = '#99a372', bg =  NONE})  
 
 -- Status line highlights
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#271d16', bg = '#8c5446' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#271d16', bg = '#975446' })  -- Dark text on light background
 vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#271d16', bg = '#b08d74' }) -- For non-current windows
 
 
