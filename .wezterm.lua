@@ -2,7 +2,6 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 -- This table will hold the configuration.
 local config = {}
-local wezterm = require 'wezterm'
  default_prog = {"/bin/bash"}
 
 -- In newer versions of wezterm, use the config_builder which will
@@ -63,7 +62,7 @@ config.window_frame = {
 config.colors = {
     split = '#2e282a',
 
-    cursor_bg = "#567a78",
+    cursor_bg = "#608277",
 --#795151
 --#945E57
     --dark #3B2623
@@ -73,11 +72,13 @@ config.colors = {
     ---8a5a50
     ---54393a
     --background= "858a7f",
-    background= "#b08d74",
+    --351e1c
+    --271a16
+    background= "#271a16",
     --#7d453e
     -- #855a52
 
-    foreground = '#000000',
+    foreground = '#b08d74',
 
 
 
@@ -85,15 +86,15 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#000000",
+        background="#271a16",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "#54615B",
+            bg_color = "608277",
             -- The color of the text for the tab
-            fg_color = '#000000',
+            fg_color = '#271a16',
         },
         inactive_tab = {
-            bg_color = "#000000",
+            bg_color = "#271a16",
             fg_color = '#8a5952',
 
             -- The same options that were listed under the `active_tab` section above
@@ -242,7 +243,7 @@ config.keys = {
 
     {
         key = '%',
-        mods = 'CTRL|ALT',
+        mods = 'CTRL|SHIFT',
         action = wezterm.action_callback(function(window, pane)
             -- Read the path from /tmp/nvim_cwd
             local f = io.open("/tmp/nvim_cwd", "r")
@@ -250,9 +251,9 @@ config.keys = {
                 local nvim_cwd = f:read("*all"):gsub("\n", "") -- Read and strip newline
                 f:close()
 
-                -- Split pane vertically using the read path as the working directory
+                -- Split pane horizontally using the read path as the working directory
                 window:perform_action(wezterm.action.SplitPane {
-                    direction = "Right",  -- Vertical split
+                    direction = "Right",  -- Horizontal split
                     command = {
                         args = { '/bin/bash' },  -- Open the shell in the new pane
                         cwd = nvim_cwd,  -- Set the working directory
