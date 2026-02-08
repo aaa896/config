@@ -73,8 +73,8 @@ config.colors = {
     ---54393a
     --background= "858a7f",
     --351e1c
-    --271a16
-    background= "#271a16",
+    --47322a
+    background= "#47322a",
     --#7d453e
     -- #855a52
 
@@ -86,15 +86,15 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#271a16",
+        background="#47322a",
         active_tab = {
             -- The color of the background area for the tab
             bg_color = "608277",
             -- The color of the text for the tab
-            fg_color = '#271a16',
+            fg_color = '#000000',
         },
         inactive_tab = {
-            bg_color = "#271a16",
+            bg_color = "#47322a",
             fg_color = '#8a5952',
 
             -- The same options that were listed under the `active_tab` section above
