@@ -653,12 +653,9 @@ vim.diagnostic.config({
 vim.api.nvim_set_hl(0, 'Directory', { fg = '#e67e80', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Directory', { fg = '#c86d56', bg = NONE, bold = false })
 ---green
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#a7c080', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#a7c080', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#a7c080', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#72864f', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#72864f', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#72864f', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSString', { fg = '#7a924f', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#7a924f', bg = NONE })
+vim.api.nvim_set_hl(0, '@number', { fg = '#7a924f', bg = NONE })
 ---white
 vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#ac8a72', bg = none })
 vim.api.nvim_set_hl(0, '@variable', { fg = '#ac8a72', bg = NONE })
@@ -719,7 +716,7 @@ vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#ba8c5e', bg = NONE, bold = false })
 --
 -- constansts (false/true...
 vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#72864f', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#7a924f', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#bd8c57', bg = NONE, bold = false })  -- Green for keywords
@@ -768,10 +765,10 @@ vim.api.nvim_set_hl(0, 'Statement', { fg = '#ba8c5e', bg = NONE, bold = false })
 
 -- Highlight for string literals
 vim.api.nvim_set_hl(0, 'String', { fg = '#a7c080', bg = NONE })  
-vim.api.nvim_set_hl(0, 'String', { fg = '#72864f', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#7a924f', bg = NONE })  
 -- Highlight for numbers
 vim.api.nvim_set_hl(0, 'Number', { fg = '#a7c080', bg =  NONE})  
-vim.api.nvim_set_hl(0, 'Number', { fg = '#72864f', bg =  NONE})  
+vim.api.nvim_set_hl(0, 'Number', { fg = '#7a924f', bg =  NONE})  
 
 
 vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#271e17', bg = '#617d6e' })  -- Dark text on light background
@@ -785,7 +782,7 @@ vim.api.nvim_set_hl(0, 'PreProc', { fg = '#ba8c5e', bg = NONE, bold = false })  
 --
 -- constansts (false/true...
 vim.api.nvim_set_hl(0, 'Constant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#72864f', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#7a924f', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'Keyword', { fg = '#bd8c57', bg = NONE, bold = false })  -- Green for keywords
