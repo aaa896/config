@@ -51,7 +51,7 @@ config.window_frame = { font_size = 0.5 }
 config.colors = {
     split = '#2e282a',
 
-    cursor_bg = "#608277",
+    cursor_bg = "#597E74",
 --#795151
 --#945E57
     --dark #3B2623
@@ -61,10 +61,11 @@ config.colors = {
     ---8a5a50
     ---54393a
     --background= "858a7f",
-    background= "#211a16",
+    --341f18
+    background= "#1e120b",
     --#7d453e
 
-    foreground = '#b08d74',
+    foreground = '#ac8a72',
 
 
 
@@ -72,16 +73,16 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#211a16",
+        background="1e120b",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "#608277",
+            bg_color = "#597E74",
             -- The color of the text for the tab
             fg_color = '#000000',
         },
         inactive_tab = {
-            bg_color = "#000000",
-            fg_color = '#b08d74',
+            bg_color = "1e120b",
+            fg_color = '#ac8a72',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
