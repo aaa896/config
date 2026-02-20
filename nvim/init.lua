@@ -741,7 +741,7 @@ vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#83c092', reverse = true, bg = 
 
 ---- Set the background and text color for normal text
 vim.api.nvim_set_hl(0, 'Normal', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#463f3a', bg = '#54615B' })  -- Dark background, light text
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#472f2f', bg = '#54615B' })  -- Dark background, light text
 
 vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
@@ -797,13 +797,13 @@ vim.api.nvim_set_hl(0, 'Identifier', { fg = '#bd8c57', bg = NONE, bold = false }
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#b3804d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#ac8a72', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#9c5b51', reverse = false,  bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#9c4f4f', reverse = false,  bg = 'NONE', italic = false, bold = false})
 
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#3d3024' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#4f3b2d' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#ac8a72]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
@@ -1147,3 +1147,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.cmd("Man " .. vim.fn.expand("<cword>"))
     end)
     vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)
+
+
+    
+
+
+
