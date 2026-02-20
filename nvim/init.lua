@@ -803,11 +803,11 @@ vim.api.nvim_set_hl(0, 'Comment', { fg = '#9c5b51', reverse = false,  bg = 'NONE
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#46362a' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#3d3024' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#ac8a72]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#5c3524]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#57331e]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
