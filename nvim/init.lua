@@ -797,17 +797,17 @@ vim.api.nvim_set_hl(0, 'Identifier', { fg = '#bd8c57', bg = NONE, bold = false }
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#b3804d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#ac8a72', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#9c653e', reverse = false,  bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#9c5b51', reverse = false,  bg = 'NONE', italic = false, bold = false})
 
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#47362a' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#46362a' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#ac8a72]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#5c3b24]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#5c3524]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
@@ -824,6 +824,9 @@ vim.cmd[[highlight Operator guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Keyword guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Type guibg=NONE ctermbg=NONE]]
 vim.cmd[[highlight Statement guibg=NONE ctermbg=NONE]]
+
+
+
 
 vim.opt.tabstop     = 4
 vim.opt.softtabstop = 4
@@ -1144,7 +1147,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.cmd("Man " .. vim.fn.expand("<cword>"))
     end)
     vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)
-
-
-
-
