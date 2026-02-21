@@ -1,7 +1,7 @@
 for_window [class=".*"] border pixel 2
 for_window [class=".*"] border pixel 2
-client.focused      	#c79785 #6e3e3d #c79785 #83a598
-client.unfocused      	#c79785 #2e282a #c79785 #2e282a
+client.focused      	#70482f #617d6e #29160c #617d6e
+client.unfocused      	#70482f #856342 #29160c #2a2122
 
 bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
@@ -110,7 +110,7 @@ exec waybar
 
 bindsym $mod+Shift+x exit
 
-	bindsym $mod+Shift+e exec cosmic-files
+	bindsym $mod+Shift+e exec cosmic-files 
 #
 # Moving around:
 #
