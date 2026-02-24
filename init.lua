@@ -1096,6 +1096,29 @@ vim.keymap.set('n', '<leader>b', function()
     OpenQuickfixVertically()
 end, { desc = "Run :make and open quickfix vertically" })
 
+function RunBBatInNewTab()
+    -- Open a new tab
+    vim.cmd('tabnew')
+
+    -- Start terminal running b.bat
+    vim.fn.termopen('b.bat', {
+        on_exit = function()
+            -- Optional: auto close tab when finished
+            vim.cmd('tabclose')
+        end
+    })
+
+    -- Enter insert mode in terminal
+    vim.cmd('startinsert')
+end
+
+-- Map Alt+b in normal mode
+vim.keymap.set('n', '<M-b>', RunBBatInNewTab, { desc = "Run b.bat in new tab" })
+
+
+
+
+
 vim.cmd "set title"
 
 local keymap = vim.keymap -- for conciseness
