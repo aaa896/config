@@ -24,12 +24,27 @@ vim.g.mapleader = " "
 
 vim.api.nvim_set_keymap('n', '<C-x><C-f>', ':tcd ', { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>pv", function()
+vim.keymap.set("n", "<leader>ps", function()
     vim.opt.splitbelow = true
     vim.cmd("split");
     vim.cmd("Oil")
     vim.cmd("set relativenumber")
 end)
+vim.keymap.set("n", "<leader>pv", function()
+    vim.opt.splitbelow = true
+    vim.cmd("vsplit");
+    vim.cmd("Oil")
+    vim.cmd("set relativenumber")
+end)
+
+vim.keymap.set("n", "<leader>pv", function()
+    vim.opt.splitright = true
+    vim.cmd("vsplit");
+    vim.cmd("Oil")
+    vim.cmd("set relativenumber")
+end)
+
+
 
 vim.api.nvim_set_keymap('n', '<C-F5>', ':! ./r.sh<CR>', { noremap = true, silent = false })
 vim.api.nvim_set_keymap('n', '<leader>d', ':!pwd > /tmp/nvim_cwd<CR>', { noremap = true, silent = true })
@@ -651,7 +666,7 @@ vim.diagnostic.config({
 ---- Set the background and text color for normal text
 
 vim.api.nvim_set_hl(0, 'Directory', { fg = '#b04f4f', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'Directory', { fg = '#bd6151', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Directory', { fg = '#767e94', bg = NONE, bold = false })
 ---green
 vim.api.nvim_set_hl(0, 'TSString', { fg = '#7f955b', bg = NONE })
 vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#7f955b', bg = NONE })
@@ -661,8 +676,8 @@ vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#ac8a72', bg = none })
 vim.api.nvim_set_hl(0, '@variable', { fg = '#ac8a72', bg = NONE })
 --vim.api.nvim_set_hl(0, '@type.c', { fg = '#b04f4f', bg = none })
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#b04f4f', bg = none })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#bd6151', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#bd6151', bg = none })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#767e94', bg = none })
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#767e94', bg = none })
 
 --vim.api.nvim_set_hl(0, '@type.c', { fg = '#ac8a72', bg = none })
 vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#ac8a72', bg = none })
@@ -678,16 +693,16 @@ vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#ac8a72', bg = NONE, bold = false }
 vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#ac8a72', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#ac8a72', bg = NONE, bold = false })
 --red
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#bd6151', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#bd6151', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#bd6151', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#bd6151', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#bd6151', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSType', { fg = '#767e94', bold = false, bg = '#463f3a' })
+vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#767e94', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#767e94', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@type', { fg = '#767e94', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#767e94', bg = NONE, bold = false })
 
 --vim.api.nvim_set_hl(0, '@type.c', { fg = '#b04f4f', bg = none })
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#b04f4f', bg = none })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#bd6151', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#bd6151', bg = none })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#767e94', bg = none })
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#767e94', bg = none })
 --orange
 vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#b3804d', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#b3804d', bg = NONE, bold = false })
@@ -708,7 +723,7 @@ vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#b3804d', bg = NONE, bold = false })
 --
 -- constansts (false/true...
 vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#7f955b', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
+--vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#7f955b', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
 
 -- Keywords like sizeof, typedef, etc.
 vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#bd8c57', bg = NONE, bold = false })  -- Green for keywords
@@ -744,7 +759,7 @@ vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#ac8a72', bg = NONE })  -- Dark ba
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
 --void, int
 vim.api.nvim_set_hl(0, 'Type', { fg = '#b04f4f', bold = false, bg = '#463f3a' })    
-vim.api.nvim_set_hl(0, 'Type', { fg = '#bd6151', bold = false, bg = '#463f3a' })    
+vim.api.nvim_set_hl(0, 'Type', { fg = '#767e94', bold = false, bg = '#463f3a' })    
 
 vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
 -- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
@@ -793,17 +808,17 @@ vim.api.nvim_set_hl(0, 'Error', { fg = '#ac8a72', bg = '#9d0006', bold = false }
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#bd8c57', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#b3804d', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#8f5a39', reverse = false,  bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#815532', reverse = false,  bg = 'NONE', italic = false, bold = false})
 
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#2d241b' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#331f00' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#ac8a72]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#452517]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#50301b]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
@@ -832,6 +847,11 @@ vim.api.nvim_set_hl(0, '@function.call', { fg = '#b36f7a', bg = NONE, bold = fal
 vim.api.nvim_set_hl(0, '@constant.c', { fg = '#b36f7a', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#b36f7a', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#b36f7a', bg = NONE, bold = false })
+--vim.api.nvim_set_hl(0, '@function.call', { fg = '#ac8a72', bg = NONE, bold = false })
+--vim.api.nvim_set_hl(0, '@constant.c', { fg = '#ac8a72', bg = NONE, bold = false })
+--vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#ac8a72', bg = NONE, bold = false })
+--vim.api.nvim_set_hl(0, 'Function', { fg = '#ac8a72', bg = NONE, bold = false })
+
 
 
 
@@ -958,6 +978,17 @@ end, { desc = "Insert typedef enum" })
 
 vim.o.equalalways = false
 vim.o.makeprg = "./b.sh"
+vim.keymap.set('n', '<A-b>', function()
+    -- Open a new tab
+    vim.cmd('tabnew')
+
+    -- Open a terminal running your script
+    vim.cmd('terminal ./b.sh')
+
+    -- Optional: start in insert mode (so terminal is active)
+    vim.cmd('startinsert')
+end, { desc = "Run b.sh in new tab terminal" })
+
 function MoveBottomSplitToRight()
     -- Get the current window count
     local win_count = vim.fn.winnr('$')
@@ -1085,6 +1116,8 @@ vim.keymap.set('n', '<leader>b', function()
     -- Open quickfix vertically
     OpenQuickfixVertically()
 end, { desc = "Run :make and open quickfix vertically" })
+
+
 
 vim.cmd "set title"
 
