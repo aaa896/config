@@ -2,6 +2,7 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 -- This table will hold the configuration.
 local config = {}
+local wezterm = require 'wezterm'
  default_prog = {"/bin/bash"}
 
 -- In newer versions of wezterm, use the config_builder which will
@@ -39,6 +40,7 @@ config.color_scheme = 'Edge Dark (base16)'
 config.warn_about_missing_glyphs=false
 config.font = wezterm.font_with_fallback {
     'Liberation Mono',
+    'Terminus',
     'JetBrainsMono',
      'Noto Color Emoji',
 }
@@ -60,9 +62,9 @@ config.window_frame = {
 
 
 config.colors = {
-    split = '#2e282a',
+    split = '#1c150b',
 
-    cursor_bg = "#608277",
+    cursor_bg = "#617d6e",
 --#795151
 --#945E57
     --dark #3B2623
@@ -73,12 +75,31 @@ config.colors = {
     ---54393a
     --background= "858a7f",
     --351e1c
-    --47322a
-    background= "#47322a",
+    --271a16
+    --47352a
+    --271e17
+    --362417
+    --47362a
+    --473527
+    -- 463427
+    -- 33261d
+    --#291c0c
+    --#281a0b
+    --#332a1e
+    --1c150b
+    --#241c0f
+    --#291c0a
+    --#2f261e
+    --#352c1d
+    --#211c11
+    --#2f2718
+    --2e291b
+    --#1e1b05
+    background= "2e291b",
     --#7d453e
     -- #855a52
 
-    foreground = '#b08d74',
+    foreground = '#ac8a72',
 
 
 
@@ -86,16 +107,16 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#47322a",
+        background="2e291b",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "608277",
+            bg_color = "617d6e",
             -- The color of the text for the tab
-            fg_color = '#000000',
+            fg_color = '#1c150b',
         },
         inactive_tab = {
-            bg_color = "#47322a",
-            fg_color = '#8a5952',
+            bg_color = "1c150b",
+            fg_color = 'ac8a72',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
@@ -243,6 +264,7 @@ config.keys = {
 
     {
         key = '%',
+        mods = 'CTRL|ALT',
         mods = 'CTRL|SHIFT',
         action = wezterm.action_callback(function(window, pane)
             -- Read the path from /tmp/nvim_cwd
@@ -251,8 +273,10 @@ config.keys = {
                 local nvim_cwd = f:read("*all"):gsub("\n", "") -- Read and strip newline
                 f:close()
 
+                -- Split pane vertically using the read path as the working directory
                 -- Split pane horizontally using the read path as the working directory
                 window:perform_action(wezterm.action.SplitPane {
+                    direction = "Right",  -- Vertical split
                     direction = "Right",  -- Horizontal split
                     command = {
                         args = { '/bin/bash' },  -- Open the shell in the new pane
@@ -313,13 +337,6 @@ config.keys = {
 
 -- and finally, return the configuration to wezterm
 return config
-
-
-
-
-
-
-
 
 
 
