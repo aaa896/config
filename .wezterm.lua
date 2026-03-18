@@ -27,8 +27,9 @@ end)
 
 
 config.window_background_opacity = 1
+  config.text_background_opacity = 1.0
 --config.enable_tab_bar = false;
-config.enable_wayland = true;
+config.enable_wayland = false;
 --
 -- This is where you actually apply your config choices
 config.use_fancy_tab_bar=false
@@ -95,7 +96,11 @@ config.colors = {
     --#2f2718
     --2e291b
     --#1e1b05
-    background= "2e291b",
+    --2a2214
+    --#2f2018
+    --#271a12
+    --#2f2618
+    background= "#2b1f0d",
     --#7d453e
     -- #855a52
 
@@ -107,7 +112,7 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="2e291b",
+        background="#2f2618",
         active_tab = {
             -- The color of the background area for the tab
             bg_color = "617d6e",
