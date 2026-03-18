@@ -26,7 +26,7 @@ wezterm.on('split_with_nvim_cwd', function(window, pane)
 end)
 
 
-config.window_background_opacity = 1
+config.window_background_opacity = 0.93
   config.text_background_opacity = 1.0
 --config.enable_tab_bar = false;
 config.enable_wayland = false;
@@ -100,7 +100,7 @@ config.colors = {
     --#2f2018
     --#271a12
     --#2f2618
-    background= "#2b1f0d",
+    background= "#41321b",
     --#7d453e
     -- #855a52
 
@@ -112,7 +112,7 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#2f2618",
+        background="41321b00",
         active_tab = {
             -- The color of the background area for the tab
             bg_color = "617d6e",
@@ -120,8 +120,8 @@ config.colors = {
             fg_color = '#1c150b',
         },
         inactive_tab = {
-            bg_color = "1c150b",
-            fg_color = 'ac8a72',
+            bg_color = "41321b00",
+            fg_color = 'ac8a72ff',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
