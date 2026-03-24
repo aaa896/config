@@ -26,10 +26,10 @@ wezterm.on('split_with_nvim_cwd', function(window, pane)
 end)
 
 
-config.window_background_opacity = 0.95
+config.window_background_opacity = 1
   config.text_background_opacity = 1.0
 --config.enable_tab_bar = false;
-config.enable_wayland = false;
+config.enable_wayland = true;
 --
 -- This is where you actually apply your config choices
 config.use_fancy_tab_bar=false
@@ -101,8 +101,10 @@ config.colors = {
     --#271a12
     --#2f2618
     --#372c1b
+    --#4a361d
     --41311b
-    background= "#41311b",
+    --#40260c
+    background= "#29200f",
     --#7d453e
     -- #855a52
 
