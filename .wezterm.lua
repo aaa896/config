@@ -65,7 +65,7 @@ config.window_frame = {
 config.colors = {
     split = '#1c150b',
 
-    cursor_bg = "#617d6e",
+    cursor_bg = "#4c7568",
 --#795151
 --#945E57
     --dark #3B2623
@@ -87,7 +87,9 @@ config.colors = {
     --2c1608
     --#211208
     --351f19
-    background= "#2b1a0e",
+    --#4e3018
+    --#493822
+    background= "493822",
     --#7d453e
     -- #855a52
 
@@ -102,7 +104,7 @@ config.colors = {
         background="1c150b00",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "617d6e",
+            bg_color = "4c7568",
             -- The color of the text for the tab
             fg_color = '#1c150b',
         },
