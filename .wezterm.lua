@@ -26,7 +26,7 @@ wezterm.on('split_with_nvim_cwd', function(window, pane)
 end)
 
 
-config.window_background_opacity = 1
+config.window_background_opacity =1
   config.text_background_opacity = 1.0
 --config.enable_tab_bar = false;
 config.enable_wayland = true;
@@ -74,35 +74,20 @@ config.colors = {
     ---#6C4642
     ---8a5a50
     ---54393a
-    --background= "858a7f",
-    --351e1c
-    --271a16
-    --47352a
-    --271e17
-    --362417
-    --47362a
-    --473527
-    -- 463427
-    -- 33261d
-    --#291c0c
-    --#281a0b
-    --#332a1e
-    --1c150b
-    --#241c0f
-    --#291c0a
-    --#2f261e
-    --#352c1d
-    --#211c11
-    --#2f2718
-    --2e291b
-    --#1e1b05
-    --2a2214
-    --#2f2618
-    --#372c1b
-    --#4a361d
-    --41311b
-    --#40260c
-    background= "2a2214",
+    --454d32
+    --52593b
+    --light g
+    --524b2a
+    --#4a412b
+    --#49402d
+    --#331e05
+    --211103
+    --231705
+    --#3b2c20
+    --2c1608
+    --#211208
+    --351f19
+    background= "#2b1a0e",
     --#7d453e
     -- #855a52
 
