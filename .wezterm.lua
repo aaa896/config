@@ -1,71 +1,57 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
--- This table will hold the configuration.
-local config = {}
-local wezterm = require 'wezterm'
- default_prog = {"/bin/bash"}
 
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
+local config = {}
 if wezterm.config_builder then
-    config = wezterm.config_builder()
+  config = wezterm.config_builder()
 end
+
+-- Inactive pane brightness
 config.inactive_pane_hsb = {
-    saturation = 1,
-    brightness = 1
+  saturation = 1,
+  brightness = 1,
 }
 
+---------------------------------------------------------------------
+-- ENVIRONMENT: ALWAYS START CMD WITH MSVC DEV ENVIRONMENT LOADED
+---------------------------------------------------------------------
+local dev_env = {
+  "cmd.exe",
+  "/K",
+  "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\VsDevCmd.bat",
+  "-arch=x64"  
+}
 
--- Custom event to handle splitting with Neovim's working directory
-wezterm.on('split_with_nvim_cwd', function(window, pane)
-    -- Perform an action to get the working directory from Neovim
-    window:perform_action(act.SendString('echo getcwd()\n'), pane)
+config.default_prog = dev_env
 
-    -- Split horizontally using the obtained cwd (simply adding the action for split)
-    window:perform_action(act.SplitHorizontal { cwd = pane:get_current_working_dir() }, pane)
-end)
+---------------------------------------------------------------------
+-- Colors, Fonts, UI
+---------------------------------------------------------------------
+config.window_background_opacity = 1
+config.enable_tab_bar = true
+config.enable_wayland = false
 
-
-config.window_background_opacity =1
-  config.text_background_opacity = 1.0
---config.enable_tab_bar = false;
-config.enable_wayland = true;
---
--- This is where you actually apply your config choices
-config.use_fancy_tab_bar=false
+config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
----- For example, changing the color scheme:
----
+
 config.color_scheme = 'Edge Dark (base16)'
 
-config.warn_about_missing_glyphs=false
 config.font = wezterm.font_with_fallback {
-    'Liberation Mono',
-    'Terminus',
-    'JetBrainsMono',
-     'Noto Color Emoji',
+  'Liberation Mono',
 }
-
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.font_size=10.5
-config.tab_max_width = 24
-
-
-
-
+config.font_size = 9.5
+config.tab_max_width = 32
 config.show_new_tab_button_in_tab_bar = false
 
+config.window_frame = { font_size = 0.5 }
 
-config.window_frame = {
-    font_size = 10,
-
-}
-
-
+-------
+---
 config.colors = {
-    split = '#1c150b',
+    split = '#2e282a',
 
-    cursor_bg = "#617d6e",
+    cursor_bg = "617d6e",
 --#795151
 --#945E57
     --dark #3B2623
@@ -74,38 +60,14 @@ config.colors = {
     ---#6C4642
     ---8a5a50
     ---54393a
-    --454d32
-    --52593b
-    --light g
-    --524b2a
-    --#4a412b
-    --#49402d
-    --#331e05
-    --211103
-    --231705
-    --#3b2c20
-    --2c1608
-    --#211208
-    --351f19
-    --#4e3018
-    --#493822
-    --#433828
-    --#433b28
-    --#443827
-    --#4a3d2b
-    --#433a28
-    --3e3526
+    --background= "858a7f",
+    --341f18
+    --#31251c
+    --413428
+    --443726
     --#3d3424
-    --301e0a
-   -- #2d1e09
-   -- 351f19
-   -- #403726
-   -- 3d3424
-   -- 3f3726
-   -- 393121
-    background= "3d3424",
+    background= "#3b3829",
     --#7d453e
-    -- #855a52
 
     foreground = '#ac8a72',
 
@@ -115,16 +77,16 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="1c150b00",
+        background="#3b3829",
         active_tab = {
             -- The color of the background area for the tab
             bg_color = "#617d6e",
             -- The color of the text for the tab
-            fg_color = '#1c150b',
+            fg_color = '#271e17',
         },
         inactive_tab = {
-            bg_color = "1c150b00",
-            fg_color = 'ac8a72ff',
+            bg_color = "#1c150b",
+            fg_color = '#ac8a72',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
@@ -137,216 +99,134 @@ config.colors = {
 
 
 }
+------------------------------------------------------------
+-- Function: read Neovim CWD
+---------------------------------------------------------------------
+local function read_nvim_cwd()
+  local f = io.open("/tmp/nvim_cwd", "r")
+  if not f then return nil end
+  local cwd = f:read("*all")
+  f:close()
+  return cwd:gsub("\n", "")
+end
 
+---------------------------------------------------------------------
+-- Sane splits using the SAME environment (keeps cl.exe working)
+---------------------------------------------------------------------
+local function split_with_env(direction, cwd)
+  return act.SplitPane {
+    direction = direction,
+    cwd = cwd,
+    command = {
+      args = dev_env,
+      cwd = cwd,
+    },
+  }
+end
 
---end colors
+---------------------------------------------------------------------
+-- Spawns a new window with CMD + MSVC env
+---------------------------------------------------------------------
+local function spawn_with_env(cwd, script)
+  return act.SpawnCommandInNewWindow {
+    cwd = cwd,
+    args = { "cmd.exe", "/K", script },
+  }
+end
+
+---------------------------------------------------------------------
+-- Keybindings
+---------------------------------------------------------------------
 config.keys = {
-    -- activate pane selection mode with the default alphabet (labels are "a", "s", "d", "f" and so on)
-    {
-        key = '2', mods = 'CTRL',
-        action = act.PaneSelect {
-            mode="MoveToNewTab",
-        },
-    },
-    -- activate pane selection mode with numeric labels
-    {
-        key = '1',
-        mods = 'CTRL',
-        action = act.PaneSelect {
-            --alphabet = '1234567890',
-            mode = 'MoveToNewWindow',
-        },
-    },
-    -- show the pane selection mode, but have it swap the active and selected panes
-    {
-        key = '3',
-        mods = 'CTRL',
-        action = act.PaneSelect {
-            mode="Activate",
-        },
-    },
-    {
-        key = '0',
-        mods = 'CTRL',
-        action = act.PaneSelect {
-            mode = 'SwapWithActiveKeepFocus',
-        },
-    },
-    {
+  -- Pane navigation
+  { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Left') },
+  { key = 'j', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Down') },
+  { key = 'k', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Up') },
+  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection('Right') },
 
-        key = 'w',
+  -- Close
+  { key = 'w', mods = 'CTRL|SHIFT', action = act.CloseCurrentPane { confirm = true } },
 
-        mods = 'CTRL|SHIFT',
+  -- Pane selection
+  { key = '2', mods = 'CTRL', action = act.PaneSelect { mode = "MoveToNewTab" } },
+  { key = '1', mods = 'CTRL', action = act.PaneSelect { mode = "MoveToNewWindow" } },
+  { key = '3', mods = 'CTRL', action = act.PaneSelect { mode = "Activate" } },
+  { key = '0', mods = 'CTRL', action = act.PaneSelect { mode = "SwapWithActiveKeepFocus" } },
 
-        action = wezterm.action.CloseCurrentPane { confirm = true },
+  -- Split RIGHT %
+  {
+    key = '%', mods = 'CTRL|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(split_with_env("Right", cwd), pane)
+    end)
+  },
 
-    },
+  -- Split DOWN "
+  {
+    key = '"', mods = 'CTRL|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(split_with_env("Down", cwd), pane)
+    end)
+  },
 
-    {
-        key = 'F5',
-        action = wezterm.action_callback(function(window, pane)
-            -- Read the path from /tmp/nvim_cwd
-            local f = io.open("/tmp/nvim_cwd", "r")
-            if f then
-                local nvim_cwd = f:read("*all"):gsub("\n", "") -- Read and strip the newline
-                f:close()
+  -- ALT+m runs b.sh in new window (for Linux-side scripts)
+  {
+    key = 'm', mods = 'ALT',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(act.SpawnCommandInNewWindow {
+        cwd = cwd,
+        args = { './b.sh' },
+      }, pane)
+    end),
+  },
 
-                -- Spawn a new window using the read path as the working directory
-                window:perform_action(wezterm.action.SpawnCommandInNewWindow {
-                    cwd = nvim_cwd,  -- Set the working directory
-                    args = { './r.sh' },  -- Run the script
-                }, pane)
-            else
-                -- Handle the case where the file doesn't exist or can't be read
-                window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
-            end
-        end),
-    },
+  -- CTRL+m open MSVC environment + run b.sh via CMD
+  {
+    key = 'm', mods = 'CTRL',
+    action = spawn_with_env(nil, "b.sh"),
+  },
 
-    {
-      key = 'h',
-      mods = 'CTRL|SHIFT',
-      action = wezterm.action.ActivatePaneDirection('Left'),
-    },
-    {
-      key = 'j',
-      mods = 'CTRL|SHIFT',
-      action = wezterm.action.ActivatePaneDirection('Down'),
-    },
-    {
-      key = 'k',
-      mods = 'CTRL|SHIFT',
-      action = wezterm.action.ActivatePaneDirection('Up'),
-    },
-    {
-      key = 'l',
-      mods = 'CTRL|SHIFT',
-      action = wezterm.action.ActivatePaneDirection('Right'),
-    },
+  -- Run r.sh from NVIM cwd
+  {
+    key = 'F5',
+    action = wezterm.action_callback(function(window, pane)
+      local cwd = read_nvim_cwd()
+      if not cwd then
+        window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
+        return
+      end
+      window:perform_action(act.SpawnCommandInNewWindow {
+        cwd = cwd,
+        args = { './r.sh' },
+      }, pane)
+    end)
+  },
 
-    {
-        key = 'm',
-        mods = 'ALT',
-        action = wezterm.action_callback(function(window, pane)
-            -- Read the path from /tmp/nvim_cwd
-            local f = io.open("/tmp/nvim_cwd", "r")
-            if f then
-                local nvim_cwd = f:read("*all"):gsub("\n", "") -- Read and strip the newline
-                f:close()
+  -- CTRL+F5: run r.sh with the MSVC CMD environment
+  {
+    key = 'F5', mods = 'CTRL',
+    action = spawn_with_env(nil, "r.sh")
+  },
 
-                -- Spawn a new window using the read path as the working directory
-                window:perform_action(wezterm.action.SpawnCommandInNewWindow {
-                    cwd = nvim_cwd,  -- Set the working directory
-                    args = { './b.sh' },  -- Run the script
-                }, pane)
-            else
-                -- Handle the case where the file doesn't exist or can't be read
-                window:toast_notification("Error", "m alt Could not read /tmp/nvim_cwd", nil, 5000)
-            end
-        end),
-    },
-
-    {
-        key = 'm',
-        mods = 'CTRL',
-        action = wezterm.action.SpawnCommandInNewWindow {
-            args = { 
-                --          '/bin/bash',        -- The shell program
-                --         '-c',               -- Option to run a command string
-                './b.sh', -- exec /bin/bash'  -- Command string: run the script and start a new shell
-            },
-        },
-    },
-
-    {
-        key = 'F5',
-        mods = 'CTRL',
-        action = wezterm.action.SpawnCommandInNewWindow {
-            args = { 
-                --          '/bin/bash',        -- The shell program
-                --         '-c',               -- Option to run a command string
-                './r.sh', -- exec /bin/bash'  -- Command string: run the script and start a new shell
-            },
-        },
-    },
-
-    {
-        key = '%',
-        mods = 'CTRL|ALT',
-        mods = 'CTRL|SHIFT',
-        action = wezterm.action_callback(function(window, pane)
-            -- Read the path from /tmp/nvim_cwd
-            local f = io.open("/tmp/nvim_cwd", "r")
-            if f then
-                local nvim_cwd = f:read("*all"):gsub("\n", "") -- Read and strip newline
-                f:close()
-
-                -- Split pane vertically using the read path as the working directory
-                -- Split pane horizontally using the read path as the working directory
-                window:perform_action(wezterm.action.SplitPane {
-                    direction = "Right",  -- Vertical split
-                    direction = "Right",  -- Horizontal split
-                    command = {
-                        args = { '/bin/bash' },  -- Open the shell in the new pane
-                        cwd = nvim_cwd,  -- Set the working directory
-                    },
-                    top_level = false, -- Create a new top-level window for the command
-                }, pane)
-            else
-                window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
-            end
-        end),
-    },
-
-    {
-        key = '"',
-        mods = 'CTRL|SHIFT',
-        action = wezterm.action_callback(function(window, pane)
-            -- Read the path from /tmp/nvim_cwd
-            local f = io.open("/tmp/nvim_cwd", "r")
-            if f then
-                local nvim_cwd = f:read("*all"):gsub("\n", "") -- Read and strip newline
-                f:close()
-
-                -- Split pane horizontally using the read path as the working directory
-                window:perform_action(wezterm.action.SplitPane {
-                    direction = "Down",  -- Horizontal split
-                    command = {
-                        args = { '/bin/bash' },  -- Open the shell in the new pane
-                        cwd = nvim_cwd,  -- Set the working directory
-                    },
-                    top_level = false, -- Create a new top-level window for the command
-                }, pane)
-            else
-                window:toast_notification("Error", "Could not read /tmp/nvim_cwd", nil, 5000)
-            end
-        end),
-    },
-
-
-   -- Move tab left
-    {
-      key = "PageUp",
-      mods = "CTRL|SHIFT",
-      action = wezterm.action.MoveTabRelative(-1),
-    },
-    -- Move tab right
-    {
-      key = "PageDown",
-      mods = "CTRL|SHIFT",
-      action = wezterm.action.MoveTabRelative(1),
-    },
-
-
-  { key = 'F9', mods = 'ALT', action = wezterm.action.ShowTabNavigator },
-
-
+  -- Tab movement
+  { key = "PageUp", mods = "CTRL|SHIFT", action = act.MoveTabRelative(-1) },
+  { key = "PageDown", mods = "CTRL|SHIFT", action = act.MoveTabRelative(1) },
 }
 
--- and finally, return the configuration to wezterm
 return config
-
-
-
-
 
