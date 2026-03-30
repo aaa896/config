@@ -103,7 +103,7 @@ config.colors = {
    -- 3d3424
    -- 3f3726
    -- 393121
-    background= "#3d362b",
+    background= "#332018",
     --#7d453e
     -- #855a52
 
