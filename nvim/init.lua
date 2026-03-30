@@ -246,6 +246,16 @@ end
                 },
 
             },
+
+            {
+                "mason-org/mason-lspconfig.nvim",
+                opts = {},
+                dependencies = {
+                    { "mason-org/mason.nvim", opts = {} },
+                    "neovim/nvim-lspconfig",
+                },
+            },
+
             {
                 'mason-org/mason.nvim',
                 opts = {},
@@ -625,26 +635,26 @@ vim.api.nvim_set_hl(0, 'TSString', { fg = '#949959', bg = NONE })
 vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#949959', bg = NONE })
 vim.api.nvim_set_hl(0, '@number', { fg = '#949959', bg = NONE })
 ---white
-vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#ac8a72', bg = none })
-vim.api.nvim_set_hl(0, '@variable', { fg = '#ac8a72', bg = NONE })
+vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#a88871', bg = none })
+vim.api.nvim_set_hl(0, '@variable', { fg = '#a88871', bg = NONE })
 --vim.api.nvim_set_hl(0, '@type.c', { fg = '#b04f4f', bg = none })
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#b04f4f', bg = none })
 --vim.api.nvim_set_hl(0, '@type.c', { fg = '#bd6151', bg = none })
 --vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#bd6151', bg = none })
 
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#ac8a72', bg = none })
-vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#ac8a72', bg = none })
-vim.api.nvim_set_hl(0, '@constant', { fg = '#ac8a72', bg = NONE })
-vim.api.nvim_set_hl(0, '@operator', { fg = '#ac8a72', bg = NONE })
-vim.api.nvim_set_hl(0, '@property', { fg = '#ac8a72', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#ac8a72', bg = NONE })
-vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#ac8a72', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#ac8a72', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#ac8a72' })
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#ac8a72', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#ac8a72', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#ac8a72', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#ac8a72', bg = NONE, bold = false })
+--vim.api.nvim_set_hl(0, '@type.c', { fg = '#a88871', bg = none })
+vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#a88871', bg = none })
+vim.api.nvim_set_hl(0, '@constant', { fg = '#a88871', bg = NONE })
+vim.api.nvim_set_hl(0, '@operator', { fg = '#a88871', bg = NONE })
+vim.api.nvim_set_hl(0, '@property', { fg = '#a88871', bg = NONE })
+vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#a88871', bg = NONE })
+vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#a88871', bg = NONE })
+vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#a88871', bg = NONE })
+vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#a88871' })
+vim.api.nvim_set_hl(0, 'TSError', { fg = '#a88871', bg = '#9d0006', bold = false })
+vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#a88871', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#a88871', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#a88871', bg = NONE, bold = false })
 --red
 vim.api.nvim_set_hl(0, 'TSType', { fg = '#bd6151', bold = false, bg = '#463f3a' })
 vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#bd6151', bg = NONE, bold = false })
@@ -688,7 +698,7 @@ vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#b3804d', bg = NONE, bold = false })
 -- %d
 --
 --unmatched brackets..
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#ac8a72', bg = '#9d0006', bold = false })
+vim.api.nvim_set_hl(0, 'TSError', { fg = '#a88871', bg = '#9d0006', bold = false })
 vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#bd8c57', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#b3804d', bg = NONE, bold = false })
 
@@ -705,11 +715,11 @@ vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#83c092', reverse = true, bg = 
 --normal colors
 
 ---- Set the background and text color for normal text
-vim.api.nvim_set_hl(0, 'Normal', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
+vim.api.nvim_set_hl(0, 'Normal', { fg = '#a88871', bg = NONE })  -- Dark background, light text
 vim.api.nvim_set_hl(0, 'Comment', { fg = '#472f2f', bg = '#54615B' })  -- Dark background, light text
 
-vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#ac8a72', bg = NONE })  -- Dark background, light text
+vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#a88871', bg = NONE })  -- Dark background, light text
+--vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#a88871', bg = NONE })  -- Dark background, light text
 --void, int
 vim.api.nvim_set_hl(0, 'Type', { fg = '#b04f4f', bold = false, bg = '#463f3a' })    
 vim.api.nvim_set_hl(0, 'Type', { fg = '#bd6151', bold = false, bg = '#463f3a' })    
@@ -724,15 +734,15 @@ vim.api.nvim_set_hl(0, 'Statement', { fg = '#bd8c57', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Statement', { fg = '#b3804d', bg = NONE, bold = false })    -- Example: cyan color for statements
 
 -- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#8d748f', bg = NONE })  
+vim.api.nvim_set_hl(0, 'String', { fg = '#9b7893', bg = NONE })  
 
 -- Highlight for numbers
 vim.api.nvim_set_hl(0, 'Number', { fg = '#a7c080', bg =  NONE})  
 vim.api.nvim_set_hl(0, 'Number', { fg = '#949959', bg =  NONE})  
 
 
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#2c180c', bg = '#617d6e' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#2c180c', bg = '#876a3d' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#29200e', bg = '#617d6e' })  -- Dark text on light background
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#29200e', bg = '#876a3d' }) -- For non-current windows
 
 
 
@@ -754,31 +764,31 @@ vim.api.nvim_set_hl(0, 'Operator', { fg = '#bd8c57', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Operator', { fg = '#b3804d', bg = NONE, bold = false })
 
 -- %d
-vim.api.nvim_set_hl(0, 'Special', { fg = '#ac8a72', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, 'Special', { fg = '#a88871', bg = NONE, bold = false })
 --
 --unmatched brackets..
-vim.api.nvim_set_hl(0, 'Error', { fg = '#ac8a72', bg = '#9d0006', bold = false })
+vim.api.nvim_set_hl(0, 'Error', { fg = '#a88871', bg = '#9d0006', bold = false })
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#bd8c57', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#b3804d', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#617d6e', reverse = false,  bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#7a847a', reverse = false,  bg = 'NONE', italic = false, bold = false})
 
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#705e4b' })
 
-vim.cmd[[highlight CursorLineNr  guifg=#ac8a72]]
+vim.cmd[[highlight CursorLineNr  guifg=#a88871]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#4d3219]]
-vim.api.nvim_set_hl(0, "CursorLine", {
-    underline = true,
-    bg = "NONE",
-    sp = "#aa6627",
-})
---vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
+--vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#4d3219]]
+
+vim.api.nvim_set_hl(0, "CursorLine", { underline = false, bg = "#572c21", sp = "NONE", })
+
+
+
+--vim.cmd[[highlight CursorLine  cterm=NONE ctermbg=NONE guibg=#5e3731]]
 --
 vim.o.cursorline = true
 
@@ -804,7 +814,7 @@ vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3
 --pink
 --
 vim.api.nvim_set_hl(0, '@function.call', { fg = '#b36f7a', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@constant.c', { fg = '#b36f7a', bg = NONE, bold = false })
+vim.api.nvim_set_hl(0, '@constant.c', { fg = '#a88871', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#b36f7a', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Function', { fg = '#b36f7a', bg = NONE, bold = false })
 
