@@ -101,9 +101,14 @@ config.colors = {
    -- 351f19
    -- #403726
    -- 3d3424
-   -- 3f3726
    -- 393121
-    background= "#3b261a",
+   --2b190d
+   --#443a27
+   --#413725
+   --2c271c
+   --#403321
+   --281c03
+    background= "#3d3425",
     --#7d453e
     -- #855a52
 
@@ -120,7 +125,7 @@ config.colors = {
             -- The color of the background area for the tab
             bg_color = "#617d6e",
             -- The color of the text for the tab
-            fg_color = '#1c150b',
+            fg_color = '#000000',
         },
         inactive_tab = {
             bg_color = "1c150b00",
