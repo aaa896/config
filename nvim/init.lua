@@ -1,3 +1,5 @@
+local last_program = nil
+local last_args = nil
 vim.opt.background = "light"
 
 vim.opt.termguicolors =true
@@ -332,7 +334,7 @@ vim.opt.shellcmdflag = '-lc'
         local ui = require("dapui")
         local dap_virtual_text = require("nvim-dap-virtual-text")
 
-        -- Dap Virtual Text
+        -- dap virtual text
         dap_virtual_text.setup()
 
         mason_dap.setup({
@@ -345,7 +347,7 @@ vim.opt.shellcmdflag = '-lc'
             },
         })
 
-        -- Configurations
+        -- configurations
         dap.configurations = {
             c = {
                 {
@@ -353,8 +355,21 @@ vim.opt.shellcmdflag = '-lc'
                     type = "cppdbg",
                     request = "launch",
                     program = function()
-                        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-                    end,
+    if last_program then
+        return last_program
+    end
+    last_program = vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    return last_program
+end,
+
+args = function()
+    if last_args then
+        return last_args
+    end
+    local input = vim.fn.input("Arguments: ")
+    last_args = vim.split(input, " ")
+    return last_args
+end,
                     cwd = "${workspaceFolder}",
                     stopAtEntry = false,
                     MIMode = "gdb",
@@ -394,7 +409,7 @@ vim.api.nvim_set_hl(0, "DapStopped", {
 })
 
 vim.api.nvim_set_hl(0, "DapStoppedLine", {
-    bg = "#a3caa8", -- 👈 this will now actually apply
+    bg = "#a3caa8",
 })
 
  --       vim.fn.sign_define("DapStopped", { text = "" })
@@ -418,6 +433,17 @@ vim.api.nvim_set_hl(0, "DapStoppedLine", {
             --ui.close()
         end
 
+
+
+vim.keymap.set("n", "<F6>", function()
+    require("dap").run_last()
+end, { desc = "DAP: Run last" })
+vim.keymap.set("n", "<F7>", function()
+    last_program = nil
+    last_args = nil
+    require("dap").run(require("dap").configurations.c[1])
+end, { desc = "DAP: Run with new args" })
+
  local wk = require("which-key")       -- WhichKey Keymaps 
  wk.add({
         {
@@ -437,6 +463,20 @@ vim.api.nvim_set_hl(0, "DapStoppedLine", {
                 nowait = true,
                 remap = false,
             },
+    {
+        "<leader>dbc",
+        function()
+            require("dap").clear_breakpoints()
+        end,
+        desc = "Clear all breakpoints",
+    },
+    {
+    "<leader>dbl",
+    function()
+        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+    end,
+    desc = "Log breakpoint",
+},
             {
                 "<leader>dc",
                 function()
@@ -446,6 +486,26 @@ vim.api.nvim_set_hl(0, "DapStoppedLine", {
                 nowait = true,
                 remap = false,
             },
+
+    {
+        "<leader>dd",
+        function()
+            require("dap").run_last()
+        end,
+        desc = "Run last",
+    },
+
+    {
+        "<leader>dr",
+        function()
+            last_program = nil
+            last_args = nil
+            require("dap").run(require("dap").configurations.c[1])
+        end,
+        desc = "Run with new args",
+    },
+
+
             {
                 "<leader>di",
                 function()
@@ -473,15 +533,15 @@ vim.api.nvim_set_hl(0, "DapStoppedLine", {
                 nowait = true,
                 remap = false,
             },
-            {
-                "<leader>dr",
-                function()
-                    require("dap").repl.open()
-                end,
-                desc = "Open REPL",
-                nowait = true,
-                remap = false,
-            },
+            --{
+            --    "<leader>dr",
+            --    function()
+            --        require("dap").repl.open()
+            --    end,
+            --    desc = "Open REPL",
+            --    nowait = true,
+            --    remap = false,
+            --},
             {
                 "<leader>dl",
                 function()
@@ -1178,6 +1238,20 @@ vim.keymap.set('n', '<A-b>', function()
     -- Optional: start in insert mode (so terminal is active)
     vim.cmd('startinsert')
 end, { desc = "Run b.sh in new tab terminal" })
+
+
+vim.o.makeprg = "./r.sh"
+vim.keymap.set('n', '<A-n>', function()
+    -- Open a new tab
+    vim.cmd('tabnew')
+
+    -- Open a terminal running your script
+    vim.cmd('terminal ./r.sh')
+
+    -- Optional: start in insert mode (so terminal is active)
+    vim.cmd('startinsert')
+end, { desc = "Run r.sh in new tab terminal" })
+
 
 function MoveBottomSplitToRight()
     -- Get the current window count
