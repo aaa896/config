@@ -66,7 +66,7 @@ config.colors = {
     --413428
     --443726
     --#3d3424
-    background= "#3b3829",
+    background= "#26221e",
     --#7d453e
 
     foreground = '#ac8a72',
@@ -77,7 +77,7 @@ config.colors = {
         -- The color of the strip that goes along the top of the window
         -- (does not apply when fancy tab bar is in use)
         --
-        background="#3b3829",
+        background="#26221e",
         active_tab = {
             -- The color of the background area for the tab
             bg_color = "#617d6e",
