@@ -772,7 +772,7 @@ vim.api.nvim_set_hl(0, 'Number', { fg = '#7f955b', bg =  NONE})
 
 
 vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#2c180c', bg = '#617d6e' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#2c180c', bg = '#856342' }) -- For non-current windows
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#2c180c', bg = '#705634' }) -- For non-current windows
 
 
 
@@ -801,17 +801,17 @@ vim.api.nvim_set_hl(0, 'Error', { fg = '#ac8a72', bg = '#9d0006', bold = false }
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#bd8c57', bg = NONE, bold = false })
 vim.api.nvim_set_hl(0, 'Identifier', { fg = '#b3804d', bg = NONE, bold = false })
 
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#8f5a39', reverse = false,  bg = 'NONE', italic = false, bold = false})
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#634d41', reverse = false,  bg = 'NONE', italic = false, bold = false})
 
 
 
 -- Set the color of normal line numbers
 
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = '#211c11' })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#574233', bg = 'NONE' })
 vim.cmd[[highlight CursorLineNr ctermfg=Yellow guifg=#ac8a72]]
 vim.o.number = true
 --vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
-vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#402011]]
+vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#452f22]]
 --vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#7d3e34]]
 vim.o.cursorline = true
 
