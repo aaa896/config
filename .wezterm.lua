@@ -1,3 +1,4 @@
+
 local wezterm = require 'wezterm'
 local act = wezterm.action
 -- This table will hold the configuration.
@@ -65,7 +66,7 @@ config.window_frame = {
 config.colors = {
     split = '#1c150b',
 
-    cursor_bg = "#617d6e",
+    cursor_bg = "#c18c8e",
 --#795151
 --#945E57
     --dark #3B2623
@@ -107,11 +108,11 @@ config.colors = {
    --#413725
    --2c271c
    --#121212
-    background= "#2f2a22",
+    background= "#f7f7f7",
     --#7d453e
     -- #855a52
 
-    foreground = '#ac8a72',
+    foreground = '#444444',
 
 
 
@@ -122,13 +123,13 @@ config.colors = {
         background="1c150b00",
         active_tab = {
             -- The color of the background area for the tab
-            bg_color = "#617d6e",
+            bg_color = "#a1c4d0",
             -- The color of the text for the tab
-            fg_color = '#000000',
+            fg_color = '#444444',
         },
         inactive_tab = {
             bg_color = "1c150b00",
-            fg_color = 'ac8a72ff',
+            fg_color = '444444',
 
             -- The same options that were listed under the `active_tab` section above
             -- can also be used for `inactive_tab`.
@@ -349,6 +350,7 @@ config.keys = {
 
 -- and finally, return the configuration to wezterm
 return config
+
 
 
 
