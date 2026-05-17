@@ -1,1456 +1,351 @@
-local last_program = nil
-local last_args = nil
-vim.opt.background = "light"
-
-vim.opt.termguicolors =true
--- Ensure true color is supported
-
--- Clear background highlights
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-
-
-vim.opt.shell = 'bash'
-
-vim.opt.shellcmdflag = '-lc'
-
---vim.opt.list = true
---vim.opt.listchars = {
-    --  space = "·",
-    ----  eol = "$",
-    --  tab = ">-",
-    --  trail = "·",
-    --  nbsp = "%"
-    --}
-
-
-
-    -- ~/.config/nvim/init.lua
-    -- Do not set any colorscheme or custom highlights
-    -- This ensures Neovim uses the terminal's colors
-    vim.cmd("set relativenumber")
-    vim.g.mapleader = " "
-
-    vim.api.nvim_set_keymap('n', '<C-x><C-f>', ':tcd ', { noremap = true, silent = true })
-
-    vim.keymap.set("n", "<leader>pv", function()
-        vim.opt.splitbelow = true
-        vim.cmd("split");
-        vim.cmd("Oil")
-        vim.cmd("set relativenumber")
-    end)
-
-    vim.keymap.set("n", "<leader>ps", function()
-        vim.cmd("vsplit");
-        vim.cmd("Oil")
-        vim.cmd("set relativenumber")
-    end)
-
-    vim.api.nvim_set_keymap('n', '<C-F5>', ':! ./r.sh<CR>', { noremap = true, silent = false })
-    vim.api.nvim_set_keymap('n', '<leader>D', ':!pwd > /tmp/nvim_cwd<CR>', { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>gf", function()
-        vim.fn.jobstart({"/home/shabbeer/apps/gf/gf2" })
-
-    end)
-
-    vim.o.autoread = true
-    vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "FocusGained"}, {
-        command = "checktime",
-    })
-
-
-    vim.api.nvim_set_keymap('n', '<leader>n', ':noh<CR>', { noremap = true, silent = true })
-    -- Close the current split
-    --vim.api.nvim_set_keymap('n', '<leader>q', ':q<CR>', { noremap = true, silent = true })
-    -- Move to the next split
-    vim.api.nvim_set_keymap('n', '<leader>sn', ':wincmd w<CR>', { noremap = true, silent = true })
-
-    -- Move to the previous split
-    vim.api.nvim_set_keymap('n', '<leader>sp', ':wincmd p<CR>', { noremap = true, silent = true })
-
-    -- Function to center the screen around the cursor
-    function _G.center_cursor()
-        vim.cmd('normal! zz')
-    end
-
-    --For ctrl a/e end and start
-    -- Normal mode mappings
-    vim.keymap.set('n', '<C-e>', '$', { noremap = true, silent = true })
-    vim.keymap.set('n', '<C-a>', '^', { noremap = true, silent = true })
-
-    vim.keymap.set('v', '<C-e>', '$', { noremap = true, silent = true })
-    vim.keymap.set('v', '<C-a>', '^', { noremap = true, silent = true })
-
-    -- Insert mode mappings
-    vim.keymap.set('i', '<C-e>', '<C-o>$', { noremap = true, silent = true })
-    vim.keymap.set('i', '<C-a>', '<C-o>^', { noremap = true, silent = true })
-
-
-    -- Move selected lines down with Ctrl+j
-    vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-
-    -- Move selected lines up with Ctrl+k
-    vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
-
-
-
-    -- Define a variable to track the state of the recenter cycle
-    vim.keymap.set('n', '<C-l>', 'zz', { noremap = true, silent = true })
-
-
-
-
-
-
-
-
-
-
-    vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'netrw',
-        callback = function()
-
-            -- Mapping for running file under cursor after changing directory
-            vim.api.nvim_buf_set_keymap(0, 'n', 'J', ':lua vim.cmd("cd " .. vim.fn.expand("%:p:h"))<CR>:lua RunFileUnderCursorInNetrw()<CR>', { noremap = true, silent = true })
-        end
-    })
-
-
-    -- Function to run file under the cursor
-    function RunFileUnderCursorInNetrw()
-        -- Get the file under the cursor in netrw
-        local file = vim.fn.expand('<cfile>') 
-        if file ~= "" then
-            vim.cmd('!./' .. vim.fn.fnameescape(file))
-        else
-            print("No file selected or invalid file")
-        end
-    end
-
-    local function execute_file()
-        local cursor_line = vim.fn.line('.')
-        local file = vim.fn.getline(cursor_line)
-        print("Raw File Path: " .. file)  -- Debug print statement
-        file = vim.fn.fnamemodify(file, ':p')  -- Convert to absolute path
-        print("Absolute File Path: " .. file)  -- Debug print statement
-
-        -- Remove wildcards and ensure the file path is correct
-        file = vim.fn.expand(file)
-
-        -- Ensure the file exists before running the command
-        if vim.fn.filereadable(file) == 1 then
-            local cmd = '! ./' .. vim.fn.shellescape(file)
-            print("Command: " .. cmd)  -- Debug print statement
-            vim.cmd(cmd)  -- Execute the command
-        else
-            print("File not found: " .. file)
-        end
-    end
-
-    --function _G.MyTabLine()
-        --  local s = ''
-        --  for i = 1, vim.fn.tabpagenr('$') do
-        --    local current = vim.fn.tabpagenr() == i and '%#TabLineSel#' or '%#TabLine#'
-        --    local tab_name = (vim.fn.tabpagebuflist(i)[1] ~= -1 and vim.fn.expand('%:p:h') or '')
-        --    s = s .. current .. ' ' .. tab_name .. ' '
-        --  end
-        --  return s
-        --end
-
-
-        vim.g.netrw_liststyle = 1
-        vim.g.netrw_banner = 0
-
-
-        vim.opt.nu = true
-        vim.opt.relativenumber = true
-        vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
-        vim.opt.wrap = false
-
-
-
-        --crtrl in insert to move
-        vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', { noremap = true, silent = true })
-
-
-
-        vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('i', '<C-l>', '<Right>', { noremap = true, silent = true })
-
-        -- Remap arrow keys for scrolling
-        vim.api.nvim_set_keymap('n', '<Up>', '<C-y>', { noremap = true, silent = true })
-        vim.api.nvim_set_keymap('n', '<Down>', '<C-e>', { noremap = true, silent = true })
-        -- Scroll screen horizontally with Left and Right arrow keys
-        vim.keymap.set('n', '<Left>', 'zh', { noremap = true, silent = true })
-        vim.keymap.set('n', '<Right>', 'zl', { noremap = true, silent = true })
-
-
-
-
-
-
-
-
-
-
-
-
-
-        -- LAZY.NVIM-----------------------------------------------------------------------------------------------------------
-        -- Bootstrap lazy.nvim
-        local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-        if not (vim.uv or vim.loop).fs_stat(lazypath) then
-            local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-            local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-            if vim.v.shell_error ~= 0 then
-                vim.api.nvim_echo({
-                    { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-                    { out, "WarningMsg" },
-                    { "\nPress any key to exit..." },
-                }, true, {})
-                vim.fn.getchar()
-                os.exit(1)
-            end
-        end
-        vim.opt.rtp:prepend(lazypath)
-
-        -- Make sure to setup mapleader and maplocalleader before
-        -- loading lazy.nvim so that mappings are correct.
-        -- This is also a good place to setup other settings (vim.opt)
-        vim.g.mapleader = " "
-        vim.g.maplocalleader = " "
-
-        -- Setup lazy.nvim
-
-        require("lazy").setup({
-            spec = {
-                -- Telescope
-                {
-                    'nvim-telescope/telescope.nvim',
-                    tag = '0.1.8',
-                    dependencies = { 'nvim-lua/plenary.nvim' }
-                },
-                {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-  },
-  keys = {
-    {
-      "<leader>?",
-      function()
-        require("which-key").show({ global = false })
-      end,
-      desc = "Buffer Local Keymaps (which-key)",
-    },
-  },
-},
-
-                -- Treesitter
-                {
-                    'nvim-treesitter/nvim-treesitter',
-                },
-
-                {
-                    "mason-org/mason-lspconfig.nvim",
-                    opts = {},
-                    dependencies = {
-                        { "mason-org/mason.nvim", opts = {} },
-                        "neovim/nvim-lspconfig",
-                    },
-                },
-                {
-                    "mfussenegger/nvim-dap",
-                    event = "VeryLazy",
-                    dependencies = {
-                        "rcarriga/nvim-dap-ui",
-                        "nvim-neotest/nvim-nio",
-                        "jay-babu/mason-nvim-dap.nvim",
-                        "theHamsta/nvim-dap-virtual-text",
-                    },
-                },
-
-
-
-
-                {
-                    'stevearc/oil.nvim',
-                    ---@module 'oil'
-                    ---@type oil.SetupOpts
-                    opts = {},
-                    -- Optional dependencies
-                    dependencies = { { "echasnovski/mini.icons", opts = {} } },
-                    --dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-                },
-
-                {
-                    'mbbill/undotree',
-                },
-                {
-                    "lervag/vimtex",
-                    lazy = false,     -- we don't want to lazy load VimTeX
-                    -- tag = "v2.15", -- uncomment to pin to a specific release
-                    init = function()
-                        -- VimTeX configuration goes here, e.g.
-                        vim.g.vimtex_view_method = "zathura"
-                    end
-                },
-
-
-                {
-                    "kylechui/nvim-surround",
-                    version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
-                    event = "VeryLazy",
-                    config = function()
-                        require("nvim-surround").setup({
-                            -- Configuration here, or leave empty to use defaults
-                        })
-                    end
-                },
-                {
-                    "mg979/vim-visual-multi",
-                },
-                {
-                    'adelarsq/image_preview.nvim',
-                    event = 'VeryLazy',
-                    config = function()
-                        require("image_preview").setup()
-                    end
-                },
-
-
-            },
-
-            -- Optional Lazy settings
-            checker = { enabled = false },
-        })
-
-        local mason_dap = require("mason-nvim-dap")
-        local dap = require("dap")
-        local ui = require("dapui")
-        local dap_virtual_text = require("nvim-dap-virtual-text")
-
-        -- dap virtual text
-        dap_virtual_text.setup()
-
-        mason_dap.setup({
-            ensure_installed = { "cppdbg" },
-            automatic_installation = true,
-            handlers = {
-                function(config)
-                    require("mason-nvim-dap").default_setup(config)
-                end,
-            },
-        })
-
-        -- configurations
-        dap.configurations = {
-            c = {
-                {
-                    name = "Launch file",
-                    type = "cppdbg",
-                    request = "launch",
-                    program = function()
-    if last_program then
-        return last_program
-    end
-    last_program = vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-    return last_program
-end,
-
-args = function()
-    if last_args then
-        return last_args
-    end
-    local input = vim.fn.input("Arguments: ")
-    last_args = vim.split(input, " ")
-    return last_args
-end,
-                    cwd = "${workspaceFolder}",
-                    stopAtEntry = false,
-                    MIMode = "gdb",
-                    MIDebuggerPath = "/usr/bin/gdb",
-                },
-                {
-                    name = "Attach to gdb :1234",
-                    type = "cppdbg",
-                    request = "launch",
-                    MIMode = "gdb",
-                    miDebuggerServerAddress = "localhost:1234",
-                    miDebuggerPath = "/usr/bin/gdb",
-                    cwd = "${workspaceFolder}",
-                    program = function()
-                        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-                    end,
-                },
-            },
-        }
-
-        -- Dap UI
-
-        ui.setup()
-
-
-
-vim.fn.sign_define("DapBreakpoint", { text = "🐞" })
-
-vim.fn.sign_define("DapStopped", {
-    text = "",
-    --texthl = "DapStopped",
-    linehl = "DapStoppedLine",
-})
-
-vim.api.nvim_set_hl(0, "DapStopped", {
-    fg = "#000000", -- icon color (optional)
-})
-
-vim.api.nvim_set_hl(0, "DapStoppedLine", {
-    bg = "#a3caa8",
-})
-
- --       vim.fn.sign_define("DapStopped", { text = "" })
- --       vim.api.nvim_set_hl(0, "DapStopped", { bg = "#8aa68e" })
- --       vim.api.nvim_set_hl(0, "DapStoppedLine", {
- --           bg = "#8aa68e",
- --       })
- --       vim.fn.sign_define("DapBreakpoint", { text = "🐞" })
-
-
-        dap.listeners.before.attach.dapui_config = function()
-            ui.open()
-        end
-        dap.listeners.before.launch.dapui_config = function()
-            ui.open()
-        end
-        dap.listeners.before.event_terminated.dapui_config = function()
-            --ui.close()
-        end
-        dap.listeners.before.event_exited.dapui_config = function()
-            --ui.close()
-        end
-
-
-
-vim.keymap.set("n", "<F6>", function()
-    require("dap").run_last()
-end, { desc = "DAP: Run last" })
-vim.keymap.set("n", "<F7>", function()
-    last_program = nil
-    last_args = nil
-    require("dap").run(require("dap").configurations.c[1])
-end, { desc = "DAP: Run with new args" })
-
- local wk = require("which-key")       -- WhichKey Keymaps 
- wk.add({
-        {
-            -- Debugger
-            {
-                "<leader>d",
-                group = "Debugger",
-                nowait = true,
-                remap = false,
-            },
-            {
-                "<leader>dt",
-                function()
-                    require("dap").toggle_breakpoint()
-                end,
-                desc = "Toggle Breakpoint",
-                nowait = true,
-                remap = false,
-            },
-    {
-        "<leader>dbc",
-        function()
-            require("dap").clear_breakpoints()
-        end,
-        desc = "Clear all breakpoints",
-    },
-    {
-    "<leader>dbl",
-    function()
-        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-    end,
-    desc = "Log breakpoint",
-},
-            {
-                "<leader>dc",
-                function()
-                    require("dap").continue()
-                end,
-                desc = "Continue",
-                nowait = true,
-                remap = false,
-            },
-
-    {
-        "<leader>dd",
-        function()
-            require("dap").run_last()
-        end,
-        desc = "Run last",
-    },
-
-    {
-        "<leader>dr",
-        function()
-            last_program = nil
-            last_args = nil
-            require("dap").run(require("dap").configurations.c[1])
-        end,
-        desc = "Run with new args",
-    },
-
-
-            {
-                "<leader>di",
-                function()
-                    require("dap").step_into()
-                end,
-                desc = "Step Into",
-                nowait = true,
-                remap = false,
-            },
-            {
-                "<leader>do",
-                function()
-                    require("dap").step_over()
-                end,
-                desc = "Step Over",
-                nowait = true,
-                remap = false,
-            },
-            {
-                "<leader>du",
-                function()
-                    require("dap").step_out()
-                end,
-                desc = "Step Out",
-                nowait = true,
-                remap = false,
-            },
-            --{
-            --    "<leader>dr",
-            --    function()
-            --        require("dap").repl.open()
-            --    end,
-            --    desc = "Open REPL",
-            --    nowait = true,
-            --    remap = false,
-            --},
-            {
-                "<leader>dl",
-                function()
-                    require("dap").run_last()
-                end,
-                desc = "Run Last",
-                nowait = true,
-                remap = false,
-            },
-            {
-                "<leader>dq",
-                function()
-                    require("dap").terminate()
-                    --require("dapui").close()
-                    --require("nvim-dap-virtual-text").toggle()
-                end,
-                desc = "Terminate",
-                nowait = true,
-                remap = false,
-            },
-            {
-    "<leader>dui",
-    function()
-        require("dapui").toggle()
-    end,
-    desc = "Toggle DAP UI",
-    nowait = true,
-    remap = false,
-},
-            {
-                "<leader>db",
-                function()
-                    require("dap").list_breakpoints()
-                end,
-                desc = "List Breakpoints",
-                nowait = true,
-                remap = false,
-            },
-            {
-                "<leader>de",
-                function()
-                    require("dap").set_exception_breakpoints({ "all" })
-                end,
-                desc = "Set Exception Breakpoints",
-                nowait = true,
-                remap = false,
-            },
-        }
-    })
-
-
-
-
-
-
-
-
-
-
-
-
-        -- This is necessary for VimTeX to load properly. The "indent" is optional.
-        -- Note: Most plugin managers will do this automatically!
-        --!!!!filetype plugin indent on
-
-        -- This enables Vim's and neovim's syntax-related features. Without this, some
-        -- VimTeX features will not work (see ":help vimtex-requirements" for more
-        -- info).
-        -- Note: Most plugin managers will do this automatically!
-        --!!!syntax enable
-
-        -- Viewer options: One may configure the viewer either by specifying a built-in
-        -- viewer method:
-        vim.g.vimtex_view_method = 'zathura'
-        vim.g.vimtex_compiler_method = 'latexmk'  -- Switch to latexmk if latexrun is not working
-
-        -- Or with a generic interface:
-        vim.g.vimtex_view_general_viewer = 'okular'
-        vim.g.vimtex_view_general_options = '--unique file:@pdf#src:@line@tex'
-
-        -- VimTeX uses latexmk as the default compiler backend. If you use it, which is
-        -- strongly recommended, you probably don't need to configure anything. If you
-        -- want another compiler backend, you can change it as follows. The list of
-        -- supported backends and further explanation is provided in the documentation,
-        -- see ":help vimtex-compiler".
-
-        -- Most VimTeX mappings rely on localleader and this can be changed with the
-        -- following line. The default is usually fine and is the symbol --\".
-
-
-
-
-        require("oil").setup()
-        vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-
-        -- Define the execute_selected_file function
-        local function execute_selected_file()
-            local oil = require("oil") -- Ensure oil is loaded
-            local entry = oil.get_cursor_entry() -- Get the entry currently under the cursor
-
-            if entry then  -- Check if entry exists and has a path
-                -- Execute the file using its path
-                vim.cmd("!" .. entry.path) -- Use entry.path to execute the file
-            else
-                print("No file selected or invalid entry")
-            end
-        end
-
-
-        require("oil").setup({
-            -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
-            -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
-            default_file_explorer = true,
-            -- Id is automatically added at the beginning, and name at the end
-            -- See :help oil-columns
-            columns = {
-                "icon",
-                "permissions",
-                "size",
-                "mtime",
-            },
-            -- Buffer-local options to use for oil buffers
-            buf_options = {
-                buflisted = false,
-                bufhidden = "hide",
-            },
-            -- Window-local options to use for oil buffers
-            win_options = {
-                wrap = false,
-                signcolumn = "no",
-                cursorcolumn = false,
-                foldcolumn = "0",
-                spell = false,
-                list = false,
-                conceallevel = 0,
-                concealcursor = "nvic",
-            },
-            -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
-            delete_to_trash = false,
-            -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
-            skip_confirm_for_simple_edits = true,
-            -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
-            -- (:help prompt_save_on_select_new_entry)
-            prompt_save_on_select_new_entry = true,
-            -- Oil will automatically delete hidden buffers after this delay
-            -- You can set the delay to false to disable cleanup entirely
-            -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
-            cleanup_delay_ms = 2000,
-            lsp_file_methods = {
-                -- Enable or disable LSP file operations
-                enabled = true,
-                -- Time to wait for LSP file operations to complete before skipping
-                timeout_ms = 1000,
-                -- Set to true to autosave buffers that are updated with LSP willRenameFiles
-                -- Set to "unmodified" to only save unmodified buffers
-                autosave_changes = false,
-            },
-            -- Constrain the cursor to the editable parts of the oil buffer
-            -- Set to `false` to disable, or "name" to keep it on the file names
-            constrain_cursor = "editable",
-            -- Set to true to watch the filesystem for changes and reload oil
-            watch_for_changes = false,
-            -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-            -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
-            -- Additionally, if it is a string that matches "actions.<name>",
-            -- it will use the mapping at require("oil.actions").<name>
-            -- Set to `false` to remove a keymap
-            -- See :help oil-actions for a list of all available actions
-            keymaps = {
-                ["g?"] = "actions.show_help",
-                ["<CR>"] = "actions.select",
-                ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
-                ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
-                ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
-                ["<C-p>"] = "actions.preview",
-                ["<C-c>"] = "actions.close",
-                ["<C-l>"] = "actions.refresh",
-                ["-"] = "actions.parent",
-                ["_"] = "actions.open_cwd",
-                ["`"] = "actions.cd",
-                ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
-                ["gs"] = "actions.change_sort",
-                ["gx"] = "actions.open_external",
-                ["g."] = "actions.toggle_hidden",
-                ["g\\"] = "actions.toggle_trash",
-
-                -- ["gr"] = execute_selected_file,
-            },
-
-            -- Set to false to disable all of the above keymaps
-            use_default_keymaps = true,
-            view_options = {
-                -- Show files and directories that start with "."
-                show_hidden = false,
-                -- This function defines what is considered a "hidden" file
-                is_hidden_file = function(name, bufnr)
-                    return vim.startswith(name, ".")
-                end,
-                -- This function defines what will never be shown, even when `show_hidden` is set
-                is_always_hidden = function(name, bufnr)
-                    return false
-                end,
-                -- Sort file names in a more intuitive order for humans. Is less performant,
-                -- so you may want to set to false if you work with large directories.
-                natural_order = true,
-                -- Sort file and directory names case insensitive
-                case_insensitive = false,
-                sort = {
-                    -- sort order can be "asc" or "desc"
-                    -- see :help oil-columns to see which columns are sortable
-                    { "type", "asc" },
-                    { "name", "asc" },
-                },
-            },
-            -- Extra arguments to pass to SCP when moving/copying files over SSH
-            extra_scp_args = {},
-            -- EXPERIMENTAL support for performing file operations with git
-            git = {
-                -- Return true to automatically git add/mv/rm files
-                add = function(path)
-                    return false
-                end,
-                mv = function(src_path, dest_path)
-                    return false
-                end,
-                rm = function(path)
-                    return false
-                end,
-            },
-            -- Configuration for the floating window in oil.open_float
-            float = {
-                -- Padding around the floating window
-                padding = 2,
-                max_width = 0,
-                max_height = 0,
-                border = "rounded",
-                win_options = {
-                    winblend = 0,
-                },
-                -- preview_split: Split direction: "auto", "left", "right", "above", "below".
-                preview_split = "auto",
-                -- This is the config that will be passed to nvim_open_win.
-                -- Change values here to customize the layout
-                override = function(conf)
-                    return conf
-                end,
-            },
-            -- Configuration for the actions floating preview window
-            preview = {
-                -- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-                -- min_width and max_width can be a single value or a list of mixed integer/float types.
-                -- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
-                max_width = 0.9,
-                -- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
-                min_width = { 40, 0.4 },
-                -- optionally define an integer/float for the exact width of the preview window
-                width = nil,
-                -- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-                -- min_height and max_height can be a single value or a list of mixed integer/float types.
-                -- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
-                max_height = 0.9,
-                -- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
-                min_height = { 5, 0.1 },
-                -- optionally define an integer/float for the exact height of the preview window
-                height = nil,
-                border = "rounded",
-                win_options = {
-                    winblend = 0,
-                },
-                -- Whether the preview window is automatically updated when the cursor is moved
-                update_on_cursor_moved = true,
-            },
-            -- Configuration for the floating progress window
-            progress = {
-                max_width = 0.9,
-                min_width = { 40, 0.4 },
-                width = nil,
-                max_height = { 10, 0.9 },
-                min_height = { 5, 0.1 },
-                height = nil,
-                border = "rounded",
-                minimized_border = "none",
-                win_options = {
-                    winblend = 0,
-                },
-            },
-            -- Configuration for the floating SSH window
-            ssh = {
-                border = "rounded",
-            },
-            -- Configuration for the floating keymaps help window
-            keymaps_help = {
-                border = "rounded",
-            },
-        })
-
-
-
-
-
-
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-        vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-        --vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-
-        vim.keymap.set('n', '<leader>fh', function()
-            builtin.find_files({ cwd = '~',
-            hidden = true
-        })
-    end, { desc = 'Telescope find files from home directory' })
-
-    vim.keymap.set('n', '<leader>fr', function()
-        builtin.find_files({ cwd = '/',
-        hidden = true
-    })
-end, { desc = 'Telescope find files from root directory' })
-
-
-
-
---TREESITTER _------------------------------------------------------------------------------
-require'nvim-treesitter.configs'.setup {
-    -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-
-    -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
-
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = true,
-
-
-    ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-    -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-    highlight = {
-        enable = true,
-
-        -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-        -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-        -- the name of the parser)
-        -- list of language that will be disabled
-        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-    },
-}
-
-
-
-vim.diagnostic.config({
-    -- Prevents diagnostics from appearing/updating as you type
-    update_in_insert = false,
-    -- Ensure virtual text is on if you want to see the messages
-    virtual_text = true,
-})
-
---ts colors
---
---
---
---
----- Set the background and text color for normal text
-
-vim.api.nvim_set_hl(0, 'Directory', { fg = '#b04f4f', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'Directory', { fg = '#444444', bg = NONE, bold = false })
----green
-vim.api.nvim_set_hl(0, 'TSString', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSNumber', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, '@number', { fg = '#444444', bg = NONE })
----white
-vim.api.nvim_set_hl(0, '@lsp.type.variable', { fg = '#444444', bg = none })
-vim.api.nvim_set_hl(0, '@variable', { fg = '#444444', bg = NONE })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#b04f4f', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#b04f4f', bg = none })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#444444', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#444444', bg = none })
-
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#444444', bg = none })
-vim.api.nvim_set_hl(0, '@lsp.type.parameter', { fg = '#444444', bg = none })
-vim.api.nvim_set_hl(0, '@constant', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, '@operator', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, '@property', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.delimiter', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, '@Delimiter', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, '@punctuation.bracket', { fg = '#444444', bg = NONE })
-vim.api.nvim_set_hl(0, 'TSComment', { fg = '#463f3a', bg = '#444444' })
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#444444', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSVariable', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSSpecial', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.function.rust', { fg = '#444444', bg = NONE, bold = false })
---red
-vim.api.nvim_set_hl(0, 'TSType', { fg = '#444444', bold = false, bg = '#463f3a' })
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type.builtin', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@type', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.modifier', { fg = '#444444', bg = NONE, bold = false })
-
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#b04f4f', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#b04f4f', bg = none })
---vim.api.nvim_set_hl(0, '@type.c', { fg = '#444444', bg = none })
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#444444', bg = none })
---orange
-vim.api.nvim_set_hl(0, '@keyword.conditional', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@keyword.repeat', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSStatement', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#444444', bg = NONE, bold = false })
-
-
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#bd8c57', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSOperator', { fg = '#444444', bg = NONE, bold = false })
-
-
--- Preprocessor directives like #include, #define, #ifdef, etc.
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#bd8c57', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'TSPreProc', { fg = '#444444', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
---
--- constansts (false/true...
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'TSConstant', { fg = '#444444', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-
--- Keywords like sizeof, typedef, etc.
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#bd8c57', bg = NONE, bold = false })  -- Green for keywords
-vim.api.nvim_set_hl(0, 'TSKeyword', { fg = '#444444', bg = NONE, bold = false })  -- Green for keywords
-
-
--- Example for `Operator` group (if used)
-
--- %d
---
---unmatched brackets..
-vim.api.nvim_set_hl(0, 'TSError', { fg = '#444444', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#bd8c57', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSIdentifier', { fg = '#444444', bg = NONE, bold = false })
-
-
-
-vim.api.nvim_set_hl(0, 'Todo', { fg = '#b04f4f', reverse = true, bg = 'NONE', italic = false, bold = false})
-vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = '#83c092', reverse = true, bg = 'NONE', italic = false, bold = false})
-
-
-
-
-
-
---normal colors
-
----- Set the background and text color for normal text
-vim.api.nvim_set_hl(0, 'Normal', { fg = '#444444', bg = NONE })  -- Dark background, light text
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#472f2f', bg = '#54615B' })  -- Dark background, light text
-
-vim.api.nvim_set_hl(0, '@module.cpp', { fg = '#444444', bg = NONE })  -- Dark background, light text
---vim.api.nvim_set_hl(0, '@type.cpp', { fg = '#444444', bg = NONE })  -- Dark background, light text
---void, int
-vim.api.nvim_set_hl(0, 'Type', { fg = '#b04f4f', bold = false, bg = '#463f3a' })    
-vim.api.nvim_set_hl(0, 'Type', { fg = '#444444', bold = false, bg = '#463f3a' })    
-
-vim.api.nvim_set_hl(0, 'Format', { fg = '#000bb2', italic = true, bg = '#463f3a' })
--- Change the highlight color for conditional statements like 'if', 'else', 'switch', etc.
-vim.api.nvim_set_hl(0, 'Conditional', { fg = '#bd8c57', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
-vim.api.nvim_set_hl(0, 'Conditional', { fg = '#444444', bg = NONE, bold = false })  -- Example: pinkish color for conditionals
-
--- Change the highlight color for 'case', 'return', and other keywords in the 'Statement' group.
-vim.api.nvim_set_hl(0, 'Statement', { fg = '#bd8c57', bg = NONE, bold = false })    -- Example: cyan color for statements
-vim.api.nvim_set_hl(0, 'Statement', { fg = '#444444', bg = NONE, bold = false })    -- Example: cyan color for statements
-
--- Highlight for string literals
-vim.api.nvim_set_hl(0, 'String', { fg = '#444444', bg = NONE })  
-
--- Highlight for numbers
-vim.api.nvim_set_hl(0, 'Number', { fg = '#a7c080', bg =  NONE})  
-vim.api.nvim_set_hl(0, 'Number', { fg = '#444444', bg =  NONE})  
-
-
-vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#444444', bg = '#a1c4d0' })  -- Dark text on light background
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#444444', bg = '#b8b8b8' }) -- For non-current windows
-
-
-
--- Preprocessor directives like #include, #define, #ifdef, etc.
-vim.api.nvim_set_hl(0, 'PreProc', { fg = '#bd8c57', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'PreProc', { fg = '#444444', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
---
--- constansts (false/true...
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#a7c080', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-vim.api.nvim_set_hl(0, 'Constant', { fg = '#444444', bg = NONE, bold = false })  -- Pinkish for preprocessor directives
-
--- Keywords like sizeof, typedef, etc.
-vim.api.nvim_set_hl(0, 'Keyword', { fg = '#bd8c57', bg = NONE, bold = false })  -- Green for keywords
-vim.api.nvim_set_hl(0, 'Keyword', { fg = '#444444', bg = NONE, bold = false })  -- Green for keywords
-
-
--- Example for `Operator` group (if used)
-vim.api.nvim_set_hl(0, 'Operator', { fg = '#bd8c57', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'Operator', { fg = '#444444', bg = NONE, bold = false })
-
--- %d
-vim.api.nvim_set_hl(0, 'Special', { fg = '#444444', bg = NONE, bold = false })
---
---unmatched brackets..
-vim.api.nvim_set_hl(0, 'Error', { fg = '#444444', bg = '#9d0006', bold = false })
-vim.api.nvim_set_hl(0, 'Identifier', { fg = '#bd8c57', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'Identifier', { fg = '#444444', bg = NONE, bold = false })
-
-vim.api.nvim_set_hl(0, 'Comment', { fg = '#006633', reverse = false,  bg = 'NONE', italic = false, bold = false})
-
-
-
--- Set the color of normal line numbers
-
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#705e4b' })
-
-vim.cmd[[highlight CursorLineNr  guifg=#a1c4d0]]
-vim.o.number = true
---vim.cmd[[highlight CursorLine  cterm=underline ctermbg=10 guibg=#463f3a]]
---vim.cmd[[highlight CursorLine cterm=underline ctermbg=NONE guibg=#4d3219]]
-
-vim.api.nvim_set_hl(0, "CursorLine", { underline = false, bg = "#d2e0e3", sp = "NONE", })
-
-
-
---vim.cmd[[highlight CursorLine  cterm=NONE ctermbg=NONE guibg=#5e3731]]
---
-vim.o.cursorline = true
-
-vim.cmd[[highlight MatchParen ctermfg=NONE guibg=#823828]]
-
--- Adjust syntax highlighting to respect the cursor line background
---vim.cmd[[highlight Comment guibg=NONE ctermbg=NONE]]
-vim.cmd("syntax on")
-
-vim.cmd[[highlight String guibg=NONE ctermbg=NONE]]
-vim.cmd[[highlight Number guibg=NONE ctermbg=NONE]]
-vim.cmd[[highlight Operator guibg=NONE ctermbg=NONE]]
---vim.cmd[[highlight Identifier guibg=NONE ctermbg=NONE]]
-vim.cmd[[highlight Keyword guibg=NONE ctermbg=NONE]]
-vim.cmd[[highlight Type guibg=NONE ctermbg=NONE]]
-vim.cmd[[highlight Statement guibg=NONE ctermbg=NONE]]
-vim.api.nvim_set_hl(0, 'TSFormat', { fg = '#000bb2', italic = true, bg = '#463f3a' })
-
---vim.api.nvim_set_hl(0, '@function.call', { fg = '#ae6b74', bg = NONE, bold = false })
---vim.api.nvim_set_hl(0, '@constant.c', { fg = '#ae6b74', bg = NONE, bold = false })
---vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#ae6b74', bg = NONE, bold = false })
---vim.api.nvim_set_hl(0, 'Function', { fg = '#b36565', bg = NONE, bold = false })
---pink
---
-vim.api.nvim_set_hl(0, '@function.call', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, '@constant.c', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'TSFunction', { fg = '#444444', bg = NONE, bold = false })
-vim.api.nvim_set_hl(0, 'Function', { fg = '#444444', bg = NONE, bold = false })
-
-
-
-
-vim.opt.tabstop     = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth  = 4
-vim.opt.expandtab   = true
-vim.opt.scrolloff   = 8
--- Normal mode: Yank the current line with Space + y
-vim.keymap.set('n', '<Space>y', '"+y', { noremap = true })
-
--- Visual mode: Yank the selected text with Space + y
-vim.keymap.set('v', '<Space>y', '"+y', { noremap = true })
-
--- Move to the left split using Space + h
-vim.api.nvim_set_keymap('n', '<Space>h', '<C-w>h', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Space>k', '<C-w>k', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Space>j', '<C-w>j', { noremap = true, silent = true })
-
--- Move to the right split using Space + l
-vim.api.nvim_set_keymap('n', '<Space>l', '<C-w>l', { noremap = true, silent = true })
-
-
---auto header guard
-
-vim.api.nvim_create_autocmd("BufNewFile", {
-    pattern = "*.h",
-    callback = function()
-        local filename = vim.fn.expand("%:t"):upper():gsub("%W", "_")
-        local guard = string.format("#ifndef %s\n#define %s\n\n\n\n#endif // %s\n", filename .. "_", filename .. "_", filename .. "_")
-        vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(guard, "\n"))
-        vim.api.nvim_win_set_cursor(0, {4, 0}) -- move cursor between the #define and #endif
-    end,
-})
-
-
---TODO:for oil
-vim.api.nvim_create_autocmd("BufReadPost", {
-    pattern = "*.h",
-    callback = function()
-        local buf = vim.api.nvim_get_current_buf()
-        local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-        if #lines == 1 and lines[1] == "" then
-            local filename = vim.fn.expand("%:t"):upper():gsub("%W", "_") .. "_"
-            local guard = {
-                "#ifndef " .. filename,
-                "#define " .. filename,
-                "",
-                "",
-                "#endif // " .. filename,
-            }
-            vim.api.nvim_buf_set_lines(buf, 0, -1, false, guard)
-            vim.api.nvim_win_set_cursor(0, {4, 0})
-        end
-    end,
-})
-
-
-vim.api.nvim_set_hl(0, "Search", { bg = "#ad785e", fg = "#814037" })
-vim.api.nvim_set_hl(0, "IncSearch", { bg = "#EFB57B", fg = "#814037" })
-
-
---Good equal
-function AlignEqualsPreserveIndent()
-    local start_line = vim.fn.line("'<")
-    local end_line = vim.fn.line("'>")
-    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-
-    local maxlen = 0
-    local parsed = {}
-
-    for _, line in ipairs(lines) do
-        local indent, lhs, rhs = line:match("^(%s*)(.-)=(.*)")
-        if lhs and rhs then
-            lhs = vim.trim(lhs)
-            rhs = vim.trim(rhs)
-            maxlen = math.max(maxlen, #lhs)
-            table.insert(parsed, { indent = indent, lhs = lhs, rhs = rhs })
-        else
-            table.insert(parsed, { raw = line }) -- preserve unmatchable lines
-        end
-    end
-
-    local aligned = {}
-    for _, item in ipairs(parsed) do
-        if item.raw then
-            table.insert(aligned, item.raw)
-        else
-            table.insert(aligned, string.format("%s%-" .. maxlen .. "s = %s", item.indent, item.lhs, item.rhs))
-        end
-    end
-
-    vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, aligned)
-end
-
-vim.api.nvim_set_keymap("v", "<leader>a=", [[:lua AlignEqualsPreserveIndent()<CR>]], { noremap = true, silent = true })
-
-vim.keymap.set("n", "<leader>s", function()
-    local name = vim.fn.input("Struct name: ")
-    if name == "" then return end
-    local lines = {
-        string.format("typedef struct %s %s;", name, name),
-        string.format("struct %s {", name),
-        "};"
-    }
-    vim.api.nvim_put(lines, "l", true, true)
-end, { desc = "Insert typedef struct" })
-
-
-
-vim.keymap.set("n", "<leader>e", function()
-    local name = vim.fn.input("Enum name: ")
-    if name == "" then return end
-    local lines = {
-        string.format("typedef enum %s %s;", name, name),
-        string.format("enum %s {", name),
-        "};"
-    }
-    vim.api.nvim_put(lines, "l", true, true)
-end, { desc = "Insert typedef enum" })
-
-
-
-vim.o.equalalways = false
-vim.o.makeprg = "./b.sh"
-vim.keymap.set('n', '<A-b>', function()
-    -- Open a new tab
+vim.o.background = "light"
+vim.keymap.set('i', '<C-l>', '<Down>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-h>', '<Left>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-j>', '<Right>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-k>', '<Up>', { noremap = true, silent = true })
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("n", "-", ":Oil<CR>")
+vim.keymap.set("n", "<C-l>", "zz")
+vim.keymap.set("n", "<C-a>", "^")
+vim.keymap.set("n", "<C-e>", "$")
+vim.keymap.set("v", "<Space>y", "\"+y" )
+vim.keymap.set("n", "<Space>h", "<C-w>h" )
+vim.keymap.set("n", "<Space>l", "<C-w>l" )
+vim.keymap.set("n", "<Space>k", "<C-w>k" )
+vim.keymap.set("n", "<Space>j", "<C-w>j" )
+vim.keymap.set("n", "<M-d>", "<cmd>cnext<CR>")
+vim.keymap.set("n", "<M-D>", "<cmd>cprevious<CR>")
+vim.keymap.set("n", "<Space>m", "<cmd>make<CR>" )
+vim.keymap.set('n', '<Space>r', function()
     vim.cmd('tabnew')
-
-    -- Open a terminal running your script
-    vim.cmd('terminal ./b.sh')
-
-    -- Optional: start in insert mode (so terminal is active)
-    vim.cmd('startinsert')
-end, { desc = "Run b.sh in new tab terminal" })
-
-
-vim.o.makeprg = "./r.sh"
-vim.keymap.set('n', '<A-n>', function()
-    -- Open a new tab
-    vim.cmd('tabnew')
-
-    -- Open a terminal running your script
     vim.cmd('terminal ./r.sh')
-
-    -- Optional: start in insert mode (so terminal is active)
     vim.cmd('startinsert')
-end, { desc = "Run r.sh in new tab terminal" })
+end )
 
+vim.keymap.set("n", "<Space>c", ":copen<CR>" )
+vim.keymap.set("n", "<Space>n", ":noh<CR>" )
+vim.wo.relativenumber = true
 
-function MoveBottomSplitToRight()
-    -- Get the current window count
-    local win_count = vim.fn.winnr('$')
-    if win_count < 2 then
-        print("Not enough splits to move.")
-        return
-    end
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.showbreak = "❯"
 
-    -- Move to the bottom window
-    vim.cmd('wincmd j')
-
-    -- Get buffer number and name
-    local bufnr = vim.api.nvim_get_current_buf()
-    local bufname = vim.api.nvim_buf_get_name(bufnr)
-
-    -- Close bottom split
-    vim.cmd('q')
-
-    -- Move to top window
-    vim.cmd('wincmd k')
-
-    -- Create vertical split and open buffer
-    vim.cmd('vsplit ' .. vim.fn.fnameescape(bufname))
-end
-vim.keymap.set('n', '<leader>wr', MoveBottomSplitToRight)
-function MoveRightSplitToBelow()
-    -- Get number of windows
-    local win_count = vim.fn.winnr('$')
-    if win_count < 2 then
-        print("Not enough splits to move.")
-        return
-    end
-
-    -- Move to the right split
-    vim.cmd('wincmd l')
-
-    -- Get buffer info
-    local bufnr = vim.api.nvim_get_current_buf()
-    local bufname = vim.api.nvim_buf_get_name(bufnr)
-
-    -- Close the right split
-    vim.cmd('q')
-
-    -- Move back to the original window (now the only one)
-    vim.cmd('wincmd h')
-
-    -- Create horizontal split and reopen the buffer
-    vim.cmd('split ' .. vim.fn.fnameescape(bufname))
-end
-vim.keymap.set('n', '<leader>wb', MoveRightSplitToBelow)
-
-vim.keymap.set('n', '<leader>cq', function()
-    -- Open a vertical split on the right
-    vim.cmd('vsplit')
-    vim.cmd('wincmd l')  -- move to the new split
-
-    -- Find the quickfix buffer
-    local qf_buf = nil
-    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_get_option(buf, 'buftype') == 'quickfix' then
-            qf_buf = buf
-            break
-        end
-    end
-
-    -- If quickfix buffer exists, show it; otherwise, run :copen to populate it
-    if qf_buf then
-        vim.api.nvim_win_set_buf(0, qf_buf)
-    else
-        vim.cmd('copen')
-        vim.cmd('wincmd J')  -- move it to bottom temporarily
-        qf_buf = vim.api.nvim_get_current_buf()
-        vim.cmd('close')     -- close the bottom split
-        vim.cmd('wincmd l')  -- move back to right split
-        vim.api.nvim_win_set_buf(0, qf_buf)
-    end
-
-    -- Optional: resize width
-    vim.cmd('vertical resize 50')
-end, { desc = "Open quickfix in vertical split on right" })
-
-function OpenQuickfixVertically()
-    vim.cmd('vsplit')
-    vim.cmd('wincmd l')  -- move to the new split
-
-    -- Find the quickfix buffer
-    local qf_buf = nil
-    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_get_option(buf, 'buftype') == 'quickfix' then
-            qf_buf = buf
-            break
-        end
-    end
-
-    -- If quickfix buffer exists, show it; otherwise, run :copen to populate it
-    if qf_buf then
-        vim.api.nvim_win_set_buf(0, qf_buf)
-    else
-        vim.cmd('copen')
-        vim.cmd('wincmd J')  -- move it to bottom temporarily
-        qf_buf = vim.api.nvim_get_current_buf()
-        vim.cmd('close')     -- close the bottom split
-        vim.cmd('wincmd l')  -- move back to right split
-        vim.api.nvim_win_set_buf(0, qf_buf)
-    end
-
-    --  vim.cmd('vertical resize 50')
-end
-
-vim.keymap.set('n', '<leader>b', function()
-    -- Run :make silently and force without pause
-    vim.cmd('only')
-    vim.cmd('silent! make')
-
-    -- Close any quickfix window that opened
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-        local bufnr = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_buf_get_option(bufnr, 'buftype') == 'quickfix' then
-            vim.api.nvim_set_current_win(win)
-            vim.cmd('cclose')
-            break
-        end
-    end
-
-    -- Open quickfix vertically
-    OpenQuickfixVertically()
-end, { desc = "Run :make and open quickfix vertically" })
-
-vim.cmd "set title"
-
-local keymap = vim.keymap -- for conciseness
-vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-    callback = function(ev)
-        -- Buffer local mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf, silent = true }
-
-        -- set keybinds
-        opts.desc = "Show LSP references"
-        keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
-        opts.desc = "Go to declaration"
-        keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-        opts.desc = "Show LSP definition"
-        keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
-
-        --opts.desc = "Show LSP implementations"
-        --keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-        opts.desc = "Show LSP type definitions"
-        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-        --opts.desc = "See available code actions"
-        --keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-        --opts.desc = "Smart rename"
-        --keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-        opts.desc = "Show buffer diagnostics"
-        keymap.set("n", "<leader>W", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-        opts.desc = "Show line diagnostics"
-        keymap.set("n", "<leader>w", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-        opts.desc = "Go to previous diagnostic"
-        keymap.set("n", "[d", function()
-            vim.diagnostic.jump({ count = -1, float = true })
-        end, opts) -- jump to previous diagnostic in buffer
-        --
-        opts.desc = "Go to next diagnostic"
-        keymap.set("n", "]d", function()
-            vim.diagnostic.jump({ count = 1, float = true })
-        end, opts) -- jump to next diagnostic in buffer
-
-    end,
+vim.api.nvim_create_autocmd({ "DirChanged" }, {
+	callback = function()
+		local dir = vim.fn.getcwd()
+		vim.fn.system("tmux setenv TMUX_CWD " .. vim.fn.shellescape(dir))
+	end,
 })
---vim.diagnostic.config({
-    --    virtual_text = false, -- Disables inline error messages
-    --    signs = false,        -- Disables icons in the sign column (gutter)
-    --    underline = false,    -- Disables the squiggly underlines
-    --    update_in_insert = false, -- Stops diagnostics from updating in insert mode
-    --})
+
+vim.opt.number = true
+vim.opt.cursorline = true
+vim.api.nvim_set_hl(0, "CursorLineNr", {
+	fg = "#bc7373",
+	bold = true,
+})
+
+vim.api.nvim_set_hl(0, "LineNr", {
+	fg = "#d9cac3",
+	bold = true,
+})
 
 
-    -- Next buffer
-    vim.keymap.set("n", "<A-j>", ":bnext<CR>", { noremap = true, silent = true })
-    vim.keymap.set("n", "<A-d>", ":cnext<CR>", { noremap = true, silent = true })
-    vim.keymap.set("n", "<A-D>", ":cprev<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_hl(0, "CursorLine", {
+	bg = "#c5d8dc",
+})
 
-    -- Previous buffer
-    vim.keymap.set("n", "<A-k>", ":bprevious<CR>", { noremap = true, silent = true })
-    vim.keymap.set("n", "L", function()
-        vim.cmd("Man " .. vim.fn.expand("<cword>"))
-    end)
-    vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)
+vim.api.nvim_set_hl(0, "Normal", {
+	bg = "#f3f3f3",
+})
+
+vim.api.nvim_set_hl(0, "Type", {
+	fg = "#444444",
+})
+
+vim.api.nvim_set_hl(0, "Structure", {
+	fg = "#444444",
+})
+vim.api.nvim_set_hl(0, "String", {
+	fg = "#444444",
+})
+
+vim.api.nvim_set_hl(0, "Special", {
+	fg = "#444444",
+})
+vim.api.nvim_set_hl(0, "Comment", {
+	fg = "#47a21e",
+	italic = true,
+})
 
 
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
+end
+vim.opt.rtp:prepend(lazypath)
 
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
+-- Setup lazy.nvim
+require("lazy").setup({
+	spec = {
+		-- import your plugins
+		--	{ import = "plugins" },
+		{
+			'stevearc/oil.nvim',
+			---@module 'oil'
+			---@type oil.SetupOpts
+			opts = {},
+			-- Optional dependencies
+			dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+			-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+			-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+			lazy = false,
+		},
+		{
+			'nvim-telescope/telescope.nvim', version = '*',
+			dependencies = {
+				'nvim-lua/plenary.nvim',
+				-- optional but recommended
+				{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+			}
+		},
+
+		{
+			'mg979/vim-visual-multi'
+		},
+	},
+	-- Configure any other settings here. See the documentation for more details.
+	-- colorscheme that will be used when installing plugins.
+	install = { colorscheme = { "habamax" } },
+	-- automatically check for plugin updates
+	checker = { enabled = true },
+})
+--Telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+
+--Oil
+require("oil").setup({
+	-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+	-- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
+	default_file_explorer = true,
+	-- Id is automatically added at the beginning, and name at the end
+	-- See :help oil-columns
+	columns = {
+		"icon",
+		 "permissions",
+		 "size",
+		 "mtime",
+	},
+	-- Buffer-local options to use for oil buffers
+	buf_options = {
+		buflisted = false,
+		bufhidden = "hide",
+	},
+	-- Window-local options to use for oil buffers
+	win_options = {
+		wrap = false,
+		signcolumn = "no",
+		cursorcolumn = false,
+		foldcolumn = "0",
+		spell = false,
+		list = false,
+		conceallevel = 3,
+		concealcursor = "nvic",
+	},
+	-- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
+	delete_to_trash = false,
+	-- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
+	skip_confirm_for_simple_edits = false,
+	-- Selecting a new/moved/renamed file or directory will prompt you to save changes first
+	-- (:help prompt_save_on_select_new_entry)
+	prompt_save_on_select_new_entry = true,
+	-- Oil will automatically delete hidden buffers after this delay
+	-- You can set the delay to false to disable cleanup entirely
+	-- Note that the cleanup process only starts when none of the oil buffers are currently displayed
+	cleanup_delay_ms = 2000,
+	lsp_file_methods = {
+		-- Enable or disable LSP file operations
+		enabled = true,
+		-- Time to wait for LSP file operations to complete before skipping
+		timeout_ms = 1000,
+		-- Set to true to autosave buffers that are updated with LSP willRenameFiles
+		-- Set to "unmodified" to only save unmodified buffers
+		autosave_changes = false,
+	},
+	-- Constrain the cursor to the editable parts of the oil buffer
+	-- Set to `false` to disable, or "name" to keep it on the file names
+	constrain_cursor = "editable",
+	-- Set to true to watch the filesystem for changes and reload oil
+	watch_for_changes = false,
+	-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
+	-- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
+	-- Additionally, if it is a string that matches "actions.<name>",
+	-- it will use the mapping at require("oil.actions").<name>
+	-- Set to `false` to remove a keymap
+	-- See :help oil-actions for a list of all available actions
+	keymaps = {
+		["g?"] = { "actions.show_help", mode = "n" },
+		["<CR>"] = "actions.select",
+		["<C-s>"] = { "actions.select", opts = { vertical = true } },
+		["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+		["<C-t>"] = { "actions.select", opts = { tab = true } },
+		["<C-p>"] = "actions.preview",
+		["<C-c>"] = { "actions.close", mode = "n" },
+		["<C-l>"] = "actions.refresh",
+		["-"] = { "actions.parent", mode = "n" },
+		["_"] = { "actions.open_cwd", mode = "n" },
+		["`"] = { "actions.cd", mode = "n" },
+		["g~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+		["gs"] = { "actions.change_sort", mode = "n" },
+		["gx"] = "actions.open_external",
+		["g."] = { "actions.toggle_hidden", mode = "n" },
+		["g\\"] = { "actions.toggle_trash", mode = "n" },
+	},
+	-- Set to false to disable all of the above keymaps
+	use_default_keymaps = true,
+	view_options = {
+		-- Show files and directories that start with "."
+		show_hidden = false,
+		-- This function defines what is considered a "hidden" file
+		is_hidden_file = function(name, bufnr)
+			local m = name:match("^%.")
+			return m ~= nil
+		end,
+		-- This function defines what will never be shown, even when `show_hidden` is set
+		is_always_hidden = function(name, bufnr)
+			return false
+		end,
+		-- Sort file names with numbers in a more intuitive order for humans.
+		-- Can be "fast", true, or false. "fast" will turn it off for large directories.
+		natural_order = "fast",
+		-- Sort file and directory names case insensitive
+		case_insensitive = false,
+		sort = {
+			-- sort order can be "asc" or "desc"
+			-- see :help oil-columns to see which columns are sortable
+			{ "type", "asc" },
+			{ "name", "asc" },
+		},
+		-- Customize the highlight group for the file name
+		highlight_filename = function(entry, is_hidden, is_link_target, is_link_orphan)
+			return nil
+		end,
+	},
+	-- Extra arguments to pass to SCP when moving/copying files over SSH
+	extra_scp_args = {},
+	-- Extra arguments to pass to aws s3 when creating/deleting/moving/copying files using aws s3
+	extra_s3_args = {},
+	-- EXPERIMENTAL support for performing file operations with git
+	git = {
+		-- Return true to automatically git add/mv/rm files
+		add = function(path)
+			return false
+		end,
+		mv = function(src_path, dest_path)
+			return false
+		end,
+		rm = function(path)
+			return false
+		end,
+	},
+	-- Configuration for the floating window in oil.open_float
+	float = {
+		-- Padding around the floating window
+		padding = 2,
+		-- max_width and max_height can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+		max_width = 0,
+		max_height = 0,
+		border = nil,
+		win_options = {
+			winblend = 0,
+		},
+		-- optionally override the oil buffers window title with custom function: fun(winid: integer): string
+		get_win_title = nil,
+		-- preview_split: Split direction: "auto", "left", "right", "above", "below".
+		preview_split = "auto",
+		-- This is the config that will be passed to nvim_open_win.
+		-- Change values here to customize the layout
+		override = function(conf)
+			return conf
+		end,
+	},
+	-- Configuration for the file preview window
+	preview_win = {
+		-- Whether the preview window is automatically updated when the cursor is moved
+		update_on_cursor_moved = true,
+		-- How to open the preview window "load"|"scratch"|"fast_scratch"
+		preview_method = "fast_scratch",
+		-- A function that returns true to disable preview on a file e.g. to avoid lag
+		disable_preview = function(filename)
+			return false
+		end,
+		-- Window-local options to use for preview window buffers
+		win_options = {},
+	},
+	-- Configuration for the floating action confirmation window
+	confirmation = {
+		-- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+		-- min_width and max_width can be a single value or a list of mixed integer/float types.
+		-- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
+		max_width = 0.9,
+		-- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
+		min_width = { 40, 0.4 },
+		-- optionally define an integer/float for the exact width of the preview window
+		width = nil,
+		-- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+		-- min_height and max_height can be a single value or a list of mixed integer/float types.
+		-- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
+		max_height = 0.9,
+		-- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
+		min_height = { 5, 0.1 },
+		-- optionally define an integer/float for the exact height of the preview window
+		height = nil,
+		border = nil,
+		win_options = {
+			winblend = 0,
+		},
+	},
+	-- Configuration for the floating progress window
+	progress = {
+		max_width = 0.9,
+		min_width = { 40, 0.4 },
+		width = nil,
+		max_height = { 10, 0.9 },
+		min_height = { 5, 0.1 },
+		height = nil,
+		border = nil,
+		minimized_border = "none",
+		win_options = {
+			winblend = 0,
+		},
+	},
+	-- Configuration for the floating SSH window
+	ssh = {
+		border = nil,
+	},
+	-- Configuration for the floating keymaps help window
+	keymaps_help = {
+		border = nil,
+	},
+})
