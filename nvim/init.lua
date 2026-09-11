@@ -1,27 +1,12 @@
 
-vim.g.mapleader = " "
-vim.opt.number = true
-vim.opt.cursorline = true
-vim.opt.relativenumber = true
-vim.opt.termguicolors = true
-vim.opt.tabstop = 4     
-vim.opt.softtabstop = 4  
-vim.opt.shiftwidth = 4  
-vim.opt.expandtab = true
-vim.opt.softtabstop = 0  
-vim.opt.wrap = true
-vim.opt.linebreak = true
-vim.opt.showbreak = "❯"
-vim.opt.makeprg="./b.sh"
-vim.opt.background  = "dark"
 
 vim.opt.title = true
-vim.opt.guicursor = "n-v-c:block-blinkon400-blinkoff400-blinkwait400,i-ci-ve:ver25-blinkon400-blinkoff400-blinkwait400,r-cr-o:hor20-blinkon400-blinkoff400-blinkwait400"
+--vim.opt.guicursor = "n-v-c:block-blinkon500-blinkoff500-blinkwait500,i-ci-ve:ver25-blinkon500-blinkoff500-blinkwait500,r-cr-o:hor20-blinkon500-blinkoff500-blinkwait500"
 
  
 
 
-vim.o.guifont = "Liberation Mono:h10" -- text below applies for VimScript
+vim.o.guifont = "Liberation Mono:h9" -- text below applies for VimScript
 
 vim.keymap.set("n", "<A-\'>", function()
     local dir =  vim.fn.getcwd() --require("oil").get_current_dir()
@@ -45,6 +30,8 @@ if vim.g.neovide then
     vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
     vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
     vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+    vim.g.neovide_hide_mouse_when_typing = true
+
 vim.keymap.set("i", "<C-S-V>", '<C-r>+')
 vim.keymap.set("n", "<C-S-V>", '"+p')
 
@@ -66,12 +53,52 @@ vim.keymap.set("n", "<A-5>", function()
 end)
     
 
-    vim.g.neovide_cursor_vfx_mode = "sonicboom"
+    vim.g.neovide_cursor_vfx_mode = {"sonicboom"}
   -- vim.g.neovide_cursor_smooth_blink = true 
 
 end
 
 
+
+
+
+vim.g.mapleader = " "
+vim.opt.number = true
+vim.opt.cursorline = true
+vim.opt.relativenumber = true
+vim.opt.termguicolors = true
+vim.opt.tabstop = 4     
+vim.opt.softtabstop = 4  
+vim.opt.shiftwidth = 4  
+vim.opt.expandtab = true
+vim.opt.softtabstop = 0  
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.showbreak = "❯"
+vim.opt.makeprg="./b.sh"
+vim.opt.background  = "light"
+
+vim.opt.title = true
+
+
+
+vim.keymap.set("n", "<A-\'>", function()
+    local dir =  vim.fn.getcwd() --require("oil").get_current_dir()
+    local cmd = string.format("wezterm cli split-pane --cwd %s", vim.fn.shellescape(dir))
+    vim.fn.system(cmd)
+end)
+
+vim.keymap.set("n", "<A-t>", function()
+    local dir =  vim.fn.getcwd() --require("oil").get_current_dir()
+    local cmd = string.format("wezterm cli spawn --cwd %s", vim.fn.shellescape(dir))
+    vim.fn.system(cmd)
+end)
+
+vim.keymap.set("n", "<A-5>", function()
+    local dir =  vim.fn.getcwd() --require("oil").get_current_dir()
+    local cmd = string.format("wezterm cli split-pane --right --cwd %s", vim.fn.shellescape(dir))
+    vim.fn.system(cmd)
+end)
 
 --:% ! column -t -s= -o=
 vim.keymap.set("v", "<Space>=", ":% ! column -t -s= -o=" )
@@ -125,30 +152,34 @@ vim.keymap.set("n", "<leader>w", function()
   vim.cmd("silent! !cd " .. vim.fn.getcwd() .. " && ctags -R .")
 end )
 
---vim.api.nvim_set_hl(0, 'MatchParen', {fg='#333333', bg= '#f2f2f2', reverse = true})
---vim.api.nvim_set_hl(0, 'Comment', {fg='#339900', })
---vim.api.nvim_set_hl(0, 'Delimiter', {fg='#333333', })
---vim.api.nvim_set_hl(0, 'LineNr', {fg='#aaaaaa'})
---
---	
---vim.api.nvim_set_hl(0, "Function", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Identifier", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Type", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Number", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Statement", { fg = "#333333", bold = true })
---vim.api.nvim_set_hl(0, "Preproc", { fg = "#333333", bold = true })
---vim.api.nvim_set_hl(0, "Special", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Structure", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "String", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Operator", { fg = "#333333", })
---vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#333333' })
---vim.api.nvim_set_hl(0, "@variable", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#333333", })
---vim.api.nvim_set_hl(0, "Constant", { fg = "#333333", })
---vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#a1c4d0", fg = '#333333' })
---vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#333333",bg = '#b8b8b8' })
---vim.cmd([[colorscheme everforest]])
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#321010", bg = none })
+vim.api.nvim_set_hl(0, 'Normal', {fg='#321010', bg= '#929567'})
+vim.api.nvim_set_hl(0, 'MatchParen', {fg='#321010', bg= '#ededed', reverse = false})
+vim.api.nvim_set_hl(0, 'Comment', {fg='#953c5a', })
+vim.api.nvim_set_hl(0, 'Delimiter', {fg='#321010', })
+vim.api.nvim_set_hl(0, 'LineNr', {fg='#87814f'})
+vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#7f7734', bold = true})
+vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#87814f",})
 
+	
+vim.api.nvim_set_hl(0, "Function", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",bold = true,reverse = false })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#321010", bg=none})
+vim.api.nvim_set_hl(0, "Type", { fg = "#7f3e1a", })
+vim.api.nvim_set_hl(0, "Number", { fg = "#5b4b1c", })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#845a40", bold = true })
+vim.api.nvim_set_hl(0, "Preproc", { fg = "#321010", bold = true })
+vim.api.nvim_set_hl(0, "Special", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "Structure", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "String", { fg = "#5b4b1c", })
+vim.api.nvim_set_hl(0, "Operator", { fg = "#321010", })
+vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#321010' })
+vim.api.nvim_set_hl(0, "@variable", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "Constant", { fg = "#321010", })
+vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#9ab295", fg = '#321010' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#321010",bg = '#8c9989' })
 vim.o.showcmd=false
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -178,10 +209,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
   end,
 })
 vim.pack.add({
-   'https://github.com/neovim/nvim-lspconfig' ,
-    'https://github.com/qaptoR-nvim/chocolatier.nvim',
-        'https://github.com/neanias/everforest-nvim',
-
+    'https://github.com/adelarsq/image_preview.nvim',
     'https://github.com/stevearc/oil.nvim',
 
     'https://github.com/nvimtools/hydra.nvim',
@@ -454,43 +482,11 @@ vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Open Neogit UI" })
 
 
 
-vim.cmd([[colorscheme chocolatier]])
-vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#83a598", fg = '#281f11' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#ebc295",bg = '#907659' })
-vim.api.nvim_set_hl(0, 'TabLineSel', {bg = "#83a598", fg = '#281f11' })
-vim.api.nvim_set_hl(0, 'TabLine', {bg = "#7c5f35", fg = '#ebc295' })
+require("image_preview").setup({})
 
 
 
-vim.lsp.enable('clangd')
-vim.api.nvim_set_hl(0, 'Normal', {fg='#d3af86', bg= '#0f0b05'})
-vim.api.nvim_set_hl(0, 'cBlock', {fg='#db4664'})
-vim.diagnostic.enable(false)
-vim.diagnostic.config({
-  status = false,
-})
-vim.o.statusline = "%f %m%=%-14.(%l,%c%V%) %P"
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local opts = { buffer = args.buf, remap = false, silent = true }
-    
-    -- Go to Definition
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    
-    -- Go to Declaration (if supported by your LSP)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    
-    -- Open definition in a split window horizontally
-    vim.keymap.set('n', '<leader>gd', function()
-      vim.cmd('split')
-      vim.lsp.buf.definition()
-    end, opts)
-  end,
-})
 
-vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#83a598", fg = '#0f0b05' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#0f0b05",bg = '#907659' })
 
-vim.api.nvim_set_hl(0, 'CursorLineNr', {fg = '#ef8212', bg='#0f0b05'})
-vim.api.nvim_set_hl(0, 'CursorLine', {fg=none})
+
