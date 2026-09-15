@@ -76,7 +76,7 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.showbreak = "❯"
 vim.opt.makeprg="./b.sh"
-vim.opt.background  = "light"
+vim.opt.background  = "dark"
 
 vim.opt.title = true
 
@@ -152,34 +152,34 @@ vim.keymap.set("n", "<leader>w", function()
   vim.cmd("silent! !cd " .. vim.fn.getcwd() .. " && ctags -R .")
 end )
 
-vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#321010", bg = none })
-vim.api.nvim_set_hl(0, 'Normal', {fg='#321010', bg= '#929567'})
-vim.api.nvim_set_hl(0, 'MatchParen', {fg='#321010', bg= '#ededed', reverse = false})
-vim.api.nvim_set_hl(0, 'Comment', {fg='#953c5a', })
-vim.api.nvim_set_hl(0, 'Delimiter', {fg='#321010', })
-vim.api.nvim_set_hl(0, 'LineNr', {fg='#87814f'})
-vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#7f7734', bold = true})
-vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#87814f",})
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ad8e6e", bg = none })
+vim.api.nvim_set_hl(0, 'Normal', {fg='#ad8e6e', bg= '#16130d'})
+vim.api.nvim_set_hl(0, 'MatchParen', {fg='#ad8e6e', bg= '#ededed', reverse = false})
+vim.api.nvim_set_hl(0, 'Comment', {fg='#559b45',  })
+vim.api.nvim_set_hl(0, 'Delimiter', {fg='#ad8e6e', })
+vim.api.nvim_set_hl(0, 'LineNr', {fg='#35281c'})
+vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#473526', bold = true})
+vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#2d2617",})
 
 	
-vim.api.nvim_set_hl(0, "Function", { fg = "#321010", })
+vim.api.nvim_set_hl(0, "Function", { fg = "#ad8e6e", })
 vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",bold = true,reverse = false })
-vim.api.nvim_set_hl(0, "Identifier", { fg = "#321010", })
-vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#321010", bg=none})
-vim.api.nvim_set_hl(0, "Type", { fg = "#7f3e1a", })
-vim.api.nvim_set_hl(0, "Number", { fg = "#5b4b1c", })
-vim.api.nvim_set_hl(0, "Statement", { fg = "#845a40", bold = true })
-vim.api.nvim_set_hl(0, "Preproc", { fg = "#321010", bold = true })
-vim.api.nvim_set_hl(0, "Special", { fg = "#321010", })
-vim.api.nvim_set_hl(0, "Structure", { fg = "#321010", })
-vim.api.nvim_set_hl(0, "String", { fg = "#5b4b1c", })
-vim.api.nvim_set_hl(0, "Operator", { fg = "#321010", })
-vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#321010' })
-vim.api.nvim_set_hl(0, "@variable", { fg = "#321010", })
-vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#321010", })
-vim.api.nvim_set_hl(0, "Constant", { fg = "#321010", })
-vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#9ab295", fg = '#321010' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#321010",bg = '#8c9989' })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#ad8e6e", bg=none})
+vim.api.nvim_set_hl(0, "Type", { fg = "#7f4519", })
+vim.api.nvim_set_hl(0, "Number", { fg = "#847548", })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#82352d", bold = true })
+vim.api.nvim_set_hl(0, "Preproc", { fg = "#ad8e6e", bold = true })
+vim.api.nvim_set_hl(0, "Special", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, "Structure", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, "String", { fg = "#847548", })
+vim.api.nvim_set_hl(0, "Operator", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#ad8e6e' })
+vim.api.nvim_set_hl(0, "@variable", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, "Constant", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#6f917b", fg = '#16130d' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#16130d",bg = '#7a6e5b' })
 vim.o.showcmd=false
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -483,10 +483,5 @@ vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Open Neogit UI" })
 
 
 require("image_preview").setup({})
-
-
-
-
-
 
 
