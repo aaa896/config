@@ -1,5 +1,4 @@
 
-
 vim.opt.title = true
 --vim.opt.guicursor = "n-v-c:block-blinkon500-blinkoff500-blinkwait500,i-ci-ve:ver25-blinkon500-blinkoff500-blinkwait500,r-cr-o:hor20-blinkon500-blinkoff500-blinkwait500"
 
@@ -25,38 +24,6 @@ vim.keymap.set("n", "<A-5>", function()
     local cmd = string.format("wezterm cli split-pane --right --cwd %s", vim.fn.shellescape(dir))
     vim.fn.system(cmd)
 end)
-
-if vim.g.neovide then
-    vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
-    vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
-    vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
-    vim.g.neovide_hide_mouse_when_typing = true
-
-vim.keymap.set("i", "<C-S-V>", '<C-r>+')
-vim.keymap.set("n", "<C-S-V>", '"+p')
-
-
-vim.keymap.set("n", "<A-'>", function()
-    vim.cmd("belowright split | terminal")
-    vim.cmd("startinsert")
-end)
-
-
-vim.keymap.set("n", "<A-t>", function()
-    vim.cmd("tabnew | terminal")
-    vim.cmd("startinsert")
-end)
-
-vim.keymap.set("n", "<A-5>", function()
-    vim.cmd("vsplit | terminal")
-    vim.cmd("startinsert")
-end)
-    
-
-    vim.g.neovide_cursor_vfx_mode = {"sonicboom"}
-  -- vim.g.neovide_cursor_smooth_blink = true 
-
-end
 
 
 
@@ -152,34 +119,34 @@ vim.keymap.set("n", "<leader>w", function()
   vim.cmd("silent! !cd " .. vim.fn.getcwd() .. " && ctags -R .")
 end )
 
-vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ad8e6e", bg = none })
-vim.api.nvim_set_hl(0, 'Normal', {fg='#ad8e6e', bg= '#16130d'})
-vim.api.nvim_set_hl(0, 'MatchParen', {fg='#ad8e6e', bg= '#ededed', reverse = false})
-vim.api.nvim_set_hl(0, 'Comment', {fg='#559b45',  })
-vim.api.nvim_set_hl(0, 'Delimiter', {fg='#ad8e6e', })
-vim.api.nvim_set_hl(0, 'LineNr', {fg='#35281c'})
-vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#473526', bold = true})
-vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#2d2617",})
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#333333", bg = "#ededed" })
+vim.api.nvim_set_hl(0, 'Normal', {fg='#333333', bg= '#ededed'})
+vim.api.nvim_set_hl(0, 'MatchParen', {fg='#333333', bg= '#ededed', reverse = true})
+vim.api.nvim_set_hl(0, 'Comment', {fg='#339900', })
+vim.api.nvim_set_hl(0, 'Delimiter', {fg='#333333', })
+vim.api.nvim_set_hl(0, 'LineNr', {fg='#aaaaaa'})
+vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#cb7d7b', bold = true})
+vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#c5d8dc",})
 
 	
-vim.api.nvim_set_hl(0, "Function", { fg = "#ad8e6e", })
+vim.api.nvim_set_hl(0, "Function", { fg = "#333333", })
 vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",bold = true,reverse = false })
-vim.api.nvim_set_hl(0, "Identifier", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#ad8e6e", bg=none})
-vim.api.nvim_set_hl(0, "Type", { fg = "#7f4519", })
-vim.api.nvim_set_hl(0, "Number", { fg = "#847548", })
-vim.api.nvim_set_hl(0, "Statement", { fg = "#82352d", bold = true })
-vim.api.nvim_set_hl(0, "Preproc", { fg = "#ad8e6e", bold = true })
-vim.api.nvim_set_hl(0, "Special", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, "Structure", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, "String", { fg = "#847548", })
-vim.api.nvim_set_hl(0, "Operator", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#ad8e6e' })
-vim.api.nvim_set_hl(0, "@variable", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, "Constant", { fg = "#ad8e6e", })
-vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#6f917b", fg = '#16130d' })
-vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#16130d",bg = '#7a6e5b' })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#333333", bg="#ededed"})
+vim.api.nvim_set_hl(0, "Type", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Number", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#333333", bold = true })
+vim.api.nvim_set_hl(0, "Preproc", { fg = "#333333", bold = true })
+vim.api.nvim_set_hl(0, "Special", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Structure", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "String", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Operator", { fg = "#333333", })
+vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#333333' })
+vim.api.nvim_set_hl(0, "@variable", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Constant", { fg = "#333333", })
+vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#a1c4d0", fg = '#333333' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#333333",bg = '#b8b8b8' })
 vim.o.showcmd=false
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -484,4 +451,42 @@ vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Open Neogit UI" })
 
 require("image_preview").setup({})
 
+
+
+
+
+
+
+vim.cmd([[colorscheme retrobox]])
+if vim.g.neovide then
+    vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+    vim.g.neovide_hide_mouse_when_typing = true
+
+vim.keymap.set("i", "<C-S-V>", '<C-r>+')
+vim.keymap.set("n", "<C-S-V>", '"+p')
+
+
+vim.keymap.set("n", "<A-'>", function()
+    vim.cmd("belowright split | terminal")
+    vim.cmd("startinsert")
+end)
+
+
+vim.keymap.set("n", "<A-t>", function()
+    vim.cmd("tabnew | terminal")
+    vim.cmd("startinsert")
+end)
+
+vim.keymap.set("n", "<A-5>", function()
+    vim.cmd("vsplit | terminal")
+    vim.cmd("startinsert")
+end)
+    
+
+    vim.g.neovide_cursor_vfx_mode = {"sonicboom"}
+  -- vim.g.neovide_cursor_smooth_blink = true 
+
+end
 
