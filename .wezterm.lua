@@ -1,3 +1,4 @@
+
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
@@ -18,9 +19,9 @@ config.initial_rows = 28
 -- or, changing the font size and color scheme.
 config.colors = {
   -- The default text color
-  foreground = '#111111',
+  foreground = '#e6d5c2',
   -- The default background color
-  background = '#f2f2f2',
+  background = '#171311',
 
   -- Overrides the cell background color when the current cell is occupied by the
   -- cursor and the cursor style is set to Block
@@ -33,14 +34,14 @@ config.colors = {
   tab_bar = {
     -- The color of the strip that goes along the top of the window
     -- (does not apply when fancy tab bar is in use)
-    background = '#f2f2f2',
+    background = '#171311',
 
     -- The active tab is the one that has focus in the window
     active_tab = {
       -- The color of the background area for the tab
-      bg_color = '#a1c4d0',
+      bg_color = '#285577',
       -- The color of the text for the tab
-      fg_color = '#444444',
+      fg_color = '#e6d5c2',
 
       -- Specify whether you want "Half", "Normal" or "Bold" intensity for the
       -- label shown for this tab.
@@ -62,8 +63,8 @@ config.colors = {
     },
 
         new_tab = {
-      bg_color = '#f2f2f2',
-      fg_color = '#444444',
+      bg_color = '#171311',
+      fg_color = '#e6d5c2',
 
       -- The same options that were listed under the `active_tab` section above
       -- can also be used for `new_tab`.
@@ -71,8 +72,8 @@ config.colors = {
 
     -- Inactive tabs are the tabs that do not have focus
     inactive_tab = {
-      bg_color = '#f2f2f2',
-      fg_color = '#444444',
+      bg_color = '#171311',
+      fg_color = '#e6d5c2',
 
       -- The same options that were listed under the `active_tab` section above
       -- can also be used for `inactive_tab`.
@@ -102,7 +103,10 @@ config.keys = {
   { key = 'j', mods = 'CTRL|SHIFT', action = wezterm.action.ActivatePaneDirection('Down'), },
   { key = 'k', mods = 'CTRL|SHIFT', action = wezterm.action.ActivatePaneDirection('Up'), }, 
   { key = 'l', mods = 'CTRL|SHIFT', action = wezterm.action.ActivatePaneDirection('Right'), },
-  { key = 'H', mods = 'SHIFT|CTRL', action = act.Search { CaseInSensitiveString = 'hash' }, },
+  { key = 'F', mods = 'CTRL|SHIFT', action = wezterm.action.Search({ CaseInSensitiveString = '' }) },
+  { key = 'x', mods = 'CTRL', action = wezterm.action.ActivateCopyMode },
+
+  
 
 }
 -- Finally, return the configuration to wezterm:
