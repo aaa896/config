@@ -1,4 +1,5 @@
 
+
 vim.opt.title = true
 --vim.opt.guicursor = "n-v-c:block-blinkon500-blinkoff500-blinkwait500,i-ci-ve:ver25-blinkon500-blinkoff500-blinkwait500,r-cr-o:hor20-blinkon500-blinkoff500-blinkwait500"
 
@@ -28,7 +29,6 @@ end)
 
 
 
-
 vim.g.mapleader = " "
 vim.opt.number = true
 vim.opt.cursorline = true
@@ -43,7 +43,7 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.showbreak = "❯"
 vim.opt.makeprg="./b.sh"
-vim.opt.background  = "dark"
+vim.opt.background  = "light"
 
 vim.opt.title = true
 
@@ -119,37 +119,34 @@ vim.keymap.set("n", "<leader>w", function()
   vim.cmd("silent! !cd " .. vim.fn.getcwd() .. " && ctags -R .")
 end )
 
---vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#331a0a", bg = "#ededed" })
---vim.api.nvim_set_hl(0, 'Normal', {fg='#331a0a', bg= '#4b3c39'})
---vim.api.nvim_set_hl(0, 'MatchParen', {fg='#331a0a', bg= '#ededed', reverse = true})
---vim.api.nvim_set_hl(0, 'Comment', {fg='#339900', })
---vim.api.nvim_set_hl(0, 'Delimiter', {fg='#331a0a', })
---vim.api.nvim_set_hl(0, 'LineNr', {fg='#aaaaaa'})
---vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#cb7d7b', bold = true})
---vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#c5d8dc",})
---
---	
---vim.api.nvim_set_hl(0, "Function", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",bold = true,reverse = false })
---vim.api.nvim_set_hl(0, "Identifier", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#331a0a", bg="#ededed"})
---vim.api.nvim_set_hl(0, "Type", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Number", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Statement", { fg = "#331a0a", bold = true })
---vim.api.nvim_set_hl(0, "Preproc", { fg = "#331a0a", bold = true })
---vim.api.nvim_set_hl(0, "Special", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Structure", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "String", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Operator", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#331a0a' })
---vim.api.nvim_set_hl(0, "@variable", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Constant", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#83a598", fg = '#331a0a' })
---    
---vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#331a0a",bg = '#b8b8b8' })
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#333333", bg = "#ededed" })
+vim.api.nvim_set_hl(0, 'Normal', {fg='#333333', bg= '#ededed', })
+vim.api.nvim_set_hl(0, 'MatchParen', {fg='#333333', bg= '#ededed', reverse = true})
+vim.api.nvim_set_hl(0, 'Comment', {fg='#339900', })
+vim.api.nvim_set_hl(0, 'Delimiter', {fg='#333333', })
+vim.api.nvim_set_hl(0, 'LineNr', {fg='#aaaaaa'})
+vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#cb7d7b',bold=true })
+vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#c5d8dc",})
 
-
+	
+vim.api.nvim_set_hl(0, "Function", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",reverse = true })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#333333",})
+vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#333333", bg="#ededed"})
+vim.api.nvim_set_hl(0, "Type", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Number", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Preproc", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Special", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Structure", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "String", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Operator", { fg = "#333333", })
+vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#333333' ,})
+vim.api.nvim_set_hl(0, "@variable", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#333333", })
+vim.api.nvim_set_hl(0, "Constant", { fg = "#333333", })
+vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#a1c4d0", fg = '#333333' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#333333",bg = '#b8b8b8' })
 vim.o.showcmd=false
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -179,8 +176,6 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
   end,
 })
 vim.pack.add({
-    'https://github.com/Aejkatappaja/cendre',
-    'https://vimcolorschemes.com/r/vimcolorschemes/olive-crt.nvim',
     'https://github.com/adelarsq/image_preview.nvim',
     'https://github.com/stevearc/oil.nvim',
 
@@ -462,9 +457,8 @@ require("image_preview").setup({})
 
 
 
---vim.cmd([[colorscheme retrobox]])
---vim.cmd([[colorscheme olive-crt]])
-vim.cmd([[colorscheme cendre]])
+
+
 if vim.g.neovide then
     vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
     vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
@@ -493,41 +487,10 @@ end)
     
 
     vim.g.neovide_cursor_vfx_mode = {"sonicboom"}
-    -- vim.g.neovide_cursor_smooth_blink = true 
+  -- vim.g.neovide_cursor_smooth_blink = true 
 
 end
 
-vim.api.nvim_set_hl(0, 'Type', {fg='#efb17e', })
---vim.api.nvim_set_hl(0, 'Comment', {fg='#4e89a2', })
---vim.api.nvim_set_hl(0, 'PreProc', {fg='#4e89a2', })
---vim.api.nvim_set_hl(0, 'Include', {fg='#4e89a2', })
 
---vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#331a0a", bg = "#ededed" })
---vim.api.nvim_set_hl(0, 'Normal', {fg='#4e89a2', bg= '#4b3c39'})
---vim.api.nvim_set_hl(0, 'MatchParen', {fg='#331a0a', bg= '#ededed', reverse = true})
---vim.api.nvim_set_hl(0, 'Comment', {fg='#339900', })
---vim.api.nvim_set_hl(0, 'Delimiter', {fg='#331a0a', })
---vim.api.nvim_set_hl(0, 'LineNr', {fg='#aaaaaa'})
---vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#cb7d7b', bold = true})
---vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#c5d8dc",})
---
---	
---vim.api.nvim_set_hl(0, "Function", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",bold = true,reverse = false })
---vim.api.nvim_set_hl(0, "Identifier", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#331a0a", bg="#ededed"})
---vim.api.nvim_set_hl(0, "Type", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Number", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Statement", { fg = "#331a0a", bold = true })
---vim.api.nvim_set_hl(0, "Preproc", { fg = "#331a0a", bold = true })
---vim.api.nvim_set_hl(0, "Special", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Structure", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "String", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Operator", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#331a0a' })
---vim.api.nvim_set_hl(0, "@variable", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, "Constant", { fg = "#331a0a", })
---vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#4e89a2", fg = '#171311' })
---    
---vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#331a0a",bg = '#b8b8b8' })
+
+
