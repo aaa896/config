@@ -1,4 +1,5 @@
 
+
 vim.opt.title = true
 --vim.opt.guicursor = "n-v-c:block-blinkon500-blinkoff500-blinkwait500,i-ci-ve:ver25-blinkon500-blinkoff500-blinkwait500,r-cr-o:hor20-blinkon500-blinkoff500-blinkwait500"
 
@@ -24,7 +25,6 @@ vim.keymap.set("n", "<A-5>", function()
     local cmd = string.format("wezterm cli split-pane --right --cwd %s", vim.fn.shellescape(dir))
     vim.fn.system(cmd)
 end)
-
 
 
 
@@ -119,6 +119,51 @@ vim.keymap.set("n", "<leader>w", function()
   vim.cmd("silent! !cd " .. vim.fn.getcwd() .. " && ctags -R .")
 end )
 
+vim.api.nvim_set_hl(0, 'Normal', {fg='#d3af86', bg= '#0f0b06', })
+
+vim.api.nvim_set_hl(0, "TabLineSel", { fg = "#661e16", bg = "#83a596",  })
+
+vim.api.nvim_set_hl(0, "TabLine", { fg = "#c5a37d", bg = "#7c5f35" })
+
+--vim.api.nvim_set_hl(0, "TabLineFill", { fg = "NONE", bg = "#002b36" })
+
+vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#83a598", fg = '#000000' })
+vim.api.nvim_set_hl(0, 'StatusLineNC', {bg = "#907659", fg = '#4e3819' })
+vim.api.nvim_set_hl(0, 'Comment', {fg='#928374', })
+vim.api.nvim_set_hl(0, 'PreProc', {fg='#8ec07c', })
+vim.api.nvim_set_hl(0, 'Include', {fg='#8ec07c', })
+
+--vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#d3af86", bg = "#ededed" })
+--vim.api.nvim_set_hl(0, 'Normal', {fg='#4e89a2', bg= '#4b3c39'})
+vim.api.nvim_set_hl(0, 'MatchParen', {fg='#d3af86', bg= '#ededed', reverse = true})
+--vim.api.nvim_set_hl(0, 'Comment', {fg='#339900', })
+vim.api.nvim_set_hl(0, 'Delimiter', {fg='#d3af86', })
+vim.api.nvim_set_hl(0, 'LineNr', {fg='#8a693c'})
+vim.api.nvim_set_hl(0, 'CursorLineNr', {fg='#f4aa2b',  bg = "#4e3819",bold = true})
+vim.api.nvim_set_hl(0, 'CursorLine', {bg = "#4e3819",})
+
+	
+vim.api.nvim_set_hl(0, "Todo", { fg = "#106d10",bold = true,reverse = false })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#d3af86", })
+vim.api.nvim_set_hl(0, "cErrInParen", { fg = "#d3af86", bg="none"})
+vim.api.nvim_set_hl(0, "Type", { fg = "#f4aa2b", })
+vim.api.nvim_set_hl(0, "Function", { fg = "#83a598", })
+vim.api.nvim_set_hl(0, "Directory", { fg = "#83a598", })
+vim.api.nvim_set_hl(0, "Number", { fg = "#bb7d81", })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#c33a2b", bold = true })
+--vim.api.nvim_set_hl(0, "Preproc", { fg = "#d3af86", bold = true })
+vim.api.nvim_set_hl(0, "Special", { fg = "#e48212", })
+vim.api.nvim_set_hl(0, "Structure", { fg = "#e48212", })
+vim.api.nvim_set_hl(0, "String", { fg = "#889b4a", })
+vim.api.nvim_set_hl(0, "Operator", { fg = "#d3af86", })
+vim.api.nvim_set_hl(0, 'MsgArea', { fg = '#d3af86' })
+vim.api.nvim_set_hl(0, "@variable", { fg = "#d3af86", })
+vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = "#d3af86", })
+vim.api.nvim_set_hl(0, "Constant", { fg = "#bb7d81", })
+--vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#4e89a2", fg = '#171311' })
+    
+--vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = "#d3af86",bg = '#b8b8b8' })
+
 
 
 vim.o.showcmd=false
@@ -150,15 +195,6 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
   end,
 })
 vim.pack.add({
-    'https://github.com/NopAngel/nimmy.vim',
-    'https://github.com/inunix3/vim-gothic-victorian-mourning',
-    'https://github.com/nvim-treesitter/nvim-treesitter',
-    'https://github.com/Aejkatappaja/cendre',
-    'https://vimcolorschemes.com/r/vimcolorschemes/olive-crt.nvim',
-    'https://github.com/lanteignel93/spacecowboy.nvim',
-    'https://github.com/qaptoR-nvim/chocolatier.nvim',
-    'https://github.com/ryanjayleyva/cutiepro.nvim',
-    'https://github.com/franbach/miramare',
     'https://github.com/adelarsq/image_preview.nvim',
     'https://github.com/stevearc/oil.nvim',
 
@@ -440,9 +476,8 @@ require("image_preview").setup({})
 
 
 
-vim.cmd([[colorscheme cendre]])
-vim.cmd([[colorscheme olive-crt]])
-vim.cmd([[colorscheme chocolatier]])
+
+
 if vim.g.neovide then
     vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
     vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
@@ -471,29 +506,10 @@ end)
     
 
     vim.g.neovide_cursor_vfx_mode = {"sonicboom"}
-    -- vim.g.neovide_cursor_smooth_blink = true 
+  -- vim.g.neovide_cursor_smooth_blink = true 
 
 end
 
---vim.api.nvim_set_hl(0, "Type", { fg = "#fcba81", })
 
-require('nvim-treesitter').install({ 'c', 'javascript', 'zig' })
-
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'c' },
-  callback = function(args)
-    vim.treesitter.start(args.buf, 'c')
-  end,
-})
-vim.api.nvim_set_hl(0, 'Normal', {fg='#d3af86', bg= '#0f0b06', })
-
-vim.api.nvim_set_hl(0, "TabLineSel", { fg = "#661e16", bg = "#83a596",  })
-
-vim.api.nvim_set_hl(0, "TabLine", { fg = "#c5a37d", bg = "#7c5f35" })
-
---vim.api.nvim_set_hl(0, "TabLineFill", { fg = "NONE", bg = "#002b36" })
-
-vim.api.nvim_set_hl(0, 'StatusLine', {bg = "#83a598", fg = '#661e16' })
 
 
